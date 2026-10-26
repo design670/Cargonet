@@ -1034,3 +1034,10 @@
     right: calc(var(--photo-h) * -0.02);
   }
 }
+
+/* Cierre: texto centrado verticalmente (≥1024px) */
+@media (min-width: 1024px) {
+  .closing__copy {
+    align-self: center;
+  }
+}
