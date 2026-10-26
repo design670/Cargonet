@@ -27,8 +27,8 @@ export default function App() {
         <Services />
         <HowItWorks />
         <WhyUs placement="bottom" />
-        <Quote />
         <Testimonials />
+        <Quote />
         <Faq />
         <Closing />
       </main>
