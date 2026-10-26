@@ -207,3 +207,81 @@
     grid-auto-columns: calc((min(100vw - 2 * var(--gutter), var(--container)) - 2 * var(--gap)) / 2.75);
   }
 }
+
+/* Tarjetas de pasos: mismo alto que cuando tenían CTA */
+@media (min-width: 700px) {
+  .steps-carousel .sc-card,
+  .how__pin.is-pinned .steps-carousel .sc-card {
+    min-height: 313px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .steps-carousel .sc-card,
+  .how__pin.is-pinned .steps-carousel .sc-card {
+    min-height: 289px;
+  }
+}
+
+/* Cómo funciona: nota de despachos centrada y sin botón (≥700px) */
+@media (min-width: 700px) {
+  .section.how .how__footer {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .section.how .how__footer .btn {
+    display: none;
+  }
+
+  .section.how .how__footer .note {
+    align-items: center;
+    max-width: 44rem;
+  }
+}
+
+@media (min-width: 700px) {
+  .section.how .how__footer .note {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Modo fijo por scroll: sin flechas, píldoras ni indicador (la animación sigue igual) */
+@media (min-width: 700px) {
+  .how__pin.is-pinned .steps-carousel__controls,
+  .how__pin.is-pinned .sc-scroll-hint {
+    display: none;
+  }
+}
+
+/* Nota de despachos debajo de la barra de neón, en una línea (≥700px) */
+.sc-note {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .section.how .how__footer {
+    display: none;
+  }
+
+  .sc-note {
+    display: block;
+    margin: 28px auto 0;
+    padding-inline: var(--gutter);
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .sc-note strong {
+    color: var(--white);
+  }
+}
+
+@media (min-width: 1080px) {
+  .sc-note {
+    white-space: nowrap;
+  }
+}

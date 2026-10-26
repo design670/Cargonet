@@ -1089,3 +1089,18 @@
     display: none;
   }
 }
+
+/* Prealerta en azul oscuro (≥1080px) */
+@media (min-width: 1080px) {
+  .site-header__actions .header-tool--alert {
+    background: #011b27;
+  }
+
+  .site-header__actions .header-tool--alert:hover {
+    background: #0b2b3a;
+  }
+
+  .header-tool--alert .header-tool__dot {
+    box-shadow: 0 0 0 2px #011b27;
+  }
+}

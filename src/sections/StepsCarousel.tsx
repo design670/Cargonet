@@ -161,23 +161,9 @@ export function StepsCarousel() {
                     <Icon name={s.icon} size={24} />
                   </span>
                   <p className="sc-card__step">Paso {pad(i + 1)}</p>
-                  <span className="sc-card__phase">{s.phase}</span>
                 </div>
                 <h3 className="sc-card__title">{s.title}</h3>
                 <p className="sc-card__text">{s.text}</p>
-                {s.cta ? (
-                  <a
-                    className="sc-card__cta"
-                    href={s.cta.href}
-                    tabIndex={isActive ? 0 : -1}
-                    target={s.cta.external ? '_blank' : undefined}
-                    rel={s.cta.external ? 'noopener noreferrer' : undefined}
-                  >
-                    {s.cta.label}
-                    <Icon name={s.cta.external ? 'arrowUpRight' : 'arrowRight'} size={16} />
-                    {s.cta.external ? <span className="sr-only"> (PDF, se abre en una pestaña nueva)</span> : null}
-                  </a>
-                ) : null}
               </li>
             );
           })}
@@ -201,6 +187,11 @@ export function StepsCarousel() {
           <span>Entrega</span>
         </div>
       </div>
+
+      <p className="sc-note">
+        <strong>Despachos semanales.</strong> Los tiempos de entrega dependen de la modalidad contratada y del proceso
+        logístico aplicable.
+      </p>
 
       <div className="steps-carousel__controls">
         <button type="button" className="sc-arrow" onClick={() => go(active - 1)} disabled={active === 0}>
