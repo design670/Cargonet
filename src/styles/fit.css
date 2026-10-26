@@ -947,3 +947,20 @@
     stroke: var(--red);
   }
 }
+
+/* Logo un poco más grande en el menú y el footer (≥700px) */
+@media (min-width: 700px) {
+  html .site-header__logo img {
+    height: 46px;
+  }
+
+  html .site-footer__brand img {
+    height: 44px;
+  }
+}
+
+@media (min-width: 1080px) {
+  html .site-header__logo img {
+    height: 64px;
+  }
+}
