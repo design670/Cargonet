@@ -190,3 +190,20 @@
     display: none;
   }
 }
+
+/* Servicios: tarjetas menos anchas y algo más verticales (≥700px) */
+@media (min-width: 700px) {
+  ul.services__track {
+    grid-auto-columns: calc((min(100vw - 2 * var(--gutter), var(--container)) - var(--gap)) / 1.75);
+  }
+
+  .services__slide .service-card {
+    padding-top: clamp(170px, 21vh, 260px);
+  }
+}
+
+@media (min-width: 1080px) {
+  ul.services__track {
+    grid-auto-columns: calc((min(100vw - 2 * var(--gutter), var(--container)) - 2 * var(--gap)) / 2.75);
+  }
+}

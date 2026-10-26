@@ -1041,3 +1041,51 @@
     align-self: center;
   }
 }
+
+/* "Prealerta" como botón negro junto a "Crear mi casillero" (≥1080px) */
+@media (min-width: 1080px) {
+  .site-header__actions .header-tool--alert {
+    order: 0;
+    gap: 10px;
+    padding: 0 18px 0 16px;
+    background: #191919;
+    color: var(--white);
+  }
+
+  .site-header__actions .header-tool--alert:hover {
+    background: #000;
+    color: var(--white);
+  }
+
+  .header-tool--alert .header-tool__bell svg {
+    color: var(--white);
+  }
+
+  .header-tool--alert .header-tool__bell .ia {
+    stroke: #ff4d58;
+  }
+
+  .header-tool--alert .header-tool__dot {
+    box-shadow: 0 0 0 2px #191919;
+  }
+
+  .header-tool--alert:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+}
+
+/* En el rango donde los textos se ocultan, la campana sigue como círculo negro */
+@media (min-width: 1080px) and (max-width: 1279px) {
+  .site-header__actions .header-tool--alert {
+    width: 44px;
+    padding: 0;
+  }
+}
+
+/* Hero: sin la línea "¿Ya tienes casillero?…" en tablet/desktop */
+@media (min-width: 700px) {
+  .hero__clients {
+    display: none;
+  }
+}

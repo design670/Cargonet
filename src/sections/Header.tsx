@@ -287,16 +287,16 @@ export function Header() {
             </nav>
 
             <div className="site-header__actions">
+              <a className="header-tool" href={links.login}>
+                <Icon name="user" size={20} />
+                <span className="header-tool__label">Iniciar sesión</span>
+              </a>
               <a className="header-tool header-tool--icon header-tool--alert" href={links.prealert} title="Prealertar una compra">
                 <span className="header-tool__bell" aria-hidden="true">
                   <Icon name="bell" size={20} />
                   <span className="header-tool__dot" />
                 </span>
                 <span className="header-tool__label">Prealerta</span>
-              </a>
-              <a className="header-tool" href={links.login}>
-                <Icon name="user" size={20} />
-                <span className="header-tool__label">Iniciar sesión</span>
               </a>
               <Button href={links.register} className="site-header__cta">
                 <span className="cta-long">Crear mi casillero</span>
