@@ -12,7 +12,6 @@ const services = [
 ];
 
 const primaryNav = [
-  { label: 'Soluciones para empresas', href: '#empresas' },
   { label: 'Cómo funciona', href: '#como-funciona' },
 ];
 
@@ -57,12 +56,6 @@ const megaMenus: Mega[] = [
             desc: 'Conecta tus operaciones con mercados internacionales.',
             href: '#import-export',
             icon: 'globe',
-          },
-          {
-            label: 'Soluciones para empresas',
-            desc: 'Importación de repuestos y componentes desde el exterior.',
-            href: '#empresas',
-            icon: 'wrench',
           },
         ],
       },

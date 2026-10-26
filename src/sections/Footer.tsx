@@ -11,7 +11,6 @@ const groups: { title: string; items: L[] }[] = [
       { label: 'Courier internacional', href: '#courier' },
       { label: 'Carga aérea y marítima', href: '#carga' },
       { label: 'Importaciones y exportaciones', href: '#import-export' },
-      { label: 'Soluciones para empresas', href: '#empresas' },
     ],
   },
   {

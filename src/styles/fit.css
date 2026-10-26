@@ -285,3 +285,84 @@
     white-space: nowrap;
   }
 }
+
+/* Cómo funciona: título en dos líneas, separado de las tarjetas y sin números de fondo (≥700px) */
+@media (min-width: 700px) {
+  .section.how .section-heading .tt-light,
+  .section.how .section-heading .tt-strong {
+    display: block;
+  }
+
+  .section.how .section-heading,
+  .how__pin.is-pinned .section.how .section-heading {
+    margin-bottom: clamp(20px, 4vh, 40px);
+  }
+
+  .sc-card__bignum {
+    display: none;
+  }
+}
+
+/* Cómo funciona en pantallas muy bajas: la nota de despachos cabe completa */
+@media (min-width: 700px) and (max-height: 700px) {
+  .how__pin.is-pinned .section.how .section-heading,
+  .section.how .section-heading {
+    margin-bottom: 16px;
+  }
+
+  .how__pin.is-pinned .sc-route {
+    margin-top: 44px;
+  }
+
+  .sc-note {
+    margin-top: 14px;
+  }
+}
+
+/* Banner "4 modalidades de envío" con fondo blanco (≥700px) */
+@media (min-width: 700px) {
+  .mode-banner {
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .mode-banner .tt-light {
+    color: var(--ink-2);
+  }
+
+  .mode-banner .tt-strong {
+    color: var(--ink);
+  }
+
+  .mode-banner .tt-accent {
+    color: var(--red);
+  }
+
+  .mode-banner__text {
+    color: var(--ink-2);
+  }
+
+  .mode-banner__link {
+    color: var(--red);
+    text-decoration-color: rgba(215, 25, 32, 0.4);
+  }
+
+  .mode-banner__link:hover {
+    text-decoration-color: var(--red);
+  }
+
+  .mode-banner__link:focus-visible {
+    outline-color: var(--focus);
+  }
+
+  .mode-panel {
+    box-shadow: 0 24px 50px -30px rgba(25, 25, 25, 0.45);
+  }
+}
+
+/* Cierre sin "Hablar con un asesor" (≥700px) */
+@media (min-width: 700px) {
+  .closing__link {
+    display: none;
+  }
+}

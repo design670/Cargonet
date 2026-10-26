@@ -1,6 +1,5 @@
 import { WhatsAppFab } from './components/WhatsAppFab';
 import { useReveal } from './hooks/useReveal';
-import { Business } from './sections/Business';
 import { Closing } from './sections/Closing';
 import { Faq } from './sections/Faq';
 import { Footer } from './sections/Footer';
@@ -25,7 +24,6 @@ export default function App() {
         <QuickActions />
         <Services />
         <HowItWorks />
-        <Business />
         <WhyUs />
         <Quote />
         <Faq />
