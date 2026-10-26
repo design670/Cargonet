@@ -643,15 +643,6 @@
     color: var(--white);
   }
 
-  .section.why + #cotizar.quote > .container {
-    padding-top: var(--section-y);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .section.why + #cotizar.quote {
-    padding-top: 0;
-  }
-
   #cotizar .quote__aside .info-list {
     max-width: none;
     background: none;
@@ -825,5 +816,21 @@
 
   #cotizar .prep__grid {
     grid-row: 1;
+  }
+}
+
+/* "Tu mercancía merece respaldo": antes de Servicios en tablet/desktop; en móvil, en su lugar original */
+.why--top {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .why--top {
+    display: block;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+
+  .why--bottom {
+    display: none;
   }
 }

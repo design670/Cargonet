@@ -80,6 +80,7 @@ export function QuotePanel() {
   const [status, setStatus] = useState<Status>('idle');
   const [result, setResult] = useState<QuoteResult | null>(null);
   const [calcSig, setCalcSig] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   /** Valor exacto tras convertir, para que ir y volver de unidad no acumule redondeos. */
@@ -152,7 +153,10 @@ export function QuotePanel() {
     const er = validate(serviceId, origin, destination, pkgs);
     const clean = Object.fromEntries(Object.entries(er).filter(([, v]) => v));
     setErrors(clean);
-    if (Object.keys(clean).length) return focusFirst(clean);
+    if (Object.keys(clean).length) {
+      setCollapsed(false);
+      return focusFirst(clean);
+    }
 
     setStatus('loading');
     const input: QuoteInput = { serviceId: serviceId as ServiceId, origin: routeOrigin, destination: routeDest, weightUnit, dimUnit, packages: pkgs };
@@ -204,13 +208,29 @@ export function QuotePanel() {
           value={serviceId}
           onChange={(v) => {
             setServiceId(v);
+            setCollapsed(false);
             clearError('service');
           }}
           error={errors.service}
         />
 
         {svc ? (
-          <>
+          <button
+            type="button"
+            className={collapsed ? 'tq-toggle is-collapsed' : 'tq-toggle'}
+            aria-expanded={!collapsed}
+            aria-controls="tq-quote-details"
+            onClick={() => setCollapsed((c) => !c)}
+          >
+            <span>{collapsed ? 'Mostrar datos del envío' : 'Ocultar datos del envío'}</span>
+            <span className="tq-toggle__icon" aria-hidden="true">
+              <Icon name="chevronDown" size={18} />
+            </span>
+          </button>
+        ) : null}
+
+        {svc ? (
+          <div id="tq-quote-details" className="tq-details" hidden={collapsed}>
             {/* Ruta: fija si el servicio la define; si no, se pide */}
             <div className="tq-route">
               {svc.origin ? (
@@ -274,7 +294,7 @@ export function QuotePanel() {
               </button>
               <p className="tq-fine">Si tienes cajas con pesos o medidas diferentes, agrégalas por separado.</p>
             </div>
-          </>
+          </div>
         ) : (
           <p className="tq-fine">Selecciona un servicio para ingresar la ruta y los datos de tus paquetes.</p>
         )}

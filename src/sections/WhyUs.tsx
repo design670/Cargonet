@@ -31,11 +31,16 @@ const reasons: { icon: IconName; title: string; text: string; mobileOnly?: boole
   },
 ];
 
-export function WhyUs() {
+/**
+ * Se monta dos veces: "top" (antes de Servicios, solo ≥700px) y "bottom"
+ * (posición original, solo móvil). Así móvil conserva su orden.
+ */
+export function WhyUs({ placement }: { placement: 'top' | 'bottom' }) {
+  const titleId = placement === 'top' ? 'why-title-top' : 'why-title';
   return (
-    <section className="section why" aria-labelledby="why-title">
+    <section className={`section why why--${placement}`} aria-labelledby={titleId}>
       <div className="container">
-        <h2 id="why-title" className="h2 why__title" data-reveal>
+        <h2 id={titleId} className="h2 why__title" data-reveal>
           <TwoToneTitle light="Tu mercancía merece" bold="respaldo en cada" accent="etapa." />
         </h2>
         <div className="why__grid">

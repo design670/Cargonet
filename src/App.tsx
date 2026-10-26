@@ -23,9 +23,10 @@ export default function App() {
       <main id="contenido" tabIndex={-1}>
         <Hero />
         <QuickActions />
+        <WhyUs placement="top" />
         <Services />
         <HowItWorks />
-        <WhyUs />
+        <WhyUs placement="bottom" />
         <Quote />
         <Testimonials />
         <Faq />

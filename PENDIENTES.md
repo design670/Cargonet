@@ -143,6 +143,6 @@ Lógica separada en `src/lib/quote-engine.ts` y `src/lib/tracking.ts`.
 
 ## Testimonios (sección nueva antes de Preguntas frecuentes)
 
-**Contenido inventado, debe reemplazarse antes de publicar.** Los 6 testimonios (nombres, ciudades, citas y cifras como "24 envíos al año" o "+40 %") son de ejemplo y están en `src/sections/Testimonials.tsx`. CargoNet debe enviar testimonios reales con autorización de cada cliente (nombre, ciudad o empresa, cita y, si se quiere, foto).
-- Las tarjetas con foto usan imágenes de la bodega y del puerto del propio sitio; los avatares son iniciales. Si llegan fotos reales de clientes, van ahí.
+**Contenido inventado, debe reemplazarse antes de publicar.** Los 6 testimonios (nombres, ciudades y citas) son de ejemplo y están en `src/sections/Testimonials.tsx`. CargoNet debe enviar testimonios reales con autorización de cada cliente (nombre, ciudad o empresa, cita y, si se quiere, foto).
+- Hay dos tipos de tarjeta que se alternan: testimonio en texto y testimonio en video. Las de video muestran por ahora una imagen del propio sitio (bodega, puerto, carga); cuando CargoNet envíe los videos reales de clientes, se reemplazan. Los avatares son iniciales.
 - Por ahora la sección solo se muestra en tablet/desktop (≥700px); en móvil está oculta hasta que se habilite.

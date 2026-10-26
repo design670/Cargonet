@@ -5,53 +5,42 @@ import { TwoToneTitle } from '../components/TwoToneTitle';
 
 // Testimonios de ejemplo (inventados) hasta que CargoNet envíe los reales. Ver PENDIENTES.md.
 type Person = { name: string; place: string; initials: string };
-type Testimonial =
-  | { kind: 'chat'; person: Person; quote: string; reply: string }
-  | { kind: 'photo'; person: Person; quote: string; image: string }
-  | { kind: 'stats'; person: Person; quote: string; stats: { value: string; label: string }[] };
+// "video": por ahora muestra una imagen; cuando lleguen los videos reales, esta tarjeta los reproduce.
+type Testimonial = { kind: 'text'; person: Person; quote: string } | { kind: 'video'; person: Person; quote: string; image: string };
 
 const testimonials: Testimonial[] = [
   {
-    kind: 'chat',
+    kind: 'text',
     person: { name: 'Laura Méndez', place: 'Compradora frecuente, Bogotá', initials: 'LM' },
-    quote: 'Compré en tres tiendas distintas y todo llegó junto a mi casillero. Me avisaron cada paso.',
-    reply: '¡Gracias, Laura! Nos alegra que tu compra llegara completa.',
+    quote: 'Compré en tres tiendas distintas y todo llegó junto a mi casillero. Me avisaron en cada paso y nunca tuve que preguntar dónde estaba mi paquete.',
   },
   {
-    kind: 'photo',
+    kind: 'video',
     person: { name: 'Andrés Castillo', place: 'Importador, Barranquilla', initials: 'AC' },
     quote: 'Mis cajas llegan bien embaladas y con la información clara desde Miami hasta mi bodega.',
     image: '/img/servicio-casillero.webp',
   },
   {
-    kind: 'stats',
+    kind: 'text',
     person: { name: 'Carolina Ruiz', place: 'Tienda en línea, Medellín', initials: 'CR' },
     quote: 'Traigo inventario cada mes. Cotizar es rápido y siempre sé cuánto voy a pagar antes de enviar.',
-    stats: [
-      { value: '24', label: 'Envíos al año' },
-      { value: '5', label: 'Tiendas distintas' },
-    ],
   },
   {
-    kind: 'chat',
-    person: { name: 'Jorge Pineda', place: 'Cliente de casillero, Cali', initials: 'JP' },
-    quote: 'Tenía dudas con la prealerta y un asesor me guio por WhatsApp en minutos.',
-    reply: 'Para eso estamos, Jorge. ¡Feliz compra!',
-  },
-  {
-    kind: 'photo',
+    kind: 'video',
     person: { name: 'Mariana Torres', place: 'Emprendedora, Cartagena', initials: 'MT' },
     quote: 'Exporté mis primeros productos con su acompañamiento. Todo el proceso fue claro.',
     image: '/img/servicio-import-export.webp',
   },
   {
-    kind: 'stats',
+    kind: 'text',
+    person: { name: 'Jorge Pineda', place: 'Cliente de casillero, Cali', initials: 'JP' },
+    quote: 'Tenía dudas con la prealerta y un asesor me guio por WhatsApp en minutos. La atención es muy cercana.',
+  },
+  {
+    kind: 'video',
     person: { name: 'Felipe Ortega', place: 'Repuestos automotrices, Bucaramanga', initials: 'FO' },
     quote: 'La tarifa fue la que nos cotizaron y la carga llegó en el tiempo acordado.',
-    stats: [
-      { value: '+40%', label: 'Más pedidos atendidos' },
-      { value: '8 días', label: 'Tiempo promedio' },
-    ],
+    image: '/img/servicio-carga.webp',
   },
 ];
 
@@ -72,9 +61,9 @@ function Author({ person }: { person: Person }) {
 }
 
 function Card({ t }: { t: Testimonial }) {
-  if (t.kind === 'photo') {
+  if (t.kind === 'video') {
     return (
-      <figure className="tm-card tm-card--photo">
+      <figure className="tm-card tm-card--video">
         <img src={t.image} alt="" loading="lazy" decoding="async" />
         <blockquote>{t.quote}</blockquote>
         <figcaption>
@@ -85,28 +74,9 @@ function Card({ t }: { t: Testimonial }) {
     );
   }
   return (
-    <figure className={`tm-card tm-card--${t.kind}`}>
-      {t.kind === 'chat' ? (
-        <>
-          <blockquote className="tm-card__bubble">{t.quote}</blockquote>
-          <p className="tm-card__bubble tm-card__bubble--reply">
-            <span className="sr-only">Respuesta de CargoNet: </span>
-            {t.reply}
-          </p>
-        </>
-      ) : (
-        <>
-          <blockquote className="tm-card__quote">{t.quote}</blockquote>
-          <dl className="tm-card__stats">
-            {t.stats.map((s) => (
-              <div key={s.label}>
-                <dt>{s.label}</dt>
-                <dd>{s.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </>
-      )}
+    <figure className="tm-card tm-card--text">
+      <span className="tm-card__mark" aria-hidden="true">“</span>
+      <blockquote className="tm-card__quote">{t.quote}</blockquote>
       <Author person={t.person} />
     </figure>
   );

@@ -145,14 +145,14 @@
   }
 
   /* Tarjeta con foto: blanco y negro con degradado rojo de marca */
-  .tm-card--photo {
+  .tm-card--video {
     justify-content: flex-end;
     padding: 20px;
     background: var(--ink);
     color: var(--white);
   }
 
-  .tm-card--photo img {
+  .tm-card--video img {
     position: absolute;
     inset: 0;
     z-index: 0;
@@ -162,7 +162,7 @@
     filter: grayscale(1) contrast(1.05);
   }
 
-  .tm-card--photo::after {
+  .tm-card--video::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -170,16 +170,16 @@
     background: linear-gradient(180deg, rgba(215, 25, 32, 0) 35%, rgba(215, 25, 32, 0.82) 72%, var(--red) 100%);
   }
 
-  .tm-card--photo > :not(img) {
+  .tm-card--video > :not(img) {
     position: relative;
     z-index: 1;
   }
 
-  .tm-card--photo blockquote {
+  .tm-card--video blockquote {
     margin-bottom: 16px;
   }
 
-  .tm-card.tm-card--photo figcaption small {
+  .tm-card.tm-card--video figcaption small {
     color: rgba(255, 255, 255, 0.92);
   }
 
@@ -226,5 +226,31 @@
 
   .tm .section-heading :is(.tt-light, .tt-strong) {
     display: inline;
+  }
+}
+
+/* Tarjeta de texto: cita grande y autor abajo */
+@media (min-width: 700px) {
+  .tm-card--text {
+    padding: 24px 22px 18px;
+  }
+
+  .tm-card__mark {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 0.8;
+    color: var(--red);
+  }
+
+  .tm-card--text .tm-card__quote {
+    padding: 8px 0 0;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+
+  .tm-card--text .tm-card__author {
+    margin-top: auto;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--border);
   }
 }

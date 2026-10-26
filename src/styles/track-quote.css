@@ -1552,3 +1552,86 @@ html .quick .tq__title.quick__title {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* =========================================================
+   Encabezados centrados, campo de guía más angosto y flecha
+   para plegar los datos del cotizador (≥700px; móvil sin cambios)
+   ========================================================= */
+.tq-toggle {
+  display: none;
+}
+
+.tq-details {
+  display: contents;
+}
+
+.tq-details[hidden] {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .quick.tq .tq-pane__head {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .quick.tq .tq-pane__text {
+    max-width: 34rem;
+  }
+
+  .quick.tq .tq-track {
+    grid-template-columns: minmax(0, 420px) auto;
+    justify-content: center;
+  }
+
+  .quick.tq .tq-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: center;
+    margin: 4px auto 0;
+    padding: 6px 6px 6px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--white);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  }
+
+  .quick.tq .tq-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.32);
+  }
+
+  .quick.tq .tq-toggle:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 3px;
+  }
+
+  .tq-toggle__icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    transform: rotate(180deg);
+    transition: transform var(--t-fast) var(--ease);
+  }
+
+  .tq-toggle.is-collapsed .tq-toggle__icon {
+    transform: none;
+  }
+}
+
+/* Sin texto descriptivo bajo "Rastrea tu paquete" y "Calcula tu envío" (≥700px) */
+@media (min-width: 700px) {
+  .quick.tq .tq-pane__head .tq-pane__text {
+    display: none;
+  }
+}
