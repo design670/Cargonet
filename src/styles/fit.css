@@ -834,3 +834,116 @@
     display: none;
   }
 }
+
+/* "Antes de cotizar, revisa": 4 columnas separadas por líneas finas, sin caja (≥700px) */
+@media (min-width: 700px) {
+  #cotizar .prep__grid {
+    gap: 40px 0;
+  }
+
+  #cotizar .prep__grid > li {
+    padding-inline: clamp(1.25rem, 0.75rem + 1.2vw, 2rem);
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  #cotizar .prep__grid > li:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  #cotizar .quote__aside .info-list a.prep-tile,
+  #cotizar .quote__aside .info-list a.prep-tile:hover {
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  #cotizar .prep-tile__icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 18px;
+    place-items: start;
+  }
+
+  #cotizar .prep-tile__icon svg {
+    width: 52px;
+    height: 52px;
+    stroke-width: 1.25;
+  }
+
+  #cotizar .prep-tile__label {
+    flex: none;
+    font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.625rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  #cotizar .prep-tile__meta {
+    margin-top: auto;
+    padding-top: 12px;
+  }
+}
+
+@media (min-width: 1280px) {
+  #cotizar .prep {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+
+  #cotizar .prep__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  #cotizar .prep-tile__label {
+    font-size: clamp(1.0625rem, 0.4rem + 1vw, 1.375rem);
+  }
+
+  #cotizar .prep__grid > li,
+  #cotizar .prep__grid > li:nth-child(odd) {
+    padding: 8px clamp(1.25rem, 0.5rem + 1.2vw, 2rem) 8px;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+  }
+}
+
+/* "Antes de cotizar," en una línea y "revisa" en la segunda (≥700px) */
+@media (min-width: 700px) {
+  #cotizar .prep__title .tt-light {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1280px) {
+  #cotizar .prep {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: clamp(2rem, 1rem + 3vw, 5rem);
+  }
+}
+
+/* Franja de iconos sobre el mismo fondo que Servicios (≥700px) */
+@media (min-width: 700px) {
+  .section.why.why--top {
+    margin-top: 0;
+    padding-bottom: 0;
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .section.why.why--top .why__item-title {
+    color: var(--ink);
+  }
+
+  .section.why.why--top .why__icon {
+    --duo-base: var(--ink);
+    --duo-accent: var(--red);
+  }
+
+  .section.why.why--top .why__icon svg {
+    color: var(--ink);
+  }
+
+  .section.why.why--top .why__icon .ia {
+    stroke: var(--red);
+  }
+}
