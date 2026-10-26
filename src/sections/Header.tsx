@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../components/Button';
-import { Icon, type IconName } from '../components/Icon';
+import { Icon } from '../components/Icon';
 import { contact, links, whatsappLink } from '../content/site';
 
 /* ---------- Datos del menú ---------- */
@@ -15,118 +15,13 @@ const primaryNav = [
   { label: 'Cómo funciona', href: '#como-funciona' },
 ];
 
-type MegaItem = { label: string; desc: string; href: string; icon: IconName; external?: boolean };
-type MegaGroup = { title: string; items: MegaItem[] };
-type Mega = { id: string; label: string; groups: MegaGroup[]; feature?: boolean };
-
-const megaMenus: Mega[] = [
-  {
-    id: 'servicios',
-    label: 'Servicios',
-    feature: true,
-    groups: [
-      {
-        title: 'Para personas',
-        items: [
-          {
-            label: 'Casillero USA',
-            desc: 'Tus compras en Estados Unidos, más fáciles de gestionar.',
-            href: '#casillero',
-            icon: 'locker',
-          },
-          {
-            label: 'Courier internacional',
-            desc: 'Una solución práctica para enviar paquetes y documentos.',
-            href: '#courier',
-            icon: 'package',
-          },
-        ],
-      },
-      {
-        title: 'Para empresas',
-        items: [
-          {
-            label: 'Carga internacional',
-            desc: 'Carga aérea y marítima para tus necesidades comerciales.',
-            href: '#carga',
-            icon: 'plane',
-          },
-          {
-            label: 'Importaciones y exportaciones',
-            desc: 'Conecta tus operaciones con mercados internacionales.',
-            href: '#import-export',
-            icon: 'globe',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'herramientas',
-    label: 'Herramientas',
-    groups: [
-      {
-        title: 'Gestiona tus envíos',
-        items: [
-          {
-            label: 'Crear mi casillero',
-            desc: 'Obtén tu casillero en Estados Unidos para recibir tus compras.',
-            href: links.register,
-            icon: 'locker',
-          },
-          {
-            label: 'Prealertar una compra',
-            desc: 'Registra tu paquete con la factura y el número de tracking.',
-            href: links.prealert,
-            icon: 'clipboard',
-          },
-          {
-            label: 'Rastrear mi envío',
-            desc: 'Consulta el estado y las novedades de tu paquete.',
-            href: links.tracking,
-            icon: 'search',
-          },
-          {
-            label: 'Cotizar un envío',
-            desc: 'Recibe orientación sobre la alternativa adecuada.',
-            href: '#cotizar',
-            icon: 'calculator',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'ayuda',
-    label: 'Ayuda',
-    groups: [
-      {
-        title: 'Estamos para ayudarte',
-        items: [
-          {
-            label: 'Preguntas frecuentes',
-            desc: 'Resolvemos tus dudas antes de enviar.',
-            href: '#preguntas',
-            icon: 'info',
-          },
-          {
-            label: 'Requisitos del servicio',
-            desc: 'Documentos, restricciones y condiciones (PDF).',
-            href: links.requirementsPdf,
-            icon: 'file',
-            external: true,
-          },
-          {
-            label: 'Hablar con un asesor',
-            desc: `Atención por WhatsApp ${contact.whatsappLabel}.`,
-            href: whatsappLink(),
-            icon: 'chat',
-            external: true,
-          },
-        ],
-      },
-    ],
-  },
+/** Menú principal (desktop): cada ítem lleva a su sección en la página. */
+const navLinks = [
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Herramientas', href: '#herramientas' },
+  { label: 'Cómo funciona', href: '#como-funciona' },
+  { label: 'Cotizar', href: '#cotizar' },
+  { label: 'Ayuda', href: '#preguntas' },
 ];
 
 /* ---------- Componente ---------- */
@@ -201,7 +96,6 @@ export function Header() {
   };
   const hoverKeep = () => window.clearTimeout(hoverTimer.current);
 
-  const active = megaMenus.find((m) => m.id === openMega);
 
   return (
     <>
@@ -243,39 +137,13 @@ export function Header() {
 
             <nav className="main-nav" aria-label="Principal">
               <ul className="main-nav__list">
-                {megaMenus.slice(0, 2).map((m) => (
-                  <li key={m.id}>
-                    <button
-                      type="button"
-                      className="main-nav__trigger"
-                      aria-expanded={openMega === m.id}
-                      aria-controls={`mega-${m.id}`}
-                      onClick={() => setOpenMega((v) => (v === m.id ? null : m.id))}
-                      onPointerEnter={hoverOpen(m.id)}
-                    >
-                      {m.label}
-                      <Icon name="chevronDown" size={16} />
-                    </button>
+                {navLinks.map((l) => (
+                  <li key={l.href}>
+                    <a href={l.href} onClick={closeAll}>
+                      {l.label}
+                    </a>
                   </li>
                 ))}
-                <li>
-                  <a href="#como-funciona" onPointerEnter={hoverOpen(null)}>
-                    Cómo funciona
-                  </a>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    className="main-nav__trigger"
-                    aria-expanded={openMega === 'ayuda'}
-                    aria-controls="mega-ayuda"
-                    onClick={() => setOpenMega((v) => (v === 'ayuda' ? null : 'ayuda'))}
-                    onPointerEnter={hoverOpen('ayuda')}
-                  >
-                    Ayuda
-                    <Icon name="chevronDown" size={16} />
-                  </button>
-                </li>
               </ul>
             </nav>
 
@@ -308,58 +176,6 @@ export function Header() {
               </button>
             </div>
 
-            {/* Megamenú (solo desktop) */}
-            {megaMenus.map((m) => (
-              <div
-                key={m.id}
-                id={`mega-${m.id}`}
-                className={`mega mega--${m.id}`}
-                hidden={active?.id !== m.id}
-                onPointerEnter={hoverKeep}
-              >
-                <div className="mega__groups">
-                  {m.groups.map((g) => (
-                    <div key={g.title} className="mega__group">
-                      <p className="mega__title">{g.title}</p>
-                      <ul className="mega__list">
-                        {g.items.map((it) => (
-                          <li key={it.label}>
-                            <a
-                              className="mega__item"
-                              href={it.href}
-                              onClick={() => setOpenMega(null)}
-                              target={it.external ? '_blank' : undefined}
-                              rel={it.external ? 'noopener noreferrer' : undefined}
-                            >
-                              <span className="mega__icon" aria-hidden="true">
-                                <Icon name={it.icon} size={22} />
-                              </span>
-                              <span className="mega__text">
-                                <span className="mega__label">{it.label}</span>
-                                <span className="mega__desc">{it.desc}</span>
-                              </span>
-                              <Icon name="arrowRight" size={18} className="mega__arrow" />
-                              {it.external ? <span className="sr-only"> (se abre en una pestaña nueva)</span> : null}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-                {m.feature ? (
-                  <div className="mega__feature">
-                    <p className="mega__feature-title">¿No sabes qué servicio necesitas?</p>
-                    <p className="mega__feature-text">
-                      Cuéntanos qué vas a transportar y te orientamos sobre la alternativa adecuada.
-                    </p>
-                    <Button href="#cotizar" variant="light" size="sm" icon="arrowRight" onClick={() => setOpenMega(null)}>
-                      Cotizar un envío
-                    </Button>
-                  </div>
-                ) : null}
-              </div>
-            ))}
           </div>
         </div>
 

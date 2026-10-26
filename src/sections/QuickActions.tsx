@@ -38,7 +38,7 @@ const actions: Action[] = [
 
 export function QuickActions() {
   return (
-    <section className="quick" aria-labelledby="quick-title">
+    <section id="herramientas" className="quick" aria-labelledby="quick-title">
       <div className="container">
         <div className="quick__panel">
           <h2 id="quick-title" className="quick__title" data-reveal>

@@ -107,7 +107,7 @@ export function Services() {
   };
 
   return (
-    <section className="section services" aria-labelledby="services-title">
+    <section id="servicios" className="section services" aria-labelledby="services-title">
       <div className="container">
         <div className="services__head">
           <SectionHeading
