@@ -18,33 +18,6 @@ const operations: { id: Operation; label: string; detail: string; icon: IconName
   { id: 'exp-carga', label: 'Exportación de carga', detail: 'Mercancía comercial hacia otros países', icon: 'route' },
 ];
 
-/** Descripción breve por modalidad para el panel de pestañas (tablet/desktop). */
-const opDetails: Record<Operation, { title: string; text: string }> = {
-  'imp-courier': {
-    title: 'Tus compras y paquetes hacia Colombia',
-    text: 'Para paquetes que llegan desde el exterior. Te orientamos sobre los requisitos, documentos y restricciones de cada mercancía.',
-  },
-  'imp-carga': {
-    title: 'Mercancía que requiere gestión de carga',
-    text: 'Carga aérea o marítima hacia Colombia. Revisamos contigo la modalidad, los requisitos y las condiciones de tu operación.',
-  },
-  'exp-courier': {
-    title: 'Paquetes y documentos desde Colombia',
-    text: 'Envíos hacia otros países según las condiciones, restricciones y requisitos aplicables a cada mercancía y destino.',
-  },
-  'exp-carga': {
-    title: 'Mercancía comercial hacia otros países',
-    text: 'Te acompañamos con la documentación y las alternativas de transporte que corresponden a cada operación.',
-  },
-};
-
-const modeImages: Record<Operation, string> = {
-  'imp-courier': '/img/servicio-courier.webp',
-  'imp-carga': '/img/servicio-carga.webp',
-  'exp-courier': '/img/servicio-casillero.webp',
-  'exp-carga': '/img/servicio-import-export.webp',
-};
-
 const merchTypes = [
   'Ropa, calzado y accesorios',
   'Tecnología y electrónica',
@@ -83,7 +56,9 @@ type Values = {
   merch: string;
   description: string;
   weight: string;
+  weightUnit: WeightUnit;
   length: string;
+  dimUnit: DimUnit;
   width: string;
   height: string;
   packages: string;
@@ -100,7 +75,9 @@ const empty: Values = {
   merch: '',
   description: '',
   weight: '',
+  weightUnit: 'kg',
   length: '',
+  dimUnit: 'cm',
   width: '',
   height: '',
   packages: '',
@@ -111,6 +88,11 @@ const empty: Values = {
 };
 
 type Errors = Partial<Record<keyof Values | 'consent', string>>;
+
+type WeightUnit = 'kg' | 'lb';
+type DimUnit = 'cm' | 'in';
+const weightName: Record<WeightUnit, string> = { kg: 'kilogramos', lb: 'libras' };
+const dimName: Record<DimUnit, string> = { cm: 'centímetros', in: 'pulgadas' };
 
 const isCargo = (op: Values['operation']) => op === 'imp-carga' || op === 'exp-carga';
 const isImport = (op: Values['operation']) => op.startsWith('imp');
@@ -125,13 +107,13 @@ function validateStep1(v: Values): Errors {
   if (v.description.trim().length < 5) e.description = 'Describe brevemente qué vas a enviar.';
   const cargo = isCargo(v.operation);
   if (cargo || v.weight) {
-    if (!v.weight) e.weight = 'Indica el peso total en kilogramos.';
-    else if (!positive(v.weight)) e.weight = 'El peso debe ser mayor que 0 kg.';
+    if (!v.weight) e.weight = `Indica el peso total en ${weightName[v.weightUnit]}.`;
+    else if (!positive(v.weight)) e.weight = `El peso debe ser mayor que 0 ${v.weightUnit}.`;
   }
   if (cargo) {
-    if (!positive(v.length)) e.length = 'Indica el largo en cm.';
-    if (!positive(v.width)) e.width = 'Indica el ancho en cm.';
-    if (!positive(v.height)) e.height = 'Indica el alto en cm.';
+    if (!positive(v.length)) e.length = `Indica el largo en ${dimName[v.dimUnit]}.`;
+    if (!positive(v.width)) e.width = `Indica el ancho en ${dimName[v.dimUnit]}.`;
+    if (!positive(v.height)) e.height = `Indica el alto en ${dimName[v.dimUnit]}.`;
   }
   if (!v.packages) e.packages = 'Indica la cantidad.';
   else if (!/^\d+$/.test(v.packages) || Number(v.packages) < 1) e.packages = 'Usa un número entero mayor que 0.';
@@ -166,21 +148,6 @@ export function Quote() {
   const statusRef = useRef<HTMLDivElement>(null);
   const prevStep = useRef(step);
   const cardRef = useRef<HTMLDivElement>(null);
-  const [mode, setMode] = useState(0);
-
-  const goToForm = (opId?: Operation) => {
-    if (opId) {
-      chooseOperation(opId);
-      setStep(1);
-      setResult(null);
-    }
-    cardRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-    window.setTimeout(() => {
-      const sel = opId ? `input[name="operation"][value="${opId}"]` : 'input[name="operation"]';
-      cardRef.current?.querySelector<HTMLElement>(sel)?.focus({ preventScroll: true });
-    }, 450);
-  };
-
   // Mueve el foco al título solo cuando el usuario cambia de paso.
   useEffect(() => {
     if (prevStep.current === step) return;
@@ -240,14 +207,14 @@ export function Quote() {
 
   const op = operations.find((o) => o.id === values.operation);
   const cargo = isCargo(values.operation);
-  const dims = values.length || values.width || values.height ? `${values.length || '–'} × ${values.width || '–'} × ${values.height || '–'} cm` : '';
+  const dims = values.length || values.width || values.height ? `${values.length || '–'} × ${values.width || '–'} × ${values.height || '–'} ${values.dimUnit}` : '';
   const summary: SummaryRow[] = [
     { label: 'Operación', value: op?.label ?? '' },
     { label: 'Origen', value: values.origin },
     { label: 'Destino', value: values.destination },
     { label: 'Tipo de mercancía', value: values.merch },
     { label: 'Descripción', value: values.description },
-    { label: 'Peso', value: values.weight ? `${values.weight} kg` : '' },
+    { label: 'Peso', value: values.weight ? `${values.weight} ${values.weightUnit}` : '' },
     { label: 'Dimensiones (largo × ancho × alto)', value: dims },
     { label: cargo ? 'Cantidad de bultos' : 'Cantidad de paquetes', value: values.packages },
   ];
@@ -260,62 +227,6 @@ export function Quote() {
 
   return (
     <section id="cotizar" className="section section--surface quote" aria-labelledby="quote-title">
-      {/* Banner de modalidades (tablet/desktop) */}
-      <div className="container">
-        <div className="mode-banner" data-reveal>
-          <img className="mode-banner__img" src="/img/servicio-carga.webp" alt="" width="1100" height="820" loading="lazy" decoding="async" />
-          <div className="mode-banner__head">
-            <h2 id="quote-banner-title" className="mode-banner__title">
-              <TwoToneTitle light="4 modalidades" bold="de" accent="envío." />
-            </h2>
-            <p className="mode-banner__text">
-              Elige la que corresponde a tu operación y te orientamos sobre los requisitos y las condiciones.
-            </p>
-            <a className="mode-banner__link" href={links.requirementsPdf} target="_blank" rel="noopener noreferrer">
-              Ver requisitos del servicio
-              <Icon name="arrowUpRight" size={18} />
-              <span className="sr-only"> (PDF, se abre en una pestaña nueva)</span>
-            </a>
-          </div>
-          {/* Acordeón horizontal de modalidades */}
-          <div className="mode-accordion">
-            {operations.map((o, i) => {
-              const open = mode === i;
-              return (
-                <div
-                  key={o.id}
-                  className={open ? 'mode-panel is-open' : 'mode-panel'}
-                  style={{ ['--img' as string]: 'url(' + modeImages[o.id] + ')' }}
-                  onMouseEnter={() => setMode(i)}
-                >
-                  <button
-                    type="button"
-                    className="mode-panel__head"
-                    aria-expanded={open}
-                    aria-controls={'mp-' + o.id}
-                    onClick={() => setMode(i)}
-                  >
-                    <span className="mode-panel__num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="mode-panel__label">{o.label}</span>
-                  </button>
-                  <div id={'mp-' + o.id} className="mode-panel__body">
-                    <span className="mode-panel__icon" aria-hidden="true">
-                      <Icon name={o.icon} size={26} />
-                    </span>
-                    <h3 className="mode-panel__title">{o.label}</h3>
-                    <p className="mode-panel__text">{opDetails[o.id].text}</p>
-                    <button type="button" className="mode-panel__cta" tabIndex={open ? 0 : -1} onClick={() => goToForm(o.id)}>
-                      Cotizar {o.label.toLowerCase()}
-                      <Icon name="arrowRight" size={18} />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
       <div className="container quote__grid">
         {/* Título del formulario (tablet/desktop) */}
         <div className="quote__form-head" data-reveal>
@@ -354,7 +265,12 @@ export function Quote() {
             <div className="prep">
               <div className="prep__head">
                 <div>
-                  <h3 className="prep__title">Antes de cotizar, revisa</h3>
+                  <h3 className="prep__title">
+                    <span className="tt-light">Antes de cotizar,</span>{' '}
+                    <span className="tt-strong">
+                      <em className="tt-accent">revisa</em>
+                    </span>
+                  </h3>
                   <p className="prep__subtitle">Información clave para preparar tu envío.</p>
                 </div>
               </div>
@@ -484,16 +400,40 @@ export function Quote() {
                         error={errors.description}
                         hint="Qué es, material, uso y valor aproximado si lo conoces."
                       />
+                      <div className="span-2 unit-switch">
+                        <UnitToggle
+                          label="Peso"
+                          name="weightUnit"
+                          options={[['kg', 'Kilogramos (kg)'], ['lb', 'Libras (lb)']]}
+                          value={values.weightUnit}
+                          onChange={(v) => update('weightUnit', v)}
+                        />
+                        <UnitToggle
+                          label="Medidas"
+                          name="dimUnit"
+                          options={[['cm', 'Centímetros (cm)'], ['in', 'Pulgadas (in)']]}
+                          value={values.dimUnit}
+                          onChange={(v) => update('dimUnit', v)}
+                        />
+                      </div>
                       <TextField
                         name="weight"
                         label={cargo ? 'Peso total' : 'Peso aproximado'}
                         optional={!cargo}
                         inputMode="decimal"
-                        unit="kg"
+                        unit={values.weightUnit}
                         value={values.weight}
                         onChange={set('weight')}
                         error={errors.weight}
                       />
+                      <div className="tax-alert" role="note">
+                        <Icon name="alert" size={22} />
+                        <p>
+                          <strong>Ten en cuenta los impuestos.</strong> Los impuestos y aranceles de importación dependen
+                          del valor declarado, el peso, el tipo de mercancía y la normativa del país de destino. Un asesor
+                          te confirmará si tu envío los genera.
+                        </p>
+                      </div>
                       <TextField
                         name="packages"
                         label={cargo ? 'Cantidad de bultos' : 'Cantidad de paquetes'}
@@ -507,9 +447,9 @@ export function Quote() {
                           Dimensiones por bulto{cargo ? '' : <span className="field__optional"> (opcional)</span>}
                         </legend>
                         <div className="dims__grid">
-                          <TextField name="length" label="Largo" inputMode="decimal" unit="cm" value={values.length} onChange={set('length')} error={errors.length} />
-                          <TextField name="width" label="Ancho" inputMode="decimal" unit="cm" value={values.width} onChange={set('width')} error={errors.width} />
-                          <TextField name="height" label="Alto" inputMode="decimal" unit="cm" value={values.height} onChange={set('height')} error={errors.height} />
+                          <TextField name="length" label="Largo" inputMode="decimal" unit={values.dimUnit} value={values.length} onChange={set('length')} error={errors.length} />
+                          <TextField name="width" label="Ancho" inputMode="decimal" unit={values.dimUnit} value={values.width} onChange={set('width')} error={errors.width} />
+                          <TextField name="height" label="Alto" inputMode="decimal" unit={values.dimUnit} value={values.height} onChange={set('height')} error={errors.height} />
                         </div>
                       </fieldset>
                     </>
@@ -583,5 +523,35 @@ export function Quote() {
         </div>
       </div>
     </section>
+  );
+}
+
+/** Selector segmentado de unidades. */
+function UnitToggle({
+  label,
+  name,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  options: [string, string][];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <fieldset className="unit-toggle">
+      <legend className="unit-toggle__label">{label}</legend>
+      <div className="unit-toggle__options">
+        {options.map(([v, text]) => (
+          <label key={v} className={value === v ? 'unit-toggle__opt is-active' : 'unit-toggle__opt'}>
+            <input type="radio" name={name} value={v} checked={value === v} onChange={() => onChange(v)} />
+            <span aria-hidden="true">{v}</span>
+            <span className="sr-only">{text}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }

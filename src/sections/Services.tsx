@@ -8,7 +8,6 @@ type Service = {
   id: string;
   title: string;
   tagline: string;
-  tag: string;
   text: string;
   /** Versión breve para tarjetas anchas (tablet y desktop). */
   short: string;
@@ -20,8 +19,29 @@ type Service = {
 
 const services: Service[] = [
   {
+    id: 'importacion',
+    title: 'Importación',
+    tagline: 'Trae tu mercancía desde otros países.',
+    text: 'Te acompañamos en la gestión de envíos desde otros países, por courier o carga, con orientación sobre los requisitos y la documentación que corresponda a cada operación.',
+    short: 'Envíos desde otros países, con orientación sobre requisitos y documentación.',
+    cta: 'Cotizar importación',
+    href: '#cotizar-envio',
+    image: '/img/servicio-carga.webp',
+    alt: 'Puerto de contenedores con grúas cargando un buque al atardecer',
+  },
+  {
+    id: 'exportacion',
+    title: 'Exportación',
+    tagline: 'Lleva tu mercancía a mercados internacionales.',
+    text: 'Gestionamos envíos hacia otros países, por courier o carga, sujetos a las condiciones, restricciones y requisitos aplicables a cada mercancía y destino.',
+    short: 'Envíos hacia otros países según las condiciones de cada mercancía y destino.',
+    cta: 'Cotizar exportación',
+    href: '#cotizar-envio',
+    image: '/img/servicio-import-export.webp',
+    alt: 'Vista aérea de un patio de contenedores con una grúa de carga',
+  },
+  {
     id: 'casillero',
-    tag: 'Para tus compras',
     title: 'Casillero virtual en Estados Unidos',
     tagline: 'Tus compras en Estados Unidos, más fáciles de gestionar.',
     text: 'Compra en tus tiendas favoritas y utiliza tu casillero CargoNet USA para recibir tus paquetes en nuestra bodega. Registra tus compras, adjunta la factura y el tracking, y consulta su proceso de recepción y envío.',
@@ -30,42 +50,6 @@ const services: Service[] = [
     href: links.register,
     image: '/img/servicio-casillero.webp',
     alt: 'Pasillo de bodega con estanterías altas llenas de cajas',
-  },
-  {
-    id: 'courier',
-    tag: 'Paquetes y documentos',
-    title: 'Courier internacional',
-    tagline: 'Una solución práctica para enviar paquetes y documentos.',
-    text: 'Gestionamos envíos internacionales mediante nuestro servicio courier, sujeto a las condiciones, restricciones y requisitos aplicables a cada mercancía y destino.',
-    short: 'Envía paquetes y documentos según las condiciones de cada mercancía y destino.',
-    cta: 'Cotizar envío',
-    href: '#cotizar',
-    image: '/img/servicio-courier.webp',
-    alt: 'Entrega de una caja de cartón sellada en manos de su destinataria',
-  },
-  {
-    id: 'carga',
-    tag: 'Para empresas',
-    title: 'Carga aérea y marítima',
-    tagline: 'Alternativas de transporte para tus necesidades comerciales.',
-    text: 'Encuentra opciones de transporte internacional para mercancías que requieren una gestión logística de carga. Nuestro equipo te orientará sobre la modalidad, los requisitos y las condiciones de tu operación.',
-    short: 'Te orientamos sobre la modalidad, los requisitos y las condiciones de tu operación.',
-    cta: 'Cotizar carga internacional',
-    href: '#cotizar',
-    image: '/img/servicio-carga.webp',
-    alt: 'Puerto de contenedores con grúas cargando un buque al atardecer',
-  },
-  {
-    id: 'import-export',
-    tag: 'Comercio exterior',
-    title: 'Importaciones y exportaciones',
-    tagline: 'Conecta tus operaciones con mercados internacionales.',
-    text: 'Te acompañamos en la gestión de envíos desde y hacia otros países, con orientación sobre los requisitos y la documentación que corresponda a cada operación.',
-    short: 'Envíos desde y hacia otros países, con orientación sobre requisitos y documentación.',
-    cta: 'Consultar soluciones internacionales',
-    href: '#cotizar',
-    image: '/img/servicio-import-export.webp',
-    alt: 'Vista aérea de un patio de contenedores con una grúa de carga',
   },
 ];
 
@@ -154,7 +138,6 @@ export function Services() {
             <li key={s.id} className="services__slide" aria-roledescription="diapositiva" aria-label={`${i + 1} de ${services.length}`}>
               <article id={s.id} className="service-card" aria-labelledby={`${s.id}-title`}>
                 <img className="service-card__img" src={s.image} alt={s.alt} width="1100" height="820" loading="lazy" decoding="async" />
-                <span className="service-card__tag">{s.tag}</span>
                 <div className="service-card__frost">
                   <div className="service-card__panel">
                     <h3 id={`${s.id}-title`} className="service-card__title">

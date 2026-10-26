@@ -9,6 +9,7 @@ import { HowItWorks } from './sections/HowItWorks';
 import { QuickActions } from './sections/QuickActions';
 import { Quote } from './sections/Quote';
 import { Services } from './sections/Services';
+import { Testimonials } from './sections/Testimonials';
 import { WhyUs } from './sections/WhyUs';
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
         <HowItWorks />
         <WhyUs />
         <Quote />
+        <Testimonials />
         <Faq />
         <Closing />
       </main>

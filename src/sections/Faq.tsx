@@ -69,7 +69,7 @@ const items: AccordionItem[] = [
     question: '¿Cómo solicito una cotización?',
     answer: (
       <p>
-        Ingresa al <a href="#cotizar">cotizador</a>, selecciona el tipo de operación y proporciona la información de tu
+        Ingresa al <a href="#cotizar-envio">cotizador</a>, selecciona el tipo de operación y proporciona la información de tu
         envío.
       </p>
     ),

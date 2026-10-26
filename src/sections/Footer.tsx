@@ -7,20 +7,19 @@ const groups: { title: string; items: L[] }[] = [
   {
     title: 'Servicios',
     items: [
+      { label: 'Importación', href: '#importacion' },
+      { label: 'Exportación', href: '#exportacion' },
       { label: 'Casillero USA', href: '#casillero' },
-      { label: 'Courier internacional', href: '#courier' },
-      { label: 'Carga aérea y marítima', href: '#carga' },
-      { label: 'Importaciones y exportaciones', href: '#import-export' },
     ],
   },
   {
-    title: 'Herramientas',
+    title: 'Instructivos',
     items: [
       { label: 'Rastrear envío', href: links.tracking },
       { label: 'Prealertar una compra', href: links.prealert },
       { label: 'Acceso al portal', href: links.login },
       { label: 'Crear mi casillero', href: links.register },
-      { label: 'Cotizar un envío', href: '#cotizar' },
+      { label: 'Cotizar un envío', href: '#cotizar-envio' },
     ],
   },
   {

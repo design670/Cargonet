@@ -1,0 +1,230 @@
+/* =========================================================
+   Testimonios: carrusel automático infinito (solo ≥700px;
+   la versión móvil no muestra la sección por ahora)
+   ========================================================= */
+.tm {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .tm {
+    display: block;
+    background: #f5f5f6;
+    overflow: hidden;
+  }
+
+  .tm .section-heading {
+    max-width: 40rem;
+    margin: 0 auto clamp(2rem, 1.5rem + 1.5vw, 3rem);
+    text-align: center;
+  }
+
+  .tm .section-heading .lead {
+    margin-inline: auto;
+  }
+
+  .tm__viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  }
+
+  .tm__track {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    will-change: transform;
+  }
+
+  .tm__track > li {
+    flex: none;
+    width: 300px;
+  }
+
+  /* ---------- Tarjetas ---------- */
+  .tm-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    margin: 0;
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+
+  .tm-card blockquote {
+    margin: 0;
+  }
+
+  .tm-card__bubble {
+    max-width: 88%;
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f1f1f2;
+  }
+
+  .tm-card__bubble--reply {
+    align-self: flex-end;
+    margin-top: auto;
+    margin-bottom: 24px;
+    background: var(--red-tint);
+  }
+
+  .tm-card__quote {
+    padding: 6px 6px 0;
+  }
+
+  .tm-card__stats {
+    display: flex;
+    gap: 32px;
+    margin: auto 6px 0;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tm-card__stats div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .tm-card__stats dd {
+    margin: 0;
+    font-size: 1.625rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .tm-card__stats dt {
+    font-size: 0.75rem;
+    color: var(--ink-2);
+  }
+
+  .tm-card__author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 6px 4px;
+  }
+
+  .tm-card--chat .tm-card__author {
+    padding-top: 0;
+  }
+
+  .tm-card__avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #011b27;
+    color: var(--white);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .tm-card :is(.tm-card__author, figcaption) strong {
+    display: block;
+    font-size: 0.9375rem;
+  }
+
+  .tm-card :is(.tm-card__author, figcaption) small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ink-2);
+  }
+
+  /* Tarjeta con foto: blanco y negro con degradado rojo de marca */
+  .tm-card--photo {
+    justify-content: flex-end;
+    padding: 20px;
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .tm-card--photo img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+
+  .tm-card--photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg, rgba(215, 25, 32, 0) 35%, rgba(215, 25, 32, 0.82) 72%, var(--red) 100%);
+  }
+
+  .tm-card--photo > :not(img) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .tm-card--photo blockquote {
+    margin-bottom: 16px;
+  }
+
+  .tm-card.tm-card--photo figcaption small {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  /* ---------- Flechas ---------- */
+  .tm__nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .tm__btn {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    cursor: pointer;
+    transition: background var(--t-fast) var(--ease);
+  }
+
+  .tm__btn:hover {
+    background: var(--red-hover);
+  }
+
+  .tm__btn:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 3px;
+  }
+}
+
+/* Título en una sola línea */
+@media (min-width: 700px) {
+  .tm .section-heading {
+    max-width: none;
+  }
+
+  .tm .section-heading .h2 {
+    white-space: nowrap;
+  }
+
+  .tm .section-heading :is(.tt-light, .tt-strong) {
+    display: inline;
+  }
+}

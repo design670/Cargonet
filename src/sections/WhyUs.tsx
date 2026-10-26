@@ -2,7 +2,7 @@ import { TwoToneTitle } from '../components/TwoToneTitle';
 import { Icon, type IconName } from '../components/Icon';
 import { company } from '../content/site';
 
-const reasons: { icon: IconName; title: string; text: string }[] = [
+const reasons: { icon: IconName; title: string; text: string; mobileOnly?: boolean }[] = [
   {
     icon: 'headset',
     title: 'Atención personalizada',
@@ -27,6 +27,7 @@ const reasons: { icon: IconName; title: string; text: string }[] = [
     icon: 'devices',
     title: 'Tecnología al servicio del cliente',
     text: 'Herramientas digitales para registrar prealertas, consultar envíos y centralizar la información disponible.',
+    mobileOnly: true,
   },
 ];
 
@@ -52,7 +53,7 @@ export function WhyUs() {
           </div>
           <ul className="why__list" data-reveal-group>
             {reasons.map((r) => (
-              <li key={r.title} className="why__item" data-reveal>
+              <li key={r.title} className={r.mobileOnly ? 'why__item why__item--mobile' : 'why__item'} data-reveal>
                 <span className="why__icon" aria-hidden="true">
                   <Icon name={r.icon} size={24} />
                 </span>

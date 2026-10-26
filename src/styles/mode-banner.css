@@ -1104,3 +1104,23 @@
     box-shadow: 0 0 0 2px #011b27;
   }
 }
+
+/* Sin menú central: los textos de los accesos siempre visibles (≥1080px) */
+@media (min-width: 1080px) and (max-width: 1279px) {
+  .site-header__actions .header-tool__label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  .site-header__actions .header-tool {
+    padding: 0 14px;
+  }
+
+  .site-header__actions .header-tool--alert {
+    width: auto;
+    padding: 0 18px 0 16px;
+  }
+}

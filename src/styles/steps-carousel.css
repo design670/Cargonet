@@ -896,3 +896,11 @@
     margin-top: 16px;
   }
 }
+
+/* Tarjeta activa alineada al borde izquierdo del contenido (no centrada) */
+@media (min-width: 700px) {
+  .steps-carousel__track {
+    margin-left: max(var(--gutter), calc((100% - var(--container)) / 2));
+    transform: translateX(calc(var(--i) * -1 * (var(--card) + var(--gap))));
+  }
+}

@@ -26,12 +26,14 @@ export function Hero() {
         <div className="hero__copy">
           <h1 id="hero-title" className="h1 hero__title">
             {/* Versión breve en tablet/desktop; el texto completo se mantiene en móvil */}
-            <span className="hero__text-short">Tus compras y envíos internacionales, con respaldo.</span>
+            <span className="hero__text-short">Tus compras internacionales, en buenas manos.</span>
             <span className="hero__text-long">Tus compras y envíos internacionales, con el respaldo que necesitas.</span>
           </h1>
           <p className="hero__lead">
             <span className="hero__text-short">
-              Trae tus compras desde Estados Unidos y sigue tus envíos con atención personalizada y tarifas competitivas.
+              Trae tus compras desde Estados Unidos y gestiona tus envíos internacionales con la seguridad, el
+              acompañamiento y la experiencia de CargoNet USA. Obtén tu casillero, registra tus paquetes y consulta su
+              estado en un solo lugar.
             </span>
             <span className="hero__text-long">
               Trae tus compras desde Estados Unidos, gestiona tus paquetes y consulta el estado de tus envíos con
@@ -41,9 +43,10 @@ export function Hero() {
           </p>
           <div className="hero__ctas">
             <Button href={links.register} variant="light" icon="arrowRight">
-              Crear mi casillero USA
+              <span className="hero__text-short">Crear mi casillero</span>
+              <span className="hero__text-long">Crear mi casillero USA</span>
             </Button>
-            <Button href="#cotizar" variant="outline-light">
+            <Button href="#cotizar-envio" variant="outline-light">
               Cotizar un envío
             </Button>
           </div>

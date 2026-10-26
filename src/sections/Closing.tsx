@@ -33,7 +33,7 @@ export function Closing() {
             <Button href={links.register} variant="light" icon="arrowRight">
               Crear mi casillero
             </Button>
-            <Button href="#cotizar" variant="outline-light">
+            <Button href="#cotizar-envio" variant="outline-light">
               Cotizar un envío
             </Button>
             <a className="closing__link" href={whatsappLink()} target="_blank" rel="noopener noreferrer">

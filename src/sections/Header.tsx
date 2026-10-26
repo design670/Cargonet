@@ -6,22 +6,13 @@ import { contact, links, whatsappLink } from '../content/site';
 /* ---------- Datos del menú ---------- */
 
 const services = [
+  { label: 'Importación', href: '#importacion' },
+  { label: 'Exportación', href: '#exportacion' },
   { label: 'Casillero USA', href: '#casillero' },
-  { label: 'Courier internacional', href: '#courier' },
-  { label: 'Carga internacional', href: '#carga' },
 ];
 
 const primaryNav = [
   { label: 'Cómo funciona', href: '#como-funciona' },
-];
-
-/** Menú principal (desktop): cada ítem lleva a su sección en la página. */
-const navLinks = [
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Herramientas', href: '#herramientas' },
-  { label: 'Cómo funciona', href: '#como-funciona' },
-  { label: 'Cotizar', href: '#cotizar' },
-  { label: 'Ayuda', href: '#preguntas' },
 ];
 
 /* ---------- Componente ---------- */
@@ -135,29 +126,18 @@ export function Header() {
               <img src="/img/logo-cargonet.png" alt="" width="270" height="77" />
             </a>
 
-            <nav className="main-nav" aria-label="Principal">
-              <ul className="main-nav__list">
-                {navLinks.map((l) => (
-                  <li key={l.href}>
-                    <a href={l.href} onClick={closeAll}>
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
 
             <div className="site-header__actions">
               <a className="header-tool" href={links.login}>
                 <Icon name="user" size={20} />
                 <span className="header-tool__label">Iniciar sesión</span>
               </a>
-              <a className="header-tool header-tool--icon header-tool--alert" href={links.prealert} title="Prealertar una compra">
+              <a className="header-tool header-tool--icon header-tool--alert" href={links.prealert} title="Prealertar paquete">
                 <span className="header-tool__bell" aria-hidden="true">
                   <Icon name="bell" size={20} />
                   <span className="header-tool__dot" />
                 </span>
-                <span className="header-tool__label">Prealerta</span>
+                <span className="header-tool__label">Prealertar paquete</span>
               </a>
               <Button href={links.register} className="site-header__cta">
                 <span className="cta-long">Crear mi casillero</span>
