@@ -366,3 +366,14 @@
     display: none;
   }
 }
+
+/* "15 años" en la parte inferior de la tarjeta (≥700px) */
+@media (min-width: 700px) {
+  .why__highlight {
+    justify-content: flex-end;
+  }
+
+  .why__number {
+    margin-bottom: 8px;
+  }
+}
