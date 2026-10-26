@@ -1028,49 +1028,9 @@
   }
 }
 
-/* Cierre: título en 2 líneas + texto en 2 líneas (≥1080px) */
-@media (min-width: 1080px) {
-  .closing__panel {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 40px;
-  }
-
-  .closing__title {
-    max-width: none;
-    font-size: clamp(2.25rem, 1.2rem + 2.2vw, 3.5rem);
-  }
-
-  .closing__text {
-    max-width: 52rem;
-  }
-}
-
-/* Cierre: título en 2 líneas (≥1080px) */
-@media (min-width: 1080px) {
-  .closing .closing__panel h2.closing__title:has(.tt-light) {
-    font-size: clamp(2rem, 0.9rem + 1.95vw, 2.875rem);
-  }
-}
-
 /* Hero: foto del mensajero un poco más a la izquierda */
 @media (min-width: 1080px) {
   .hero__photo {
     right: calc(var(--photo-h) * -0.02);
-  }
-}
-
-@media (min-width: 1080px) {
-  .closing .closing__title {
-    text-wrap: wrap;
-  }
-}
-
-@media (min-width: 1280px) {
-  .closing .closing__panel h2.closing__title:has(.tt-light) {
-    font-size: clamp(2rem, 0.6rem + 1.85vw, 2.625rem);
-  }
-
-  .closing .closing__title .tt-light {
-    white-space: nowrap;
   }
 }
