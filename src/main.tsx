@@ -12,6 +12,7 @@ import './styles/icons.css';
 import './styles/whatsapp.css';
 import './styles/refresh.css';
 import './styles/mode-banner.css';
+import './styles/fit.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(

@@ -75,7 +75,7 @@ export function StepsCarousel() {
   useEffect(() => {
     const pin = rootRef.current?.closest<HTMLElement>('.how__pin');
     if (!pin) return;
-    const mq = window.matchMedia('(min-width: 700px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)');
+    const mq = window.matchMedia('(min-width: 700px) and (min-height: 620px) and (prefers-reduced-motion: no-preference)');
 
     const onScroll = () => {
       if (!pinned.current) return;
