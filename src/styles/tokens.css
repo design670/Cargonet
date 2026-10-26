@@ -1,0 +1,85 @@
+/*
+ * Sistema de diseño CargoNet USA.
+ * Paleta provisional (no hay manual de marca): ver PENDIENTES.md.
+ */
+:root {
+  /* Color */
+  --red: #d71920;
+  --red-deep: #930f18;
+  --red-bright: #ef3543;
+  --red-hover: #b9141a;
+  --red-active: #9d1016;
+  --red-tint: #fdeced;
+  --navy: #07095e; /* azul del logo */
+  --navy-2: #151a7a;
+  --ink: #191919;
+  --ink-2: #5c6067;
+  --ink-3: #6b6f76; /* AA sobre blanco y #f5f5f6 */
+  --white: #ffffff;
+  --surface: #f5f5f6;
+  --border: #e3e4e7;
+  --border-strong: #c9cbd0;
+  --success: #17703a;
+  --danger: #b3141b;
+  --focus: #1f5fd1;
+
+  --gradient-red: linear-gradient(135deg, var(--red-deep) 0%, var(--red) 55%, var(--red-bright) 100%);
+
+  /* Tipografía */
+  --font: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fs-h1: clamp(2.25rem, 1.35rem + 2.9vw, 3.875rem);
+  --fs-h2: clamp(1.875rem, 1.45rem + 1.6vw, 2.75rem);
+  --fs-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --fs-lead: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --lh-tight: 1.1;
+  --lh-title: 1.16;
+  --lh-body: 1.6;
+
+  /* Espaciado (múltiplos de 8) */
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2rem;
+  --s-5: 2.5rem;
+  --s-6: 3rem;
+  --s-8: 4rem;
+  --s-10: 5rem;
+  --section-y: clamp(3.5rem, 2.2rem + 5vw, 6.5rem);
+  --gutter: clamp(1.25rem, 0.6rem + 2.6vw, 2.5rem);
+  --container: 77.5rem; /* 1240px */
+
+  /* Radios */
+  --r-card: 22px;
+  --r-input: 14px;
+  --r-pill: 999px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(25, 25, 25, 0.06);
+  --shadow-md: 0 12px 32px -12px rgba(25, 25, 25, 0.16);
+  --shadow-lg: 0 24px 56px -24px rgba(25, 25, 25, 0.28);
+
+  /* Movimiento */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-fast: 200ms;
+  --t-reveal: 560ms;
+
+  /* Cabecera */
+  --header-h: 76px;
+}
+
+@media (max-width: 1079px) {
+  :root {
+    --header-h: 64px;
+  }
+}
+
+/* Desktop: contenedor más ancho y márgenes laterales menores (móvil sin cambios) */
+@media (min-width: 1080px) {
+  :root {
+    --gutter: 32px;
+    --container: 86rem; /* 1376px */
+    --section-y: clamp(3.5rem, 1.5rem + 3.2vw, 5rem); /* 80px máx. */
+  }
+}

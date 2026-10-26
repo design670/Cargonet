@@ -1,0 +1,82 @@
+/* =========================================================
+   Estilo de iconos de marca (≥700px): contorno oscuro + acento rojo.
+   Se aplica solo a iconos ilustrativos; los iconos de interfaz
+   (flechas, menú, cerrar…) no cambian. Móvil sin cambios.
+   ========================================================= */
+.ia-x {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  :is(.action-card__icon, .why__icon, .mega__icon, .sc-card__icon) svg,
+  svg.op-option__icon,
+  .info-list a > svg:first-child {
+    color: var(--duo-base, var(--ink));
+    stroke-width: 1.5;
+    overflow: visible;
+  }
+
+  :is(.action-card__icon, .why__icon, .mega__icon, .sc-card__icon) .ia,
+  svg.op-option__icon .ia,
+  .info-list a > svg:first-child .ia {
+    stroke: var(--duo-accent, var(--red));
+    transition: stroke var(--t-fast) var(--ease);
+  }
+
+  :is(.action-card__icon, .why__icon, .mega__icon, .sc-card__icon) .ia-x,
+  svg.op-option__icon .ia-x,
+  .info-list a > svg:first-child .ia-x {
+    display: inline;
+  }
+
+  /* Insignia (p. ej. check sobre la caja): tapa el trazo de fondo */
+  .ia-badge {
+    fill: var(--duo-badge, var(--white));
+  }
+
+  /* Íconos ligeramente más grandes dentro de sus contenedores */
+  .action-card__icon svg,
+  .why__icon svg,
+  .mega__icon svg,
+  .sc-card__icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Fondos de contenedor más neutros para que se lea el dos tonos */
+  .action-card__icon,
+  .action-card:hover .action-card__icon,
+  .mega__icon,
+  .sc-card__icon {
+    background: var(--white);
+  }
+
+  .why__icon {
+    border-color: var(--border);
+  }
+
+  /* Estados sobre rojo: icono completo en blanco */
+  .mega__item:hover .mega__icon,
+  .sc-card.is-active .sc-card__icon {
+    --duo-base: var(--white);
+    --duo-accent: var(--white);
+    --duo-badge: var(--red);
+  }
+
+  .mega__item:hover .mega__icon {
+    background: var(--red);
+  }
+
+  .sc-card__icon {
+    border: 1px solid var(--border);
+  }
+
+  .sc-card.is-active .sc-card__icon {
+    border-color: transparent;
+  }
+
+  /* Opción seleccionada del cotizador: mantiene dos tonos */
+  .op-option.is-selected .op-option__icon {
+    color: var(--ink);
+  }
+}

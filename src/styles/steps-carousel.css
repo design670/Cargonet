@@ -1,0 +1,898 @@
+/* =========================================================
+   "Cómo funciona" estilo Envía: carrusel de pasos (≥700px)
+   Móvil: se oculta el carrusel y se mantiene la lista por fases.
+   ========================================================= */
+.steps-carousel,
+.how__hint {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  /* Fondo claro cálido en lugar de rojo */
+  .section.how {
+    background: linear-gradient(180deg, #ffffff 0%, #f7efef 22%, #f5eded 100%);
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  .section.how .tt-light { color: var(--ink-2); }
+  .section.how .tt-strong { color: var(--ink); }
+  .section.how .tt-accent { color: var(--red); }
+  .section.how .lead { color: var(--ink-2); }
+
+  .section.how .section-heading {
+    margin-bottom: 8px;
+  }
+
+  .section.how .section-heading .tt-light,
+  .section.how .section-heading .tt-strong {
+    display: inline;
+  }
+
+  .how__hint {
+    display: block;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .how__phases {
+    display: none;
+  }
+
+  .section.how .how__footer {
+    margin-top: 48px;
+    border-top-color: var(--border);
+  }
+
+  .section.how .note,
+  .section.how .note strong {
+    color: var(--ink);
+  }
+
+  .section.how .note svg {
+    color: var(--red);
+  }
+
+  .section.how .btn--secondary {
+    --btn-bg: var(--white);
+    --btn-fg: var(--ink);
+    --btn-border: var(--border-strong);
+  }
+
+  .section.how .btn--secondary:hover {
+    --btn-bg: var(--white);
+    --btn-fg: var(--ink);
+    --btn-border: var(--ink);
+  }
+
+  .section.how .btn:focus-visible {
+    outline-color: var(--focus);
+  }
+
+  /* Carrusel */
+  .steps-carousel {
+    --card: min(460px, 62vw);
+    --gap: 28px;
+    display: block;
+    margin-top: 32px;
+  }
+
+  .steps-carousel__viewport {
+    position: relative;
+    overflow: hidden;
+    padding-top: 24px;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .steps-carousel__track {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: stretch;
+    gap: var(--gap);
+    margin: 0 0 0 50%;
+    padding: 0;
+    list-style: none;
+    transform: translateX(calc(var(--card) / -2 - var(--i) * (var(--card) + var(--gap))));
+    transition: transform 650ms var(--ease);
+  }
+
+  .sc-card {
+    position: relative;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: var(--card);
+    min-height: 300px;
+    padding: 26px 30px 28px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(215, 25, 32, 0.06);
+    color: var(--ink);
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.55;
+    transform: scale(0.94);
+    transform-origin: center bottom;
+    transition:
+      opacity 500ms var(--ease),
+      transform 500ms var(--ease),
+      box-shadow 500ms var(--ease),
+      background-color 500ms var(--ease);
+  }
+
+  .sc-card:hover {
+    opacity: 0.75;
+  }
+
+  .sc-card.is-active {
+    cursor: default;
+    opacity: 1;
+    transform: none;
+    background: var(--white);
+    box-shadow:
+      0 30px 60px -28px rgba(215, 25, 32, 0.35),
+      0 0 0 1px rgba(215, 25, 32, 0.08);
+  }
+
+  /* Línea roja superior en la tarjeta activa */
+  .sc-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: var(--gradient-red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms var(--ease) 150ms;
+  }
+
+  .sc-card.is-active::before {
+    transform: scaleX(1);
+  }
+
+  .sc-card__bignum {
+    position: absolute;
+    top: -14px;
+    right: 8px;
+    font-size: 8.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: rgba(215, 25, 32, 0.06);
+    pointer-events: none;
+    transition: color 500ms var(--ease);
+  }
+
+  .sc-card.is-active .sc-card__bignum {
+    color: rgba(215, 25, 32, 0.1);
+  }
+
+  .sc-card__head {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 16px;
+    margin-bottom: 4px;
+    border-bottom: 1px dashed var(--border-strong);
+  }
+
+  .sc-card__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--red-tint);
+    color: var(--red);
+    transition: background 500ms var(--ease), color 500ms var(--ease), transform 500ms var(--ease);
+  }
+
+  .sc-card__icon svg {
+    stroke-width: 1.5;
+  }
+
+  .sc-card.is-active .sc-card__icon {
+    background: var(--gradient-red);
+    color: var(--white);
+    transform: rotate(-6deg);
+    box-shadow: 0 12px 24px -12px rgba(215, 25, 32, 0.8);
+  }
+
+  .sc-card__step {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .sc-card__step span {
+    color: var(--ink-3);
+    font-weight: 700;
+  }
+
+  /* Código de barras decorativo */
+  .sc-card__barcode {
+    display: block;
+    width: 120px;
+    height: 16px;
+    margin-top: 6px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--ink-3) 0 1px,
+      transparent 1px 3px,
+      var(--ink-3) 3px 5px,
+      transparent 5px 6px,
+      var(--ink-3) 6px 7px,
+      transparent 7px 10px
+    );
+    opacity: 0.55;
+  }
+
+  .sc-card__phase {
+    align-self: start;
+    padding: 4px 10px;
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .sc-card--cargonet .sc-card__phase {
+    background: var(--red-tint);
+    color: var(--red-active);
+  }
+
+  .sc-card__title {
+    position: relative;
+    font-size: clamp(1.375rem, 1.2rem + 0.5vw, 1.625rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .sc-card__text {
+    position: relative;
+    font-size: 0.96875rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .sc-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    margin-top: auto;
+    color: var(--red);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .sc-card__cta svg {
+    transition: transform var(--t-fast) var(--ease);
+  }
+
+  .sc-card__cta:hover svg {
+    transform: translateX(3px);
+  }
+
+  .sc-card:not(.is-active) .sc-card__cta {
+    pointer-events: none;
+  }
+
+  /* Cinta transportadora bajo las tarjetas */
+  .steps-carousel__belt {
+    position: relative;
+    height: 34px;
+    margin-top: -14px;
+    background:
+      repeating-linear-gradient(90deg, rgba(215, 25, 32, 0.55) 0 10px, transparent 10px 88px),
+      repeating-linear-gradient(90deg, rgba(25, 25, 25, 0.06) 0 1px, transparent 1px 44px),
+      linear-gradient(180deg, #ece4e4 0%, #e4dbdb 100%);
+    background-position: calc(var(--i) * -176px) 0, calc(var(--i) * -176px) 0, 0 0;
+    transition: background-position 650ms var(--ease);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Controles */
+  .steps-carousel__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 32px;
+    padding-inline: var(--gutter);
+  }
+
+  .sc-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .sc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--ink-2);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+    transition:
+      background-color var(--t-fast) var(--ease),
+      border-color var(--t-fast) var(--ease),
+      color var(--t-fast) var(--ease);
+  }
+
+  .sc-pill:hover {
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .sc-pill__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    transition: transform var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+  }
+
+  .sc-pill.is-active {
+    background: var(--white);
+    border-color: rgba(215, 25, 32, 0.35);
+    color: var(--ink);
+    box-shadow: 0 8px 20px -12px rgba(215, 25, 32, 0.6);
+  }
+
+  .sc-pill.is-active .sc-pill__dot {
+    background: var(--red);
+    transform: scale(1.6);
+  }
+
+  .sc-arrow {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    background: var(--white);
+    color: var(--ink);
+    transition:
+      border-color var(--t-fast) var(--ease),
+      background-color var(--t-fast) var(--ease),
+      color var(--t-fast) var(--ease);
+  }
+
+  .sc-arrow:hover:not(:disabled) {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--white);
+  }
+
+  .sc-arrow:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .sc-arrow__prev {
+    transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 700px) and (prefers-reduced-motion: reduce) {
+  .steps-carousel__track,
+  .steps-carousel__belt,
+  .sc-card {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   Intercambio de fondos (≥700px):
+   "Cómo funciona" en rojo · "Empresas" en claro rosado
+   ========================================================= */
+@media (min-width: 700px) {
+  /* --- Cómo funciona sobre rojo --- */
+  .section.how {
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .section.how .tt-light { color: rgba(255, 255, 255, 0.85); }
+  .section.how .tt-strong,
+  .section.how .tt-accent { color: var(--white); }
+  .section.how .lead { color: rgba(255, 255, 255, 0.92); }
+
+  .section.how .sc-card {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .section.how .sc-card.is-active {
+    background: var(--white);
+    box-shadow: 0 30px 60px -24px rgba(60, 0, 6, 0.55);
+  }
+
+  .section.how .steps-carousel__belt {
+    background:
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0 10px, transparent 10px 88px),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 44px),
+      linear-gradient(180deg, #b9141a 0%, #a31117 100%);
+    background-position: calc(var(--i) * -176px) 0, calc(var(--i) * -176px) 0, 0 0;
+  }
+
+  .section.how .sc-pill {
+    background: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .section.how .sc-pill:hover {
+    background: rgba(255, 255, 255, 0.24);
+    color: var(--white);
+  }
+
+  .section.how .sc-pill__dot {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .section.how .sc-pill.is-active {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--ink);
+    box-shadow: 0 10px 24px -12px rgba(60, 0, 6, 0.6);
+  }
+
+  .section.how .sc-pill.is-active .sc-pill__dot {
+    background: var(--red);
+  }
+
+  .section.how .sc-arrow {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.6);
+    color: var(--white);
+  }
+
+  .section.how .sc-arrow:hover:not(:disabled) {
+    background: var(--white);
+    border-color: var(--white);
+    color: var(--red);
+  }
+
+  .section.how .how__footer {
+    border-top-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .section.how .note,
+  .section.how .note strong,
+  .section.how .note svg {
+    color: var(--white);
+  }
+
+  .section.how .btn--secondary {
+    --btn-bg: transparent;
+    --btn-fg: var(--white);
+    --btn-border: rgba(255, 255, 255, 0.75);
+  }
+
+  .section.how .btn--secondary:hover {
+    --btn-bg: var(--white);
+    --btn-fg: var(--red-deep);
+    --btn-border: var(--white);
+  }
+
+  .section.how .btn:focus-visible,
+  .section.how .sc-pill:focus-visible,
+  .section.how .sc-arrow:focus-visible {
+    outline-color: var(--white);
+  }
+
+  /* --- Empresas en claro rosado --- */
+  .section.business {
+    background: linear-gradient(180deg, #ffffff 0%, #f7efef 22%, #f5eded 100%);
+    border-top: 0;
+    color: var(--ink);
+  }
+
+  .section.business .tt-light { color: var(--ink-2); }
+  .section.business .tt-strong { color: var(--ink); }
+  .section.business .tt-accent { color: var(--red); }
+  .section.business .lead { color: var(--ink-2); }
+  .section.business .checklist li { color: var(--ink); }
+
+  .section.business .checklist__icon {
+    background: var(--red-tint);
+    color: var(--red);
+  }
+
+  .section.business .business__copy .btn--primary {
+    --btn-bg: var(--red);
+    --btn-fg: var(--white);
+  }
+
+  .section.business .business__copy .btn--primary:hover {
+    --btn-bg: var(--red-hover);
+    box-shadow: 0 10px 24px -12px rgba(215, 25, 32, 0.7);
+  }
+
+  .section.business .business__copy .btn--secondary {
+    --btn-bg: var(--white);
+    --btn-fg: var(--ink);
+    --btn-border: var(--border-strong);
+  }
+
+  .section.business .business__copy .btn:focus-visible {
+    outline-color: var(--focus);
+  }
+}
+
+/* =========================================================
+   Ruta lineal (reemplaza la cinta transportadora) — ≥700px
+   ========================================================= */
+.sc-route {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .steps-carousel__belt {
+    display: none;
+  }
+
+  .sc-route {
+    display: block;
+    width: min(760px, calc(100% - 2 * var(--gutter)));
+    margin: 84px auto 0;
+  }
+
+  .sc-route__line {
+    position: relative;
+    height: 2px;
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.45) 50%, transparent 50%);
+    background-size: 10px 2px;
+  }
+
+  .sc-route__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--p) * 100%);
+    background: var(--white);
+    border-radius: 2px;
+    transition: width 650ms var(--ease);
+  }
+
+  .sc-route__node {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    background: var(--red);
+    transition: background-color 400ms var(--ease), border-color 400ms var(--ease), transform 400ms var(--ease);
+  }
+
+  .sc-route__node.is-done {
+    border-color: var(--white);
+    background: var(--white);
+  }
+
+  .sc-route__node.is-current {
+    transform: scale(1.4);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.18);
+  }
+
+  .sc-route__parcel {
+    position: absolute;
+    top: -46px;
+    left: calc(var(--p) * 100%);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    border-radius: 12px;
+    background: var(--white);
+    color: var(--red);
+    box-shadow: 0 10px 24px -10px rgba(60, 0, 6, 0.6);
+    transition: left 650ms var(--ease);
+  }
+
+  .sc-route__parcel svg {
+    stroke-width: 1.5;
+  }
+
+  .sc-route__parcel::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    background: var(--white);
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+
+  .sc-route__ends {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .steps-carousel__controls {
+    margin-top: 24px;
+  }
+}
+
+@media (min-width: 700px) and (prefers-reduced-motion: reduce) {
+  .sc-route__fill,
+  .sc-route__parcel,
+  .sc-route__node {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   Ruta a todo el ancho con barra de neón (≥700px)
+   ========================================================= */
+@media (min-width: 700px) {
+  .sc-route {
+    width: 100%;
+    margin: 84px 0 0;
+    padding-inline: var(--gutter);
+  }
+
+  .sc-route__line {
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Tramo recorrido: tubo de neón */
+  .sc-route__fill {
+    border-radius: 4px;
+    background: linear-gradient(90deg, #ffd6d9 0%, #ffffff 60%, #ffe9eb 100%);
+    box-shadow:
+      0 0 4px #ffffff,
+      0 0 10px rgba(255, 170, 178, 0.95),
+      0 0 22px rgba(255, 90, 102, 0.9),
+      0 0 44px rgba(255, 60, 75, 0.7);
+    animation: neon-flicker 4s ease-in-out infinite;
+  }
+
+  /* Destello de luz que recorre toda la barra */
+  .sc-route__line::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 140px;
+    height: 10px;
+    border-radius: 10px;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 140, 150, 0.4) 55%, transparent);
+    filter: blur(1px);
+    animation: neon-sweep 3.6s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes neon-sweep {
+    0% {
+      transform: translateX(-140px);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(100vw - 2 * var(--gutter)));
+      opacity: 0;
+    }
+  }
+
+  @keyframes neon-flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    48% {
+      opacity: 0.88;
+    }
+    50% {
+      opacity: 1;
+    }
+    52% {
+      opacity: 0.92;
+    }
+  }
+
+  /* Puntos: apagados / encendidos */
+  .sc-route__node {
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    background: var(--red);
+  }
+
+  .sc-route__node.is-done {
+    border-color: #ffffff;
+    background: #ffffff;
+    box-shadow:
+      0 0 6px #ffffff,
+      0 0 14px rgba(255, 120, 130, 0.95),
+      0 0 26px rgba(255, 70, 82, 0.8);
+  }
+
+  .sc-route__node.is-current {
+    transform: scale(1.35);
+    box-shadow:
+      0 0 0 6px rgba(255, 255, 255, 0.15),
+      0 0 8px #ffffff,
+      0 0 20px rgba(255, 120, 130, 1),
+      0 0 40px rgba(255, 70, 82, 0.9);
+  }
+
+  .sc-route__parcel {
+    box-shadow:
+      0 0 14px rgba(255, 255, 255, 0.55),
+      0 10px 24px -10px rgba(60, 0, 6, 0.6);
+  }
+}
+
+@media (min-width: 700px) and (prefers-reduced-motion: reduce) {
+  .sc-route__fill,
+  .sc-route__line::after {
+    animation: none;
+  }
+
+  .sc-route__line::after {
+    display: none;
+  }
+}
+
+/* =========================================================
+   Modo fijo por scroll (clase .is-pinned la agrega el JS
+   solo en ≥700px, altura ≥700px y sin reducción de movimiento)
+   ========================================================= */
+.sc-scroll-hint {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  /* "clip" recorta igual que hidden pero no rompe position: sticky */
+  .section.how {
+    overflow: clip;
+  }
+
+  .how__pin.is-pinned {
+    /* 100vh de bloque fijo + ~65vh de recorrido por paso */
+    height: calc(100vh + var(--steps, 6) * 65vh);
+  }
+
+  .how__pin.is-pinned .how__sticky {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    padding-top: calc(var(--header-h) + 24px);
+    padding-bottom: 16px;
+  }
+
+  .how:has(.how__pin.is-pinned) {
+    padding-top: 0;
+  }
+
+  .how__pin.is-pinned .steps-carousel {
+    margin-top: 16px;
+  }
+
+  .how__pin.is-pinned .sc-route {
+    margin-top: 72px;
+  }
+
+  .how__pin.is-pinned .sc-card {
+    min-height: 270px;
+  }
+
+  /* Indicador "Baja para avanzar los pasos" */
+  .how__pin.is-pinned .sc-scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    transition: opacity 300ms var(--ease);
+  }
+
+  .sc-scroll-hint__mouse {
+    position: relative;
+    width: 24px;
+    height: 38px;
+    border: 2px solid var(--white);
+    border-radius: 14px;
+  }
+
+  .sc-scroll-hint__mouse::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: var(--white);
+    animation: scroll-wheel 1.6s var(--ease) infinite;
+  }
+
+  @keyframes scroll-wheel {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    70% {
+      transform: translateY(12px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+  }
+
+  .sc-scroll-hint.is-last {
+    opacity: 0.7;
+  }
+}
+
+/* Pantallas bajas: menos espacio vertical en el bloque fijo */
+@media (min-width: 700px) and (max-height: 860px) {
+  .how__pin.is-pinned .section-heading .lead {
+    display: none;
+  }
+
+  .how__pin.is-pinned .sc-route {
+    margin-top: 60px;
+  }
+
+  .how__pin.is-pinned .steps-carousel__controls {
+    margin-top: 16px;
+  }
+}
