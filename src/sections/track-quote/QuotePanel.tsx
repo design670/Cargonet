@@ -201,6 +201,7 @@ export function QuotePanel() {
           </p>
         </div>
 
+        <div className="tq-svc-wrap" onClick={() => setCollapsed(false)}>
         <ServiceSelect
           name="tq-service"
           label="Tipo de servicio"
@@ -213,21 +214,7 @@ export function QuotePanel() {
           }}
           error={errors.service}
         />
-
-        {svc ? (
-          <button
-            type="button"
-            className={collapsed ? 'tq-toggle is-collapsed' : 'tq-toggle'}
-            aria-expanded={!collapsed}
-            aria-controls="tq-quote-details"
-            onClick={() => setCollapsed((c) => !c)}
-          >
-            <span>{collapsed ? 'Mostrar datos del envío' : 'Ocultar datos del envío'}</span>
-            <span className="tq-toggle__icon" aria-hidden="true">
-              <Icon name="chevronDown" size={18} />
-            </span>
-          </button>
-        ) : null}
+        </div>
 
         {svc ? (
           <div id="tq-quote-details" className="tq-details" hidden={collapsed}>
@@ -300,6 +287,15 @@ export function QuotePanel() {
         )}
 
         <div className="tq-calc">
+          {/* Cerrar: pliega los datos; se vuelven a abrir al elegir un tipo de servicio */}
+          {svc && !collapsed ? (
+            <button type="button" className="tq-toggle" aria-expanded="true" aria-controls="tq-quote-details" onClick={() => setCollapsed(true)}>
+              <span>Cerrar</span>
+              <span className="tq-toggle__icon" aria-hidden="true">
+                <Icon name="chevronDown" size={18} />
+              </span>
+            </button>
+          ) : null}
           <button type="submit" className="btn btn--calc tq-calc__btn" disabled={status === 'loading'} aria-busy={status === 'loading' || undefined}>
             {status === 'loading' ? <Icon name="spinner" size={18} className="btn__spinner" /> : <Icon name="calculator" size={18} />}
             <span>{status === 'loading' ? 'Calculando…' : stale ? 'Actualizar cotización' : 'Calcular tarifas'}</span>
