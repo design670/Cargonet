@@ -256,7 +256,7 @@
 @media (min-width: 700px) {
   /* Banner con fondo oscuro sólido: las fotos van en los paneles */
   .mode-banner {
-    background: linear-gradient(135deg, #2a0508 0%, #000053 100%);
+    background: linear-gradient(135deg, #2a0508 0%, #011b27 100%);
   }
 
   .mode-banner__img,
@@ -866,7 +866,7 @@
     min-height: 56px;
     padding: 8px 16px 8px 8px;
     border-radius: var(--r-pill);
-    background: #000053;
+    background: #011b27;
     color: var(--white);
     text-decoration: none;
     transition: background-color var(--t-fast) var(--ease);
@@ -957,9 +957,9 @@
 /* Checklist sobre fondo oscuro (≥700px) */
 @media (min-width: 700px) {
   .quote__aside .info-list {
-    background: #000053;
+    background: #011b27;
     color: var(--white);
-    box-shadow: 0 30px 70px -40px rgba(0, 0, 83, 0.8);
+    box-shadow: 0 30px 70px -40px rgba(1, 27, 39, 0.8);
   }
 
   .prep__head {
@@ -1093,7 +1093,7 @@
 /* Prealerta en azul oscuro (≥1080px) */
 @media (min-width: 1080px) {
   .site-header__actions .header-tool--alert {
-    background: #000053;
+    background: #011b27;
   }
 
   .site-header__actions .header-tool--alert:hover {
@@ -1101,7 +1101,7 @@
   }
 
   .header-tool--alert .header-tool__dot {
-    box-shadow: 0 0 0 2px #000053;
+    box-shadow: 0 0 0 2px #011b27;
   }
 }
 

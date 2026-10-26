@@ -3,11 +3,11 @@
    (todas las resoluciones, según el brief de esta sección)
    ========================================================= */
 .tq {
-  --calc: #000053; /* azul del logo de CargoNet */
+  --calc: #011b27; /* azul oscuro de CargoNet (footer y Prealertar) */
   --calc-hover: #0b2b3a;
-  --calc-active: #00003d;
+  --calc-active: #000f17;
   --calc-tint: #e8eff2;
-  --calc-text: #000053;
+  --calc-text: #011b27;
 }
 
 /* ---------- Panel ---------- */
@@ -599,7 +599,7 @@ html .quick .tq__title.quick__title {
 
 .btn--calc:hover {
   --btn-bg: var(--calc-hover);
-  box-shadow: 0 10px 24px -12px rgba(0, 0, 83, 0.7);
+  box-shadow: 0 10px 24px -12px rgba(1, 27, 39, 0.7);
 }
 
 .btn--calc:active {
@@ -876,9 +876,9 @@ html .quick .tq__title.quick__title {
   background:
     radial-gradient(60% 70% at 85% 10%, rgba(215, 25, 32, 0.45), transparent 60%),
     radial-gradient(50% 60% at 5% 100%, rgba(215, 25, 32, 0.25), transparent 60%),
-    linear-gradient(180deg, rgba(0, 0, 83, 0.9) 0%, rgba(0, 0, 83, 0.96) 100%),
+    linear-gradient(180deg, rgba(1, 27, 39, 0.9) 0%, rgba(1, 27, 39, 0.96) 100%),
     url('/img/servicio-carga.webp') center / cover no-repeat,
-    #000053;
+    #011b27;
   color: var(--white);
 }
 
@@ -1039,7 +1039,7 @@ html .quick .tq__title.quick__title {
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .quick .tq__panel { background: rgba(0, 0, 83, 0.92); }
+  .quick .tq__panel { background: rgba(10, 40, 54, 0.92); }
 }
 
 /* ---------- Alineación ---------- */
@@ -1119,11 +1119,11 @@ html .quick .tq__title.quick__title {
 
 /* Panel: vidrio oscuro (deja ver el rojo del hero en la parte superpuesta) */
 .quick .tq__panel {
-  background: linear-gradient(160deg, rgba(0, 0, 83, 0.8) 0%, rgba(0, 0, 83, 0.93) 45%, rgba(0, 0, 83, 0.97) 100%);
+  background: linear-gradient(160deg, rgba(1, 27, 39, 0.8) 0%, rgba(1, 27, 39, 0.93) 45%, rgba(1, 27, 39, 0.97) 100%);
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 40px 80px -40px rgba(0, 0, 83, 0.75);
+    0 40px 80px -40px rgba(1, 27, 39, 0.75);
   -webkit-backdrop-filter: blur(22px) saturate(150%);
   backdrop-filter: blur(22px) saturate(150%);
 }
@@ -1239,7 +1239,7 @@ html .quick .tq__title.quick__title {
   background: var(--white);
   box-shadow:
     0 0 0 1px var(--border),
-    0 30px 60px -24px rgba(0, 0, 83, 0.55);
+    0 30px 60px -24px rgba(1, 27, 39, 0.55);
   animation: tq-pop 160ms var(--ease);
   outline: none;
 }

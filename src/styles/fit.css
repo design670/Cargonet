@@ -639,7 +639,7 @@
 @media (min-width: 700px) {
   #cotizar.quote {
     padding-block: var(--section-y);
-    background: #000053;
+    background: #011b27;
     color: var(--white);
   }
 

@@ -2590,7 +2590,7 @@ ul.services__track {
 /* 11b · Footer oscuro (≥700px; móvil sin cambios) */
 @media (min-width: 700px) {
   .site-footer {
-    --footer-bg: #000053;
+    --footer-bg: #011b27;
     background: var(--footer-bg);
     border-top: 0;
     color: rgba(255, 255, 255, 0.72);
@@ -2957,7 +2957,7 @@ ul.services__track {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: #000053;
+    background: #011b27;
     color: var(--white);
   }
 

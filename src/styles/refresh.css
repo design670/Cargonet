@@ -305,7 +305,7 @@
   .quote__aside .info-list {
     padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
     border-radius: 28px;
-    background: #000053;
+    background: #011b27;
     color: var(--white);
     --duo-base: var(--white);
   }
@@ -375,7 +375,7 @@
 /* "Tu mercancía merece respaldo" sobre azul oscuro (≥700px) */
 @media (min-width: 700px) {
   .section.why {
-    background: #000053;
+    background: #011b27;
     color: var(--white);
   }
 
