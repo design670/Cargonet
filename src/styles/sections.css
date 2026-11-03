@@ -2908,6 +2908,22 @@ ul.services__track {
     display: inline;
   }
 
+  .hero__title .hero__text-short {
+    white-space: nowrap; /* una frase por línea: "Compra en USA." / "Recíbelo en Colombia." */
+  }
+
+  /* "Compra en USA." más grueso: Manrope llega a 800, el contorno lo engrosa un poco más */
+  .hero__title-strong {
+    font-weight: 800;
+    -webkit-text-stroke: 0.015em currentColor;
+    paint-order: stroke fill;
+  }
+
+  /* Que el titular sin cortes no ensanche la columna ni el párrafo */
+  .hero__copy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .hero__text-long {
     display: none;
   }
@@ -3463,4 +3479,14 @@ ul.services__track {
   .quick__title .tt-strong {
     display: inline;
   }
+}
+
+/* "Soluciones logísticas": palabra final del título en negro, no en rojo */
+.services .tt-accent {
+  color: var(--ink);
+}
+
+/* Preguntas frecuentes: palabra final del título en negro, no en rojo */
+.faq .tt-accent {
+  color: var(--ink);
 }

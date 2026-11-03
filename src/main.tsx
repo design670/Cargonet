@@ -14,6 +14,9 @@ import './styles/refresh.css';
 import './styles/mode-banner.css';
 import './styles/fit.css';
 import './styles/track-quote.css';
+import './styles/quick-tools.css';
+import './styles/locker.css';
+import './styles/compare.css';
 import './styles/testimonials.css';
 import App from './App';
 

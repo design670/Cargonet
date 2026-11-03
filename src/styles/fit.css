@@ -7,14 +7,18 @@
 
 /* Títulos de sección: también limitados por la altura de la ventana */
 @media (min-width: 700px) {
-  html :is(.section, .quick, .closing) h2:has(.tt-light),
+  html :is(.section, .quick, .closing, .locker, .compare) h2:has(.tt-light),
   html .mode-banner__title,
   html .quote__form-title {
     font-size: clamp(2.25rem, min(1.6rem + 2.4vw, 7.4vh), 4rem);
   }
 
+  html :is(.locker, .compare) h2:has(.tt-light) {
+    line-height: 1.04;
+  }
+
   html .hero__title {
-    font-size: clamp(2.25rem, min(1.35rem + 2.9vw, 8vh), 3.875rem);
+    font-size: clamp(2.5rem, min(1.5rem + 3.3vw, 9vh), 4.375rem);
   }
 }
 
@@ -626,21 +630,14 @@
   }
 }
 
-/* Cierre: título más pequeño (≥700px) */
-@media (min-width: 700px) {
-  html .closing h2.closing__title:has(.tt-light) {
-    font-size: clamp(1.875rem, 1.25rem + 1.6vw, 2.875rem);
-    line-height: 1.1;
-  }
-}
 
 /* "Antes de cotizar, revisa": franja oscura a todo el ancho, título a la
    izquierda y 4 tarjetas en 2×2 (≥700px; móvil sin cambios) */
 @media (min-width: 700px) {
   #cotizar.quote {
     padding-block: var(--section-y);
-    background: #011b27;
-    color: var(--white);
+    background: var(--surface);
+    color: var(--ink);
   }
 
   #cotizar .quote__aside .info-list {
@@ -673,23 +670,23 @@
     font-weight: 700;
     line-height: 1.04;
     letter-spacing: -0.022em;
-    color: var(--white);
+    color: var(--ink);
   }
 
   #cotizar .prep__title .tt-light {
     display: block;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.72);
+    color: var(--ink-2);
   }
 
   #cotizar .prep__title .tt-accent {
-    color: #ff4d58;
+    color: var(--ink);
   }
 
   #cotizar .prep__subtitle {
     margin-top: 16px;
     font-size: var(--fs-lead);
-    color: rgba(255, 255, 255, 0.72);
+    color: var(--ink-2);
   }
 
   /* 4 tarjetas: icono, título y enlace, sin caja */
@@ -712,7 +709,7 @@
     border: 0;
     background: none;
     box-shadow: none;
-    color: var(--white);
+    color: var(--ink);
   }
 
   #cotizar .prep-tile__icon {
@@ -727,12 +724,12 @@
   #cotizar .prep-tile__icon svg {
     width: 44px;
     height: 44px;
-    color: var(--white);
+    color: var(--ink);
     stroke-width: 1.5;
   }
 
   #cotizar .prep-tile__icon .ia {
-    stroke: #ff4d58;
+    stroke: var(--red);
   }
 
   #cotizar .prep-tile__label {
@@ -742,7 +739,7 @@
   }
 
   #cotizar .prep-tile__meta {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--ink-3);
   }
 
   #cotizar a.prep-tile:hover .prep-tile__label {
@@ -843,7 +840,7 @@
 
   #cotizar .prep__grid > li {
     padding-inline: clamp(1.25rem, 0.75rem + 1.2vw, 2rem);
-    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    border-left: 1px solid var(--border-strong);
   }
 
   #cotizar .prep__grid > li:nth-child(odd) {
@@ -903,7 +900,7 @@
   #cotizar .prep__grid > li,
   #cotizar .prep__grid > li:nth-child(odd) {
     padding: 8px clamp(1.25rem, 0.5rem + 1.2vw, 2rem) 8px;
-    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    border-left: 1px solid var(--border-strong);
   }
 }
 

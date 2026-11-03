@@ -26,7 +26,7 @@ export function Hero() {
         <div className="hero__copy">
           <h1 id="hero-title" className="h1 hero__title">
             {/* Versión breve en tablet/desktop; el texto completo se mantiene en móvil */}
-            <span className="hero__text-short">Tus compras internacionales, en buenas manos.</span>
+            <span className="hero__text-short"><strong className="hero__title-strong">Compra en USA.</strong><br />Recíbelo en Colombia.</span>
             <span className="hero__text-long">Tus compras y envíos internacionales, con el respaldo que necesitas.</span>
           </h1>
           <p className="hero__lead">

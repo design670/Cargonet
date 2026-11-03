@@ -1,0 +1,395 @@
+/* =========================================================
+   "Casillero virtual": fondo azul, pasos + etiqueta de envío
+   (antes de "Soluciones logísticas")
+   ========================================================= */
+.locker {
+  --locker-bg: #05054a;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  /* Aire blanco tras la franja de íconos (que no tiene margen inferior) */
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: var(--section-y);
+  background:
+    radial-gradient(48% 60% at 82% 58%, rgba(215, 25, 32, 0.32), transparent 70%),
+    radial-gradient(40% 55% at 6% 0%, rgba(58, 64, 220, 0.45), transparent 70%),
+    radial-gradient(60% 70% at 50% 120%, rgba(30, 34, 160, 0.55), transparent 70%),
+    var(--locker-bg);
+  color: var(--white);
+}
+
+/* Retícula de puntos que se desvanece hacia el centro */
+.locker::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(70% 80% at 80% 50%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(70% 80% at 80% 50%, #000 0%, transparent 75%);
+}
+
+.locker__grid {
+  display: grid;
+  gap: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  align-items: center;
+}
+
+/* Tamaño y dos tonos: los comunes de los títulos de sección (fit.css); colores sobre azul */
+.locker__title {
+  color: var(--white);
+}
+
+.locker .tt-light {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.locker .tt-strong {
+  color: var(--white);
+}
+
+.locker .tt-accent {
+  color: var(--white);
+}
+
+.locker__lead {
+  max-width: 40rem;
+  margin-top: clamp(1rem, 0.8rem + 0.8vw, 1.5rem);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+/* Pasos en tarjetas: solo título y descripción */
+.locker__steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: clamp(2rem, 1.5rem + 2vw, 3rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.locker__card {
+  padding: 24px 24px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  background: var(--locker-bg);
+  transition:
+    border-color var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+
+.locker__card:hover {
+  border-color: var(--white);
+  transform: translateY(-3px);
+}
+
+.locker__cta {
+  margin-top: clamp(1.75rem, 1.4rem + 1vw, 2.5rem);
+  box-shadow: 0 16px 30px -18px rgba(215, 25, 32, 0.95);
+}
+
+/* Número pequeño en rojo sobre el título */
+.locker__num {
+  display: block;
+  margin-bottom: 10px;
+  font-family: 'Inter Variable', 'Inter', var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: #ff4d58;
+}
+
+.locker__steps h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--white);
+  transition: color var(--t-fast) var(--ease);
+}
+
+.locker__card:hover h3 {
+  color: #ff6b74;
+}
+
+.locker__steps p {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ---------- Etiqueta de envío ---------- */
+.locker__visual {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  margin-inline: auto;
+  --lk-top: clamp(150px, 13vw, 190px);
+  padding-top: var(--lk-top);
+  padding-bottom: 40px;
+}
+
+/* Ruta Miami → Colombia sobre la etiqueta */
+.locker__route {
+  position: absolute;
+  top: 0;
+  left: -2%;
+  width: 104%;
+  height: auto;
+  overflow: visible;
+  fill: var(--white);
+}
+
+.locker__route-line {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 3;
+  stroke-dasharray: 3 10;
+  stroke-linecap: round;
+  animation: locker-dash 1.6s linear infinite;
+}
+
+.locker__flag {
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+}
+
+.locker__flag-ring {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 3;
+}
+
+.locker__plane {
+  fill: var(--white);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
+
+@keyframes locker-dash {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+
+/* Caja de cartón asomando detrás de la etiqueta */
+.locker__box {
+  position: absolute;
+  inset: auto 4% 10px 6%;
+  height: 72%;
+  border-radius: 16px;
+  background: linear-gradient(160deg, #d9a96c 0%, #c38d4f 55%, #a87436 100%);
+  transform: rotate(6deg) translate(18px, -26px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 50px 80px -30px rgba(0, 0, 0, 0.7);
+}
+
+.locker__tape {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: 50%;
+  width: 18%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(255, 244, 214, 0.55), rgba(255, 244, 214, 0.3));
+}
+
+.label {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1.5px solid #e2dfd2;
+  border-radius: 14px;
+  background: #fbfaf4;
+  color: #111;
+  font-family: var(--mono);
+  transform: rotate(-2deg);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.06),
+    0 40px 70px -30px rgba(0, 0, 0, 0.65);
+  transition: transform 500ms var(--ease);
+}
+
+.locker__visual:hover .label {
+  transform: rotate(0deg) translateY(-6px);
+}
+
+.label__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px 16px 36px;
+  border-bottom: 3px solid #111;
+}
+
+.label__logo {
+  width: clamp(120px, 26%, 150px);
+  height: auto;
+}
+
+.label__code {
+  padding: 4px 14px;
+  border: 3px solid #111;
+  font-family: var(--font);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.label__mid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(110px, 26%, 150px);
+  border-bottom: 3px solid #111;
+}
+
+.label__to {
+  padding: 20px 16px 18px 26px;
+  border-right: 3px solid #111;
+  font-size: clamp(0.875rem, 0.8rem + 0.35vw, 1.0625rem);
+  line-height: 1.6;
+}
+
+.label__caption {
+  margin-bottom: 10px;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.label__name {
+  font-size: 1.15em;
+  font-weight: 700;
+}
+
+.label__to mark {
+  padding: 1px 7px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.label__dest {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  padding: 16px;
+}
+
+.label__dest strong {
+  font-family: var(--font);
+  font-size: clamp(2.5rem, 1.8rem + 2.4vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.label__dest span {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #444;
+}
+
+.label__bottom {
+  padding: 20px 26px 22px 54px;
+  text-align: center;
+}
+
+.label__barcode {
+  display: block;
+  width: 100%;
+  height: clamp(56px, 10vw, 84px);
+  fill: #111;
+}
+
+.label__bottom p {
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.3em;
+}
+
+/* Móvil congelado: la sección se muestra desde tablet */
+@media (max-width: 699px) {
+  .locker {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .locker__grid {
+    /* Texto más ancho: el título de dos tonos cabe en dos líneas */
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .locker__route-line {
+    animation: none;
+  }
+
+  .label {
+    transition: none;
+  }
+}
+
+/* ---------- Escritorio: toda la sección cabe en una pantalla ---------- */
+@media (min-width: 1024px) {
+  .locker {
+    display: flex;
+    align-items: center;
+    min-height: calc(100vh - var(--header-h) - 16px); /* cabecera flotante */
+    padding-block: clamp(1.5rem, 4.5vh, 4rem);
+  }
+
+  .locker > .container {
+    width: 100%;
+  }
+
+  .locker__grid {
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+
+  .locker__lead {
+    margin-top: clamp(0.75rem, 1.6vh, 1.25rem);
+    font-size: clamp(1rem, 0.6rem + 0.9vh, 1.1875rem);
+  }
+
+  /* Tarjetas 2×2 que se ajustan a la altura de la pantalla */
+  .locker__steps {
+    margin-top: clamp(1.25rem, 3vh, 2.25rem);
+  }
+
+  .locker__card {
+    padding: clamp(18px, 2.6vh, 26px) 22px clamp(16px, 2.4vh, 24px);
+  }
+
+  .locker__steps h3 {
+    font-size: clamp(1.0625rem, 0.6rem + 1vh, 1.25rem);
+  }
+
+  .locker__steps p {
+    font-size: clamp(0.875rem, 0.6rem + 0.5vh, 0.9375rem);
+  }
+
+  .locker__cta {
+    margin-top: clamp(1.25rem, 3vh, 2rem);
+  }
+
+  /* Etiqueta limitada por la altura de la pantalla */
+  .locker__visual {
+    --lk-top: clamp(110px, 15vh, 170px);
+    max-width: min(600px, 66vh);
+    padding-bottom: 24px;
+  }
+}

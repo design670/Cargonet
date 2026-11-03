@@ -904,3 +904,39 @@
     transform: translateX(calc(var(--i) * -1 * (var(--card) + var(--gap))));
   }
 }
+
+/* Puntos de cada paso, con flecha roja */
+.sc-card__points {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sc-card__points li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* Punto rojo centrado en la primera línea */
+.sc-card__points li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: calc(0.725em - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+/* Lista vertical (móvil): los puntos van en la columna del texto */
+.step__points {
+  grid-column: 2;
+  margin-top: 12px;
+}

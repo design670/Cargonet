@@ -1,59 +1,61 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { Icon, type IconName } from '../components/Icon';
-import { links } from '../content/site';
 
 /**
  * Recorrido de pasos estilo carrusel (solo tablet/desktop; en móvil se usa
  * la lista vertical original). Navegación manual: flechas, píldoras, teclado,
  * clic en la tarjeta lateral o arrastre. No avanza solo ni captura el scroll.
  */
-type Step = {
+export type Step = {
   title: string;
   text: string;
+  points: string[];
   icon: IconName;
   phase: 'Antes de Miami' | 'Desde Miami';
-  cta?: { label: string; href: string; external?: boolean };
 };
 
-const steps: Step[] = [
+/** Pasos del servicio: los usa este carrusel y la lista vertical de móvil (HowItWorks). */
+export const steps: Step[] = [
   {
-    title: 'Crea tu casillero',
-    text: 'Regístrate en CargoNet USA y obtén los datos de tu casillero para recibir tus compras en Estados Unidos.',
+    title: 'Casillero en Miami',
+    text: 'Tu dirección en EE.UU. para comprar en cualquier tienda y recibir en Colombia.',
+    points: ['Dirección con tu código personal', 'Recepción y escaneo de cada paquete', 'Consolidación cuando aplica'],
     icon: 'locker',
     phase: 'Antes de Miami',
-    cta: { label: 'Crear mi casillero', href: links.register },
   },
   {
-    title: 'Realiza tu compra y prealerta el paquete',
-    text: 'Compra en la tienda de tu preferencia y registra tu envío en el portal. Adjunta la factura y el número de tracking.',
+    title: 'Prealerta con factura',
+    text: 'Registra tu compra antes de que llegue para identificarla sin demoras ni reprocesos.',
+    points: ['Tracking de la tienda', 'Factura con producto y valor', 'Descripción del contenido'],
     icon: 'clipboard',
     phase: 'Antes de Miami',
-    cta: { label: 'Registrar prealerta', href: links.prealert },
   },
   {
-    title: 'Seguimiento de la transportadora de origen',
-    text: 'Consulta el tracking de tu compra para confirmar cuándo ha sido entregada en nuestra bodega de Miami.',
-    icon: 'route',
-    phase: 'Antes de Miami',
-  },
-  {
-    title: 'Recepción y validación',
-    text: 'Se verifica la identificación del paquete y se revisa la documentación y las condiciones del servicio contratado.',
+    title: 'Validación Courier',
+    text: 'Revisamos que tu envío cumpla los requisitos antes de continuar el proceso.',
+    points: ['Hasta 110 lb de peso real', 'Suma de los 3 lados hasta 3 m', 'Revisión de mercancía restringida'],
     icon: 'shield',
     phase: 'Desde Miami',
-    cta: { label: 'Ver requisitos', href: links.requirementsPdf, external: true },
   },
   {
-    title: 'Transporte internacional',
-    text: 'Tu paquete continúa el proceso logístico. Consulta los estados y novedades que se registren en el sistema.',
-    icon: 'plane',
+    title: 'Seguimiento por estados',
+    text: 'Te avisamos con cada evento real del paquete, sin tiempos supuestos.',
+    points: ['Recepción y salida de Miami', 'Llegada y escaneo en Colombia', 'Reparto y entrega'],
+    icon: 'route',
     phase: 'Desde Miami',
-    cta: { label: 'Rastrear mi envío', href: links.tracking },
   },
   {
-    title: 'Despacho y entrega',
-    text: 'Cuando complete las etapas operativas y las validaciones necesarias, el envío continúa hacia su despacho y entrega.',
-    icon: 'pin',
+    title: 'Gestión de novedades',
+    text: 'Si hay un faltante, una discrepancia o documentos pendientes, te decimos qué hacer.',
+    points: ['Documentación pendiente', 'Faltantes, daños o errores', 'Un asesor revisa tu caso'],
+    icon: 'alert',
+    phase: 'Desde Miami',
+  },
+  {
+    title: 'Carga y exportación',
+    text: 'Para envíos de más de 110 lb, comerciales o desde Colombia, cotizamos con un asesor.',
+    points: ['Carga aérea y marítima', 'Exportación desde Colombia', 'Cotización según volumen'],
+    icon: 'globe',
     phase: 'Desde Miami',
   },
 ];
@@ -164,6 +166,11 @@ export function StepsCarousel() {
                 </div>
                 <h3 className="sc-card__title">{s.title}</h3>
                 <p className="sc-card__text">{s.text}</p>
+                <ul className="sc-card__points">
+                  {s.points.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
               </li>
             );
           })}

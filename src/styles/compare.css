@@ -1,0 +1,176 @@
+/* =========================================================
+   "Sabes qué esperar antes de enviar": comparación + aliados
+   (antes de "Lo que dicen nuestros clientes")
+   ========================================================= */
+.compare {
+  padding-block: var(--section-y);
+  background: var(--white);
+  color: var(--ink);
+}
+
+/* Tamaño y dos tonos: los comunes de los títulos de sección (fit.css) */
+.compare__title {
+  text-align: center;
+}
+
+.compare .tt-accent {
+  color: var(--ink);
+}
+
+.compare__grid {
+  display: grid;
+  gap: 18px;
+  margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+}
+
+.compare__card {
+  position: relative;
+  padding: clamp(24px, 2.4vw, 34px) clamp(22px, 2.4vw, 34px) clamp(26px, 2.6vw, 36px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--white);
+}
+
+.compare__card h3 {
+  margin-bottom: 18px;
+  font-size: clamp(1.25rem, 1.1rem + 0.4vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: #0b0d3d;
+}
+
+.compare__card ul {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compare__card li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.compare__mark {
+  margin-top: 3px;
+  color: #50537a;
+}
+
+/* Tarjeta CargoNet: azul con checks verdes */
+.compare__card--ours {
+  border-color: var(--navy);
+  background: var(--navy);
+  box-shadow: 0 30px 60px -34px rgba(7, 9, 94, 0.7);
+}
+
+.compare__card--ours h3 {
+  color: var(--white);
+}
+
+.compare__card--ours li {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.compare__card--ours .compare__mark {
+  color: #3ddc84;
+  stroke-width: 2.6;
+}
+
+.compare__badge {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--red);
+  color: var(--white);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 20px -10px rgba(215, 25, 32, 0.9);
+}
+
+/* ---------- Aliados ---------- */
+.compare__partners-title {
+  margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0b0d3d;
+}
+
+.compare__partners {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compare__partners li {
+  display: grid;
+  place-items: center;
+  min-height: 124px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+  transition:
+    border-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
+}
+
+.compare__partners li:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* Logos en gris; a color al pasar el mouse */
+.compare__logo {
+  width: auto;
+  max-width: 100%;
+  height: 40px;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition:
+    filter var(--t-fast) var(--ease),
+    opacity var(--t-fast) var(--ease);
+}
+
+.compare__partners li:hover .compare__logo {
+  filter: none;
+  opacity: 1;
+}
+
+.compare__logo--dhl { height: 28px; }
+.compare__logo--latam { height: 34px; }
+.compare__logo--servientrega { height: 44px; }
+.compare__logo--coordinadora { height: 22px; }
+
+/* Móvil congelado: la sección se muestra desde tablet */
+@media (max-width: 699px) {
+  .compare {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .compare__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899px) {
+  .compare__partners {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

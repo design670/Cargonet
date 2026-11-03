@@ -254,3 +254,8 @@
     border-top: 1px solid var(--border);
   }
 }
+
+/* Título: palabra final en negro, no en rojo */
+.tm .tt-accent {
+  color: var(--ink);
+}

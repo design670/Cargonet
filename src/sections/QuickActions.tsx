@@ -1,24 +1,40 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { TwoToneTitle } from '../components/TwoToneTitle';
 import { Icon, type IconName } from '../components/Icon';
-import { QuotePanel } from './track-quote/QuotePanel';
-import { TrackPanel } from './track-quote/TrackPanel';
+import { PrealertTab } from './quick-tools/PrealertTab';
+import { QuoteTab } from './quick-tools/QuoteTab';
+import { TrackTab } from './quick-tools/TrackTab';
 
-type Tab = 'track' | 'quote';
+type Tab = 'quote' | 'track' | 'prealert';
 
 const tabs: { id: Tab; label: string; icon: IconName }[] = [
-  { id: 'track', label: 'Rastrear', icon: 'search' },
   { id: 'quote', label: 'Cotizar', icon: 'calculator' },
+  { id: 'track', label: 'Rastrear', icon: 'search' },
+  { id: 'prealert', label: 'Prealertar', icon: 'bell' },
+];
+
+/** Tiendas de la franja animada detrás del panel (logos de Wikimedia Commons en public/img/tiendas). */
+const stores: { id: string; name: string }[] = [
+  { id: 'ebay', name: 'eBay' },
+  { id: 'walmart', name: 'Walmart' },
+  { id: 'bestbuy', name: 'Best Buy' },
+  { id: 'nike', name: 'Nike' },
+  { id: 'sephora', name: 'Sephora' },
+  { id: 'target', name: 'Target' },
+  { id: 'apple', name: 'Apple' },
+  { id: 'costco', name: 'Costco' },
+  { id: 'shein', name: 'Shein' },
+  { id: 'macys', name: "Macy's" },
+  { id: 'bh', name: 'B&H' },
 ];
 
 /** Enlaces que abren directamente la pestaña Cotizar. */
 export const QUOTE_ANCHOR = '#cotizar-envio';
 
-
-/** Sección "Cotiza o rastrea tu envío": panel con pestañas + accesos secundarios. */
+/** Sección "Cotiza o rastrea tu envío": pestañas Cotizar / Rastrear / Prealertar. */
 export function QuickActions() {
-  const [tab, setTab] = useState<Tab>('track');
-  const tabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({ track: null, quote: null });
+  const [tab, setTab] = useState<Tab>('quote');
+  const tabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({ quote: null, track: null, prealert: null });
 
   // Si se llega desde un botón de cotización, abrir "Cotizar".
   useEffect(() => {
@@ -50,15 +66,29 @@ export function QuickActions() {
 
   return (
     <section id="herramientas" className="quick tq" aria-labelledby="quick-title">
-      <div className="container">
-        <div className="quick__panel tq__panel" id="cotizar-envio">
-          <div className="tq__head" data-reveal>
-            <h2 id="quick-title" className="quick__title tq__title">
-              <TwoToneTitle light="Cotiza o" bold="rastrea tu" accent="envío." />
-            </h2>
-          </div>
+      {/* Franja de tiendas: se ve a los lados del panel, sobre el borde inferior del hero */}
+      <div className="qt-stores">
+        <p className="sr-only">Compra en tiendas de EE.UU. como {stores.map((s) => s.name).join(', ')}.</p>
+        <div className="qt-stores__track" aria-hidden="true">
+          {[0, 1].map((copy) => (
+            <ul key={copy} className="qt-stores__list">
+              {stores.map((s) => (
+                <li key={s.id}>
+                  <img className={`qt-stores__logo qt-stores__logo--${s.id}`} src={`/img/tiendas/${s.id}.svg`} alt="" loading="lazy" />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
 
-          <div className="tq__tabs" role="tablist" aria-label="Rastrear o cotizar" onKeyDown={onKey}>
+      <div className="container">
+        <div className="qt" id="cotizar-envio">
+          <h2 id="quick-title" className="qt__title" data-reveal>
+            <TwoToneTitle light="Cotiza o" bold="rastrea tu" accent="envío." />
+          </h2>
+
+          <div className="qt__tabs" role="tablist" aria-label="Cotizar, rastrear o prealertar" onKeyDown={onKey}>
             {tabs.map((t) => (
               <button
                 key={t.id}
@@ -67,28 +97,26 @@ export function QuickActions() {
                 }}
                 type="button"
                 role="tab"
-                id={`tq-tab-${t.id}`}
+                id={`qt-tab-${t.id}`}
                 aria-selected={tab === t.id}
-                aria-controls={`tq-panel-${t.id}`}
+                aria-controls={`qt-panel-${t.id}`}
                 tabIndex={tab === t.id ? 0 : -1}
-                className={tab === t.id ? 'tq__tab is-active' : 'tq__tab'}
+                className={tab === t.id ? 'qt__tab is-active' : 'qt__tab'}
                 onClick={() => setTab(t.id)}
               >
-                <Icon name={t.icon} size={20} />
+                <Icon name={t.icon} size={18} />
                 <span>{t.label}</span>
               </button>
             ))}
           </div>
 
-          {/* Ambos paneles permanecen montados para conservar los datos al cambiar de pestaña */}
-          <div role="tabpanel" id="tq-panel-track" aria-labelledby="tq-tab-track" hidden={tab !== 'track'} className="tq__panelbody">
-            <TrackPanel />
-          </div>
-          <div role="tabpanel" id="tq-panel-quote" aria-labelledby="tq-tab-quote" hidden={tab !== 'quote'} className="tq__panelbody">
-            <QuotePanel />
-          </div>
+          {/* Los paneles permanecen montados para conservar los datos al cambiar de pestaña */}
+          {tabs.map((t) => (
+            <div key={t.id} role="tabpanel" id={`qt-panel-${t.id}`} aria-labelledby={`qt-tab-${t.id}`} hidden={tab !== t.id} className="qt__body">
+              {t.id === 'quote' ? <QuoteTab /> : t.id === 'track' ? <TrackTab /> : <PrealertTab />}
+            </div>
+          ))}
         </div>
-
       </div>
     </section>
   );

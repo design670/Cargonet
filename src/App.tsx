@@ -1,11 +1,13 @@
 import { WhatsAppFab } from './components/WhatsAppFab';
 import { useReveal } from './hooks/useReveal';
 import { Closing } from './sections/Closing';
+import { Compare } from './sections/Compare';
 import { Faq } from './sections/Faq';
 import { Footer } from './sections/Footer';
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
 import { HowItWorks } from './sections/HowItWorks';
+import { Locker } from './sections/Locker';
 import { QuickActions } from './sections/QuickActions';
 import { Quote } from './sections/Quote';
 import { Services } from './sections/Services';
@@ -24,9 +26,11 @@ export default function App() {
         <Hero />
         <QuickActions />
         <WhyUs placement="top" />
+        <Locker />
         <Services />
         <HowItWorks />
         <WhyUs placement="bottom" />
+        <Compare />
         <Testimonials />
         <Quote />
         <Faq />

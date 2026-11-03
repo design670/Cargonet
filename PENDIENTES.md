@@ -78,7 +78,7 @@ documento "Estructura landing CargoNet" y necesitan visto bueno antes de publica
 
 | Sección | En el documento | En la página |
 | --- | --- | --- |
-| Hero (titular, texto y CTA) | "Tus compras y envíos internacionales, con el respaldo que necesitas." + párrafo + "Crear mi casillero USA" | Texto nuevo entregado por la agencia: "Tus compras internacionales, en buenas manos." + párrafo nuevo + "Crear mi casillero" (solo tablet/desktop; móvil conserva el texto del documento) |
+| Hero (titular, texto y CTA) | "Tus compras y envíos internacionales, con el respaldo que necesitas." + párrafo + "Crear mi casillero USA" | Texto nuevo entregado por la agencia: "Compra en USA. Recíbelo en Colombia." + párrafo nuevo + "Crear mi casillero" (solo tablet/desktop; móvil conserva el texto del documento) |
 | Servicios | Párrafo completo de cada servicio | Versión de una línea en desktop (en móvil sigue completo) |
 | Cómo funciona | Texto completo de los 6 pasos | Versiones más cortas |
 | Nota de despachos | Incluía "Las condiciones definitivas deben ser confirmadas…" | Se omitió esa frase (nota interna) |
@@ -112,34 +112,51 @@ documento "Estructura landing CargoNet" y necesitan visto bueno antes de publica
 - Introducción de "Cómo funciona" ("Queremos que sepas qué hacer…"): se oculta en pantallas de 900 px de alto o menos.
 - Por instrucción del documento: sección del portal de usuarios y la pregunta sobre saldo y pagos.
 
-## 7. Panel "Cotiza o rastrea tu envío" (rastreo y cotización aproximada)
+## 7. Panel "Cotiza o rastrea tu envío" (Cotizar / Rastrear / Prealertar)
 
-Implementado en `src/sections/QuickActions.tsx` y `src/sections/track-quote/`.
-Lógica separada en `src/lib/quote-engine.ts` y `src/lib/tracking.ts`.
+Rediseñado el 2026-11-03 (todas las resoluciones, móvil incluido, por instrucción de la agencia).
+Implementado en `src/sections/QuickActions.tsx` y `src/sections/quick-tools/`; estilos en `src/styles/quick-tools.css`.
+Tarifa en `src/lib/courier-rates.ts`; rastreo en `src/lib/tracking.ts`.
 
-**Estado actual en producción (sin integraciones):**
-- Rastrear: muestra "El rastreo desde esta página todavía no está conectado" y enlaza al portal 4plbox.
-- Cotizar: valida los datos y muestra debajo de "Calcular tarifas" el "Valor de la tarifa aproximada" con Flete, Impuesto, Seguro y Total, igual que el cotizador actual (cargonetusa.com/cotizar-importacion-courier/). Sin tarifas cargadas muestra "Precio por confirmar. Consúltalo con un asesor".
-- La fórmula replica la del cotizador actual (4plbox): flete = peso cobrado × tarifa; impuesto = % del valor declarado por caja cuando supera USD 200; seguro por caja. Los valores reales (tarifa, % de impuesto, seguro, cobro por peso volumen) están en el sistema 4plbox de CargoNet (servicios "Courier" y "Courier marítimo"); no se copiaron. CargoNet debe entregarlos o autorizar la conexión. Diferencia: aquí el impuesto se multiplica por la cantidad de cajas; en 4plbox se calcula una vez por fila.
-- No se muestra ningún precio, plazo ni movimiento inventado.
+**Cotizar (courier Miami → Colombia), datos confirmados por la agencia:**
+- Tarifa USD 2,20 por libra de 1 a 8 lb y USD 1,80 desde 9 lb (dato de la sección "Sabes qué esperar", 2026-11-03). Confirmar qué tarifa aplica entre 8 y 9 lb (hoy: 2,20 por debajo de 9 lb). Límites courier: 110 lb de peso real, USD 2.000 y suma de los 3 lados hasta 3 m. Si se supera, se ofrece cotizar como carga con un asesor (WhatsApp).
+- Producto de EE.UU. con valor hasta USD 200: arancel e IVA "no aplica".
+- "Empezar mi envío" lleva al registro de casillero (4plbox).
 
-**Modo demostración** (datos y tarifas FICTICIOS, marcados en pantalla):
-- En desarrollo: abrir la página con `?demo`.
-- En una versión de revisión: `VITE_DEMO_MODE=true`.
-- Guías de prueba: `0000` → no encontrada; `error` → error de conexión; cualquier otra → envío de ejemplo.
+**Pendiente de confirmar con CargoNet (hoy se muestran como "Por confirmar" y no se suman al total):**
+- Porcentaje de arancel e IVA cuando aplican (producto de otro país o valor mayor a USD 200).
+- Cobro por pieza adicional.
+- Divisor del peso volumétrico (mientras no exista, las medidas no cambian el flete).
+- Redondeo del peso (hoy se cobra el peso exacto escrito, p. ej. 6,5 lb).
 
-**Para habilitar una cotización comercial, CargoNet debe entregar por servicio:**
-- Tarifa por libra/kilo, cargo mínimo y cargos adicionales.
-- Divisor volumétrico y sus unidades; regla de redondeo; si el peso se compara por caja o por envío.
-- Tiempo estimado (rango de días hábiles) y desde qué evento se cuenta.
-- Si los impuestos están incluidos o excluidos (hoy: "Impuestos no calculados").
-- Cobertura de destinos para exportación.
-- Confirmar qué servicios exigen dimensiones (hoy: obligatorias en carga, opcionales en courier).
-- Se cargan en `rateConfigs` (quote-engine.ts) o vía API con `VITE_RATES_ENDPOINT`.
+**Rastrear:**
+- Sin API de rastreo: remite al portal 4plbox. Para conectarlo: `VITE_TRACKING_ENDPOINT`.
+- La guía de ejemplo `CNU-240817` muestra los estados marcados como "Guía de ejemplo". Confirmar el formato real de guía y los nombres de los estados (hoy: Prealertado, Recibido en bodega Miami, En tránsito a Colombia, En aduana, En reparto, Entregado).
 
-**Para habilitar el rastreo en la página:** una API de consulta por guía (`VITE_TRACKING_ENDPOINT`). El portal 4plbox actual no expone una API pública conocida.
+**Prealertar:**
+- Sin servicio conectado: valida los datos y abre WhatsApp con la prealerta; la factura se adjunta en el chat (un enlace de WhatsApp no puede llevar archivos).
+- Confirmar el formato del número de casillero (ejemplo usado: `CNU-00000`).
+- Enlace secundario a la prealerta oficial del casillero (4plbox).
 
-**Para decidir:** la página tiene ahora dos cotizadores (este panel y el formulario de "4 modalidades de envío" más abajo). Definir si se mantienen ambos.
+**Franja de tiendas (≥700px, detrás del panel, sobre el rojo del hero):**
+- Logos de eBay, Walmart, Best Buy, Nike, Sephora, Target, Apple, Costco, Shein, Macy's y B&H descargados de Wikimedia Commons (2026-11-03) en `public/img/tiendas/`, mostrados en blanco.
+- Son marcas registradas de terceros: CargoNet debe confirmar que puede usarlas en su publicidad (uso referencial "compra en estas tiendas"). Si alguna marca pide retirarla, basta con quitarla de la lista `stores` en `QuickActions.tsx`.
+
+**Para decidir:** la página tiene dos cotizadores (este panel y el formulario de "4 modalidades de envío" más abajo). Definir si se mantienen ambos.
+
+## Casillero virtual (sección nueva antes de "Soluciones logísticas")
+
+Agregada el 2026-11-03 en `src/sections/Locker.tsx` y `src/styles/locker.css`. Fondo azul, 4 pasos y etiqueta de envío con la dirección de la bodega (de `site.ts`).
+- Solo se muestra en tablet/desktop (≥700px); en móvil está oculta mientras la versión móvil siga congelada.
+- Confirmar con CargoNet: "Registro en 2 pasos", el formato del código de casillero (`CNU-00000`) y si la dirección se escribe "50th Street" (en el sitio actual aparece "50 Street").
+
+## "Sabes qué esperar antes de enviar" (sección nueva antes de testimonios)
+
+Agregada el 2026-11-03 en `src/sections/Compare.tsx` y `src/styles/compare.css`: comparación "Comprando directo al exterior" vs. "Con tu casillero CargoNet" y fila de aliados.
+- Solo se muestra en tablet/desktop (≥700px); en móvil está oculta mientras la versión móvil siga congelada.
+- Logos de aliados en `public/img/aliados/`: FedEx, DHL y LATAM de Wikimedia Commons; Servientrega y Coordinadora de sus sitios oficiales. Se muestran en gris y a color al pasar el mouse.
+- Confirmar con CargoNet que FedEx, DHL, LATAM, Servientrega y Coordinadora son aliados reales y que pueden mostrarse sus logos.
+- Confirmar el dato "cobran envíos de US$50 o más".
 
 ## Testimonios (sección nueva antes de Preguntas frecuentes)
 

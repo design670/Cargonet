@@ -3,54 +3,22 @@ import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { SectionHeading } from '../components/SectionHeading';
 import { links } from '../content/site';
-import { StepsCarousel } from './StepsCarousel';
+import { StepsCarousel, steps, type Step } from './StepsCarousel';
 
-type Step = { n: number; title: string; text: string };
-
-const phases: { id: string; title: string; who: string; steps: Step[] }[] = [
+/** Lista vertical de móvil: los mismos pasos del carrusel, agrupados por fase. */
+const numbered = steps.map((s, i) => ({ ...s, n: i + 1 }));
+const phases: { id: string; title: string; who: string; steps: (Step & { n: number })[] }[] = [
   {
     id: 'fase-origen',
     title: 'Hasta nuestra bodega en Miami',
     who: 'Seguimiento con el tracking de la tienda o transportadora de origen.',
-    steps: [
-      {
-        n: 1,
-        title: 'Crea tu casillero',
-        text: 'Regístrate en CargoNet USA y obtén los datos de tu casillero para recibir tus compras en Estados Unidos.',
-      },
-      {
-        n: 2,
-        title: 'Realiza tu compra y prealerta el paquete',
-        text: 'Compra en la tienda de tu preferencia y registra tu envío en el portal. Adjunta la factura y el número de tracking para facilitar su identificación.',
-      },
-      {
-        n: 3,
-        title: 'Seguimiento de la transportadora de origen',
-        text: 'Consulta el tracking de tu compra para verificar su recorrido y confirmar cuándo ha sido entregada en nuestra bodega de Miami.',
-      },
-    ],
+    steps: numbered.filter((s) => s.phase === 'Antes de Miami'),
   },
   {
     id: 'fase-cargonet',
     title: 'Con CargoNet USA',
     who: 'Los eventos se registran en tu cuenta CargoNet USA desde la recepción.',
-    steps: [
-      {
-        n: 4,
-        title: 'Recepción y validación',
-        text: 'Una vez recibido el paquete, se verifica su identificación y se revisa la documentación y las condiciones aplicables al servicio contratado.',
-      },
-      {
-        n: 5,
-        title: 'Transporte internacional',
-        text: 'Tu paquete continúa el proceso logístico correspondiente. Podrás consultar los estados y las novedades que se registren en el sistema.',
-      },
-      {
-        n: 6,
-        title: 'Despacho y entrega',
-        text: 'Cuando complete las etapas operativas y las validaciones necesarias, el envío continuará hacia su despacho y entrega.',
-      },
-    ],
+    steps: numbered.filter((s) => s.phase === 'Desde Miami'),
   },
 ];
 
@@ -107,6 +75,11 @@ export function HowItWorks() {
                       {s.title}
                     </h4>
                     <p className="step__text">{s.text}</p>
+                    <ul className="sc-card__points step__points">
+                      {s.points.map((p) => (
+                        <li key={p}>{p}</li>
+                      ))}
+                    </ul>
                   </li>
                 ))}
               </ol>
