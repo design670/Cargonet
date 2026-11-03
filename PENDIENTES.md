@@ -150,13 +150,12 @@ Agregada el 2026-11-03 en `src/sections/Locker.tsx` y `src/styles/locker.css`. F
 - Solo se muestra en tablet/desktop (≥700px); en móvil está oculta mientras la versión móvil siga congelada.
 - Confirmar con CargoNet: "Registro en 2 pasos", el formato del código de casillero (`CNU-00000`) y si la dirección se escribe "50th Street" (en el sitio actual aparece "50 Street").
 
-## "Sabes qué esperar antes de enviar" (sección nueva antes de testimonios)
+## "Nuestros aliados" (sección nueva antes de testimonios)
 
-Agregada el 2026-11-03 en `src/sections/Compare.tsx` y `src/styles/compare.css`: comparación "Comprando directo al exterior" vs. "Con tu casillero CargoNet" y fila de aliados.
+En `src/sections/Compare.tsx` y `src/styles/compare.css`: título grande "Nuestros aliados." y fila de 5 logos. (La comparación "Comprando directo al exterior" vs. "Con tu casillero CargoNet" se quitó el 2026-11-03.)
 - Solo se muestra en tablet/desktop (≥700px); en móvil está oculta mientras la versión móvil siga congelada.
 - Logos de aliados en `public/img/aliados/`: FedEx, DHL y LATAM de Wikimedia Commons; Servientrega y Coordinadora de sus sitios oficiales. Se muestran en gris y a color al pasar el mouse.
 - Confirmar con CargoNet que FedEx, DHL, LATAM, Servientrega y Coordinadora son aliados reales y que pueden mostrarse sus logos.
-- Confirmar el dato "cobran envíos de US$50 o más".
 
 ## Testimonios (sección nueva antes de Preguntas frecuentes)
 

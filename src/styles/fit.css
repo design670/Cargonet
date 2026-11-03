@@ -821,14 +821,30 @@
   display: none;
 }
 
+/* Franja de íconos oculta en tablet/desktop (2026-11-03); en móvil sigue why--bottom */
 @media (min-width: 700px) {
-  .why--top {
-    display: block;
-    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
-  }
-
+  .why--top,
   .why--bottom {
     display: none;
+  }
+}
+
+/* "Antes de cotizar, revisa" sube justo después de "Cotiza o rastrea tu envío"
+   (≥700px; en móvil la sección Cotizar sigue en su lugar con el formulario) */
+@media (min-width: 700px) {
+  #contenido {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #contenido > .hero,
+  #contenido > .quick {
+    order: -2;
+  }
+
+  #contenido > #cotizar {
+    order: -1;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
   }
 }
 
@@ -959,5 +975,13 @@
 @media (min-width: 1080px) {
   html .site-header__logo img {
     height: 64px;
+  }
+}
+
+/* Cierre: título más pequeño que el resto (≥700px) */
+@media (min-width: 700px) {
+  html .closing h2.closing__title:has(.tt-light) {
+    font-size: clamp(1.875rem, 1.25rem + 1.6vw, 2.875rem);
+    line-height: 1.1;
   }
 }

@@ -5,8 +5,6 @@
 .locker {
   --locker-bg: #05054a;
   --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  /* Aire blanco tras la franja de íconos (que no tiene margen inferior) */
-  margin-top: clamp(2.5rem, 6vh, 4rem);
   position: relative;
   isolation: isolate;
   overflow: hidden;

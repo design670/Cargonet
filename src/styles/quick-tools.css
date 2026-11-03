@@ -31,21 +31,30 @@ html .quick .qt__title {
   display: inline;
 }
 
-/* ---------- Franja de tiendas (detrás del panel, ≥700px) ---------- */
+/* ---------- Franja de tiendas (sobre el rojo del hero, justo encima del panel, ≥1080px) ---------- */
 .qt-stores {
   display: none;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 1080px) {
+  /* La foto del hero se reduce lo que mide la franja, así el hero conserva su alto */
+  .hero {
+    --stores-h: 72px;
+    --hero-photo: min(46vw, 660px, calc(100vh - 230px - var(--stores-h)));
+    min-height: calc(var(--header-h) + var(--hero-photo) + 112px + 28px + var(--stores-h));
+    /* El texto se centra en el espacio que queda por encima de la franja */
+    padding-bottom: calc(160px + var(--stores-h) + 24px);
+  }
+
   .qt-stores {
     position: absolute;
-    top: 0;
+    top: -72px;
     left: 0;
     right: 0;
     z-index: 0;
     display: flex;
     align-items: center;
-    height: calc(var(--tq-overlap) * -1);
+    height: 72px;
     overflow: hidden;
     background: transparent; /* deja ver el rojo del hero */
   }
@@ -64,12 +73,15 @@ html .quick .qt__title {
     animation-play-state: paused;
   }
 
-  .qt-stores__list {
+  /* Mitad del espacio a cada lado: entre las dos copias queda el mismo espacio que entre logos
+     (ul.… para ganarle al reset global ul[class] { padding: 0 }) */
+  ul.qt-stores__list {
+    --stores-gap: clamp(2.5rem, 1.5rem + 2.5vw, 4.5rem);
     display: flex;
     align-items: center;
-    gap: clamp(2.5rem, 1.5rem + 2.5vw, 4.5rem);
+    gap: var(--stores-gap);
     margin: 0;
-    padding: 0 clamp(1.25rem, 0.75rem + 1.25vw, 2.25rem);
+    padding: 0 calc(var(--stores-gap) / 2);
     list-style: none;
   }
 
