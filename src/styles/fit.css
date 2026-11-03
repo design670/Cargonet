@@ -666,9 +666,9 @@
   }
 
   #cotizar .prep__title {
-    font-size: clamp(2.5rem, min(1.6rem + 2.4vw, 7.4vh), 4rem);
+    font-size: clamp(1.75rem, 1.2rem + 1.4vw, 2.5rem);
     font-weight: 700;
-    line-height: 1.04;
+    line-height: 1.1;
     letter-spacing: -0.022em;
     color: var(--ink);
   }
@@ -829,7 +829,7 @@
   }
 }
 
-/* "Antes de cotizar, revisa" sube justo después de "Cotiza o rastrea tu envío"
+/* La sección de requisitos sube justo después de "Cotiza o rastrea tu envío"
    (≥700px; en móvil la sección Cotizar sigue en su lugar con el formulario) */
 @media (min-width: 700px) {
   #contenido {
@@ -983,5 +983,27 @@
   html .closing h2.closing__title:has(.tt-light) {
     font-size: clamp(1.875rem, 1.25rem + 1.6vw, 2.875rem);
     line-height: 1.1;
+  }
+}
+
+/* Tarjetas de requisitos: fondo blanco al pasar el cursor (≥700px) */
+@media (min-width: 700px) {
+  #cotizar .quote__aside .info-list a.prep-tile,
+  #cotizar .quote__aside .info-list a.prep-tile:hover {
+    /* El margen negativo agranda la tarjeta sin mover el contenido; ancho y alto suman ese margen */
+    width: calc(100% + 36px);
+    height: calc(100% + 32px);
+    margin: -16px -18px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    transition:
+      background var(--t-fast) var(--ease),
+      box-shadow var(--t-fast) var(--ease);
+  }
+
+  #cotizar .quote__aside .info-list a.prep-tile:hover,
+  #cotizar .quote__aside .info-list a.prep-tile:focus-visible {
+    background: var(--white);
+    box-shadow: 0 16px 34px -20px rgba(25, 25, 25, 0.35);
   }
 }

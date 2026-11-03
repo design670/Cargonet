@@ -266,12 +266,8 @@ export function Quote() {
               <div className="prep__head">
                 <div>
                   <h3 className="prep__title">
-                    <span className="tt-light">Antes de cotizar,</span>{' '}
-                    <span className="tt-strong">
-                      <em className="tt-accent">revisa</em>
-                    </span>
+                    <TwoToneTitle light="Información clave" bold="para preparar tu" accent="envío." />
                   </h3>
-                  <p className="prep__subtitle">Información clave para preparar tu envío.</p>
                 </div>
               </div>
 
@@ -283,7 +279,8 @@ export function Quote() {
                     <li key={l.label}>
                       <a className="prep-tile" href={l.href} target="_blank" rel="noopener noreferrer">
                         <span className="prep-tile__icon" aria-hidden="true">
-                          <Icon name={l.icon} size={22} />
+                          {/* Mismo ícono de documento en las 4 tarjetas */}
+                          <Icon name="file" size={22} />
                         </span>
                         <span className="prep-tile__label">{l.label}</span>
                         <span className="prep-tile__meta">
