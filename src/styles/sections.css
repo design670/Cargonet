@@ -3490,3 +3490,119 @@ ul.services__track {
 .faq .tt-accent {
   color: var(--ink);
 }
+
+/* =========================================================
+   Servicios: solo Importación y Exportación, detalle en acordeón
+   ========================================================= */
+/* El botón que despliega se ve igual que el enlace anterior */
+button.service-card__cta {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Abierta: el detalle reemplaza al texto corto, con transición suave en ambos sentidos */
+.service-card__text {
+  max-height: 8em;
+  overflow: hidden;
+  transition:
+    max-height 450ms var(--ease),
+    opacity 300ms var(--ease);
+}
+
+.service-card.is-open .service-card__text {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* El detalle crece de 0 a su alto real (grid 0fr → 1fr) y aparece con un fundido */
+.service-card__details {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+  transition:
+    grid-template-rows 550ms var(--ease),
+    margin-top 550ms var(--ease),
+    opacity 400ms var(--ease) 100ms;
+}
+
+.service-card.is-open .service-card__details {
+  grid-template-rows: 1fr;
+  margin-top: 12px;
+  opacity: 1;
+}
+
+.service-card__details-inner {
+  display: grid;
+  gap: 14px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card__text,
+  .service-card__details {
+    transition: none;
+  }
+}
+
+.service-card__full {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.service-card__modes {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-card__modes li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.service-card__modes li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.service-card__modes strong {
+  color: var(--ink);
+}
+
+.service-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-bottom: 4px;
+}
+
+.service-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

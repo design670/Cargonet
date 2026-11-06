@@ -23,6 +23,8 @@ export const links = {
   terms: `${SITE}/terminos-y-condiciones/`,
   pqr: `${SITE}/pqr-y-devoluciones/`,
   contact: `${SITE}/contactenos/`,
+  /** Dónde dejar una reseña (Google, Facebook…). Pendiente de definir: mientras sea null, el botón abre WhatsApp. */
+  review: null as string | null,
   facebook: 'https://www.facebook.com/Cargonetusa/',
   instagram: 'https://www.instagram.com/cargonetusa/',
 } as const;

@@ -1,13 +1,14 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { Icon } from '../../components/Icon';
-import { links } from '../../content/site';
+import { links, whatsappLink } from '../../content/site';
 import { trackShipment, type TrackingResult } from '../../lib/tracking';
+import { steps } from '../StepsCarousel';
 
 const EXAMPLE_GUIDE = 'CNU-240817';
 
-/** Estados que verá el cliente, en orden. Solo ilustran la guía de ejemplo. */
-const exampleSteps = ['Prealertado', 'Recibido en bodega Miami', 'En tránsito a Colombia', 'En aduana', 'En reparto', 'Entregado'];
-const exampleCurrent = 2;
+/** Estados que verá el cliente, en orden: los mismos de la línea de tiempo "De tu compra a la entrega". */
+const exampleSteps = steps.map((s) => s.title);
+const exampleCurrent = exampleSteps.indexOf('Despacho internacional');
 
 type State =
   | { kind: 'idle' }
@@ -27,7 +28,7 @@ export function TrackTab() {
     if (state.kind === 'loading') return;
     const g = guide.trim();
     if (!g) {
-      setError('Escribe tu número de guía.');
+      setError('Escribe tu número de guía o el tracking de la tienda.');
       inputRef.current?.focus();
       return;
     }
@@ -41,7 +42,7 @@ export function TrackTab() {
     <div className="qt-track">
       <form className="qt-track__form" onSubmit={submit} noValidate>
         <label className="field__label" htmlFor="qt-guide">
-          Número de guía
+          Número de guía o tracking
         </label>
         <div className="qt-track__row">
           <input
@@ -49,7 +50,7 @@ export function TrackTab() {
             id="qt-guide"
             name="qt-guide"
             className="field__control qt-mono"
-            placeholder={`Ej. ${EXAMPLE_GUIDE}`}
+            placeholder={`Guía ${EXAMPLE_GUIDE} o tracking de la tienda`}
             autoComplete="off"
             value={guide}
             aria-invalid={error ? true : undefined}
@@ -112,15 +113,57 @@ function ExampleResult() {
   );
 }
 
+/** Mensaje de ayuda: título, explicación y qué hacer. */
+function Help({ icon, title, children }: { icon: 'alert' | 'clock' | 'package' | 'info'; title: string; children: ReactNode }) {
+  return (
+    <div className="qt-msg qt-msg--help">
+      <Icon name={icon} size={18} />
+      <div>
+        <p className="qt-msg__title">{title}</p>
+        <p>{children}</p>
+      </div>
+    </div>
+  );
+}
+
+const advisor = (text: string) => (
+  <a className="qt-link" href={whatsappLink(text)} target="_blank" rel="noopener noreferrer">
+    Escríbenos por WhatsApp<span className="sr-only"> (abre WhatsApp)</span>
+  </a>
+);
+
 function Result({ result, guide, onRetry }: { result: TrackingResult; guide: string; onRetry: () => void }) {
   if (result.status === 'not-found') {
     return (
-      <p className="qt-msg">
-        <Icon name="alert" size={18} />
-        <span>
-          No encontramos la guía <strong>{guide}</strong>. Revisa el número e inténtalo de nuevo.
-        </span>
-      </p>
+      <Help icon="alert" title="Número no encontrado">
+        No encontramos <strong>{guide}</strong>. Revisa que sea tu guía CargoNet o el tracking que te dio la tienda. Si
+        compraste hace poco, <a className="qt-link" href={links.prealert} target="_blank" rel="noopener noreferrer">prealerta tu compra</a> para
+        que podamos identificarla.
+      </Help>
+    );
+  }
+  if (result.status === 'not-received') {
+    return (
+      <Help icon="clock" title="Tracking aún no recibido en Miami">
+        La tienda o su transportadora todavía no han entregado <strong>{guide}</strong> en nuestra bodega. Revisa el tracking
+        con la tienda; si dice entregado y no aparece aquí, {advisor(`Hola, mi tracking ${guide} figura entregado pero no aparece recibido.`)}.
+      </Help>
+    );
+  }
+  if (result.status === 'pending-scan') {
+    return (
+      <Help icon="package" title="Paquete pendiente de pistoleo">
+        <strong>{guide}</strong> llegó a la bodega de Miami y está pendiente de escaneo y registro en tu casillero. Cuando
+        quede registrado verás sus estados aquí.
+      </Help>
+    );
+  }
+  if (result.status === 'issue') {
+    return (
+      <Help icon="alert" title="Novedad o documentación requerida">
+        {result.detail ? `${result.detail} ` : ''}Tu paquete <strong>{guide}</strong> necesita una revisión antes de
+        continuar. Revisa las novedades en tu cuenta o {advisor(`Hola, mi envío ${guide} tiene una novedad.`)}.
+      </Help>
     );
   }
   if (result.status === 'error') {

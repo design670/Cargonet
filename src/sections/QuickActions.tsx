@@ -36,14 +36,24 @@ export function QuickActions() {
   const [tab, setTab] = useState<Tab>('quote');
   const tabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({ quote: null, track: null, prealert: null });
 
-  // Si se llega desde un botón de cotización, abrir "Cotizar".
+  /** Pestaña pedida por el último enlace pulsado (data-qt-tab); la usa el cambio de hash que le sigue. */
+  const requested = useRef<Tab | null>(null);
+
+  // Si se llega desde un botón de cotización, abrir "Cotizar" (o la pestaña que pida el enlace).
   useEffect(() => {
     const openQuote = () => {
-      if (window.location.hash === QUOTE_ANCHOR) setTab('quote');
+      if (window.location.hash !== QUOTE_ANCHOR) return;
+      setTab(requested.current ?? 'quote');
+      requested.current = null;
     };
+    // data-qt-tab="track" / "prealert" en el enlace abre esa pestaña en vez de Cotizar
     const onClick = (e: MouseEvent) => {
-      const a = (e.target as HTMLElement).closest?.(`a[href="${QUOTE_ANCHOR}"]`);
-      if (a) setTab('quote');
+      const a = (e.target as HTMLElement).closest?.<HTMLAnchorElement>(`a[href="${QUOTE_ANCHOR}"]`);
+      if (!a) return;
+      const wanted = a.dataset.qtTab as Tab | undefined;
+      const next = wanted && tabs.some((t) => t.id === wanted) ? wanted : 'quote';
+      requested.current = next;
+      setTab(next);
     };
     openQuote();
     window.addEventListener('hashchange', openQuote);

@@ -2,47 +2,72 @@ import { useEffect, useRef } from 'react';
 import { Icon } from '../components/Icon';
 import { SectionHeading } from '../components/SectionHeading';
 import { TwoToneTitle } from '../components/TwoToneTitle';
+import { links, whatsappLink } from '../content/site';
 
-// Testimonios de ejemplo (inventados) hasta que CargoNet envíe los reales. Ver PENDIENTES.md.
+// Reseñas de clientes con su calificación (1 a 5). Ver PENDIENTES.md: confirmar con CargoNet.
 type Person = { name: string; place: string; initials: string };
 // "video": por ahora muestra una imagen; cuando lleguen los videos reales, esta tarjeta los reproduce.
-type Testimonial = { kind: 'text'; person: Person; quote: string } | { kind: 'video'; person: Person; quote: string; image: string };
+type Testimonial = ({ kind: 'text' } | { kind: 'video'; image: string }) & { person: Person; quote: string; rating: number };
 
 const testimonials: Testimonial[] = [
   {
     kind: 'text',
     person: { name: 'Laura Méndez', place: 'Compradora frecuente, Bogotá', initials: 'LM' },
     quote: 'Compré en tres tiendas distintas y todo llegó junto a mi casillero. Me avisaron en cada paso y nunca tuve que preguntar dónde estaba mi paquete.',
+    rating: 5,
   },
   {
     kind: 'video',
     person: { name: 'Andrés Castillo', place: 'Importador, Barranquilla', initials: 'AC' },
     quote: 'Mis cajas llegan bien embaladas y con la información clara desde Miami hasta mi bodega.',
     image: '/img/servicio-casillero.webp',
+    rating: 5,
   },
   {
     kind: 'text',
     person: { name: 'Carolina Ruiz', place: 'Tienda en línea, Medellín', initials: 'CR' },
     quote: 'Traigo inventario cada mes. Cotizar es rápido y siempre sé cuánto voy a pagar antes de enviar.',
+    rating: 5,
   },
   {
     kind: 'video',
     person: { name: 'Mariana Torres', place: 'Emprendedora, Cartagena', initials: 'MT' },
     quote: 'Exporté mis primeros productos con su acompañamiento. Todo el proceso fue claro.',
     image: '/img/servicio-import-export.webp',
+    rating: 4,
   },
   {
     kind: 'text',
     person: { name: 'Jorge Pineda', place: 'Cliente de casillero, Cali', initials: 'JP' },
     quote: 'Tenía dudas con la prealerta y un asesor me guio por WhatsApp en minutos. La atención es muy cercana.',
+    rating: 5,
   },
   {
     kind: 'video',
     person: { name: 'Felipe Ortega', place: 'Repuestos automotrices, Bucaramanga', initials: 'FO' },
     quote: 'La tarifa fue la que nos cotizaron y la carga llegó en el tiempo acordado.',
     image: '/img/servicio-carga.webp',
+    rating: 4,
   },
 ];
+
+/** Promedio calculado de las reseñas de arriba (no es una cifra fija). */
+const average = testimonials.reduce((s, t) => s + t.rating, 0) / testimonials.length;
+const reviewHref = links.review ?? whatsappLink('Hola, quiero dejar una reseña sobre mi experiencia con CargoNet USA.');
+
+/** Cinco estrellas; `value` admite decimales (relleno parcial de la última). */
+function Stars({ value, size = 16 }: { value: number; size?: number }) {
+  return (
+    <span className="tm-stars" role="img" aria-label={`${value.toFixed(1).replace('.', ',')} de 5 estrellas`}>
+      {[0, 1, 2, 3, 4].map((i) => {
+        const fill = Math.max(0, Math.min(1, value - i));
+        return (
+          <span key={i} className="tm-star" style={{ width: size, height: size, ['--fill' as string]: `${fill * 100}%` }} aria-hidden="true" />
+        );
+      })}
+    </span>
+  );
+}
 
 const SPEED = 40; // px por segundo
 
@@ -65,6 +90,7 @@ function Card({ t }: { t: Testimonial }) {
     return (
       <figure className="tm-card tm-card--video">
         <img src={t.image} alt="" loading="lazy" decoding="async" />
+        <Stars value={t.rating} size={14} />
         <blockquote>{t.quote}</blockquote>
         <figcaption>
           <strong>{t.person.name}</strong>
@@ -76,6 +102,7 @@ function Card({ t }: { t: Testimonial }) {
   return (
     <figure className="tm-card tm-card--text">
       <span className="tm-card__mark" aria-hidden="true">“</span>
+      <Stars value={t.rating} size={14} />
       <blockquote className="tm-card__quote">{t.quote}</blockquote>
       <Author person={t.person} />
     </figure>
@@ -138,6 +165,19 @@ export function Testimonials() {
           title={<TwoToneTitle light="Lo que dicen" bold="nuestros" accent="clientes." />}
           intro="Experiencias de personas y empresas que envían con CargoNet USA."
         />
+
+        {/* Calificación promedio + dejar una reseña */}
+        <div className="tm-summary" data-reveal>
+          <strong className="tm-summary__score">{average.toFixed(1).replace('.', ',')}</strong>
+          <div className="tm-summary__meta">
+            <Stars value={average} size={20} />
+            <span>Promedio de {testimonials.length} reseñas</span>
+          </div>
+          <a className="btn btn--primary btn--sm tm-summary__cta" href={reviewHref} target="_blank" rel="noopener noreferrer">
+            Dejar una reseña
+            <span className="sr-only"> (se abre en una pestaña nueva)</span>
+          </a>
+        </div>
       </div>
       <div
         ref={viewportRef}

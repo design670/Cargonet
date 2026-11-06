@@ -82,3 +82,57 @@ export function estimateCourier(i: CourierInput): CourierEstimate {
 }
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
+
+/* ---------- Prevalidación Courier: una revisión por condición ---------- */
+
+export type CheckId = 'value' | 'weight' | 'sides';
+
+/** `ok: null` = falta el dato para evaluar esa condición. */
+export type CourierCheck = { id: CheckId; label: string; shown: string; limit: string; ok: boolean | null; reason?: string };
+
+export type CourierVerdict = 'pass' | 'fail' | 'pending';
+
+const n2 = (n: number) => n.toLocaleString('es-CO', { maximumFractionDigits: 1 });
+
+export function courierChecks(i: {
+  weightLb: number;
+  valueUsd: number;
+  dims: [number, number, number] | null;
+}): { checks: CourierCheck[]; verdict: CourierVerdict } {
+  const maxValue = `US$${courier.maxValueUsd.toLocaleString('es-CO')}`;
+  const sides = i.dims ? i.dims[0] + i.dims[1] + i.dims[2] : NaN;
+
+  const checks: CourierCheck[] = [
+    {
+      id: 'value',
+      label: 'Valor declarado',
+      shown: i.valueUsd > 0 ? `US$${n2(i.valueUsd)}` : '—',
+      limit: `máx. ${maxValue}`,
+      ok: i.valueUsd > 0 ? i.valueUsd <= courier.maxValueUsd : null,
+      reason: `El valor declarado (US$${n2(i.valueUsd)}) supera el máximo de ${maxValue}.`,
+    },
+    {
+      id: 'weight',
+      label: 'Peso real',
+      shown: i.weightLb > 0 ? `${n2(i.weightLb)} lb` : '—',
+      limit: `máx. ${courier.maxWeightLb} lb`,
+      ok: i.weightLb > 0 ? i.weightLb <= courier.maxWeightLb : null,
+      reason: `El peso real (${n2(i.weightLb)} lb) supera el máximo de ${courier.maxWeightLb} lb.`,
+    },
+    {
+      id: 'sides',
+      label: 'Suma de los 3 lados',
+      shown: sides > 0 ? `${n2(sides)} pulg (${n2(sides * 2.54)} cm)` : '—',
+      limit: `máx. 3 m (${Math.round(courier.maxSidesIn)} pulg)`,
+      ok: sides > 0 ? sides <= courier.maxSidesIn : null,
+      reason: `La suma de los 3 lados (${n2(sides * 2.54)} cm) supera el máximo de 3 m.`,
+    },
+  ];
+
+  const verdict: CourierVerdict = checks.some((c) => c.ok === false)
+    ? 'fail'
+    : checks.every((c) => c.ok === true)
+      ? 'pass'
+      : 'pending';
+  return { checks, verdict };
+}

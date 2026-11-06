@@ -659,3 +659,167 @@ html .quick .qt__title {
     margin-inline: auto;
   }
 }
+
+/* =========================================================
+   Prevalidación Courier: medidas fijas, límites y estados
+   ========================================================= */
+.qt-dims {
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.qt-dims > legend {
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.qt-dims .qt-grid--3 {
+  margin-top: 0;
+}
+
+/* Límites a la vista: ícono + texto, no solo color */
+.qt-limits {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--qt-soft);
+}
+
+.qt-limits__title {
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.qt-limits ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.qt-limit {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+
+.qt-limit__icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #e2e4ea;
+  color: var(--ink-3);
+}
+
+.qt-limit--ok .qt-limit__icon {
+  background: #dcf5e5;
+  color: #157a3c;
+}
+
+.qt-limit--fail .qt-limit__icon {
+  background: #ffe2d6;
+  color: #c2410c;
+}
+
+.qt-limit__label {
+  color: var(--ink);
+}
+
+.qt-limit__value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.qt-limit__value small {
+  color: var(--ink-3);
+}
+
+.qt-limit--fail .qt-limit__value {
+  font-weight: 700;
+  color: #c2410c;
+}
+
+/* Estado del resultado */
+.qt-status {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 6px 12px 6px 10px;
+  border-radius: var(--r-pill);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.qt-status--pass {
+  background: rgba(61, 220, 132, 0.16);
+  color: #6ff0a8;
+}
+
+.qt-status--pending {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.qt-status--fail {
+  background: rgba(255, 166, 87, 0.2);
+  color: #ffc08a;
+}
+
+/* "No cumple": tarjeta en rojo oscuro/naranja */
+.qt-estimate--fail {
+  background: linear-gradient(160deg, #7a1810 0%, #5a0f14 100%);
+}
+
+.qt-estimate__msg {
+  position: relative;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--white);
+}
+
+.qt-estimate__reasons {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 16px;
+  padding: 0 0 0 18px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.qt-estimate__over a.qt-btn-light {
+  --btn-bg: var(--white);
+  --btn-fg: #5a0f14;
+  min-height: 46px;
+  padding-inline: 20px;
+  margin-top: 0;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.qt-estimate__over a.qt-btn-light:hover {
+  --btn-bg: #fff1ec;
+}
+
+/* Rastrear: mensajes de ayuda con título */
+.qt-msg--help p + p {
+  margin-top: 2px;
+}
+
+.qt-msg__title {
+  font-weight: 700;
+  color: var(--ink);
+}

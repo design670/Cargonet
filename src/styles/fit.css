@@ -498,11 +498,12 @@
   }
 }
 
-/* Servicios: 3 tarjetas fijas y centradas, sin carrusel (≥1080px) */
+/* Servicios: 2 tarjetas (Importación y Exportación) fijas y centradas, sin carrusel (≥1080px) */
 @media (min-width: 1080px) {
   ul.services__track {
     grid-auto-flow: row;
-    grid-template-columns: repeat(3, minmax(0, 420px));
+    grid-template-columns: repeat(2, minmax(0, 560px));
+    align-items: start; /* al abrir el detalle de una, la otra conserva su alto */
     grid-auto-columns: auto;
     justify-content: center;
     overflow: visible;
@@ -1005,5 +1006,52 @@
   #cotizar .quote__aside .info-list a.prep-tile:focus-visible {
     background: var(--white);
     box-shadow: 0 16px 34px -20px rgba(25, 25, 25, 0.35);
+  }
+}
+
+/* "Información clave": 3 documentos principales en 3 columnas (≥700px) */
+@media (min-width: 700px) {
+  #cotizar .prep__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #cotizar .prep-tile__detail {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1279px) {
+  #cotizar .prep__grid > li,
+  #cotizar .prep__grid > li:nth-child(odd) {
+    padding-left: clamp(1.25rem, 0.75rem + 1.2vw, 2rem);
+    border-left: 1px solid var(--border-strong);
+  }
+
+  #cotizar .prep__grid > li:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* Tarjetas de "Información clave": también se alzan al pasar el cursor (≥700px) */
+@media (min-width: 700px) {
+  #cotizar .quote__aside .info-list a.prep-tile {
+    transition:
+      background var(--t-fast) var(--ease),
+      box-shadow 320ms var(--ease),
+      transform 320ms var(--ease);
+  }
+
+  #cotizar .quote__aside .info-list a.prep-tile:hover,
+  #cotizar .quote__aside .info-list a.prep-tile:focus-visible {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #cotizar .quote__aside .info-list a.prep-tile:hover {
+    transform: none;
   }
 }

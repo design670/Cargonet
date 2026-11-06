@@ -29,9 +29,10 @@ export default function App() {
         <Locker />
         <Services />
         <HowItWorks />
+        {/* Reseñas justo después del proceso */}
+        <Testimonials />
         <WhyUs placement="bottom" />
         <Compare />
-        <Testimonials />
         <Quote />
         <Faq />
         <Closing />

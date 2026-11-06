@@ -121,7 +121,8 @@ Tarifa en `src/lib/courier-rates.ts`; rastreo en `src/lib/tracking.ts`.
 **Cotizar (courier Miami → Colombia), datos confirmados por la agencia:**
 - Tarifa USD 2,20 por libra de 1 a 8 lb y USD 1,80 desde 9 lb (dato de la sección "Sabes qué esperar", 2026-11-03). Confirmar qué tarifa aplica entre 8 y 9 lb (hoy: 2,20 por debajo de 9 lb). Límites courier: 110 lb de peso real, USD 2.000 y suma de los 3 lados hasta 3 m. Si se supera, se ofrece cotizar como carga con un asesor (WhatsApp).
 - Producto de EE.UU. con valor hasta USD 200: arancel e IVA "no aplica".
-- "Empezar mi envío" lleva al registro de casillero (4plbox).
+- "Empezar mi envío" lleva al registro de casillero (4plbox); se oculta cuando el envío no cumple Courier.
+- **Prevalidación Courier (2026-11-06):** las medidas (largo, ancho, alto) están siempre visibles y bajo el formulario se ven los 3 límites con su estado (valor declarado, peso real, suma de los 3 lados). La tarjeta de resultado muestra "Apto preliminar para Courier" (verde, ícono ✓), "No cumple Courier" (rojo/naranja, ícono de alerta, con la condición que falla y "Cotizar con un asesor") o "Agrega las medidas para validar Courier". Lógica en `courierChecks` de `src/lib/courier-rates.ts`. El texto aclara que es una prevalidación y que la aceptación definitiva depende de la revisión documental, la mercancía y las condiciones aduaneras.
 
 **Pendiente de confirmar con CargoNet (hoy se muestran como "Por confirmar" y no se suman al total):**
 - Porcentaje de arancel e IVA cuando aplican (producto de otro país o valor mayor a USD 200).
@@ -131,7 +132,10 @@ Tarifa en `src/lib/courier-rates.ts`; rastreo en `src/lib/tracking.ts`.
 
 **Rastrear:**
 - Sin API de rastreo: remite al portal 4plbox. Para conectarlo: `VITE_TRACKING_ENDPOINT`.
-- La guía de ejemplo `CNU-240817` muestra los estados marcados como "Guía de ejemplo". Confirmar el formato real de guía y los nombres de los estados (hoy: Prealertado, Recibido en bodega Miami, En tránsito a Colombia, En aduana, En reparto, Entregado).
+- Busca por número de guía CargoNet, tracking de la tienda o identificador del envío (el mismo campo).
+- **Estados de ayuda (2026-11-06):** número no encontrado (404), tracking aún no recibido en Miami, paquete pendiente de pistoleo, y novedad o documentación requerida. La API debe responder `{ "state": "not-received" | "pending-scan" | "issue", "detail"?: "…" }` para los tres últimos. En modo demostración (`?demo`) se prueban con `0000`, `NORECIBIDO`, `PISTOLEO` y `NOVEDAD`.
+- La guía de ejemplo `CNU-240817` muestra los estados marcados como "Guía de ejemplo". Confirmar el formato real de guía.
+- **Estados del envío (2026-11-06):** la línea de tiempo "De tu compra a la entrega" y la guía de ejemplo usan los mismos 9 estados (`steps` en `src/sections/StepsCarousel.tsx`): Casillero creado → Compra realizada → Prealerta → Recibido en Miami → Validación → Despacho internacional → Arribo a Colombia → En distribución → Entregado. Confirmar con CargoNet que coinciden con los estados de su sistema (4plbox) para que el rastreo real los muestre igual.
 
 **Prealertar:**
 - Sin servicio conectado: valida los datos y abre WhatsApp con la prealerta; la factura se adjunta en el chat (un enlace de WhatsApp no puede llevar archivos).
@@ -144,9 +148,17 @@ Tarifa en `src/lib/courier-rates.ts`; rastreo en `src/lib/tracking.ts`.
 
 **Para decidir:** la página tiene dos cotizadores (este panel y el formulario de "4 modalidades de envío" más abajo). Definir si se mantienen ambos.
 
+## "Información clave para preparar tu envío" (tablet/desktop)
+
+Desde el 2026-11-06 muestra solo 3 documentos (`prepDocs` en `src/sections/Quote.tsx`):
+- "Cómo registrarte y crear tu casillero" y "Cómo prealertar tu pedido" enlazan por ahora a las páginas de registro y prealerta del portal 4plbox: no hay instructivos en PDF. Si CargoNet los entrega, se cambia el enlace y la etiqueta "Portal" por "PDF".
+- "Restricciones de envío" enlaza al PDF de requisitos de 2022 (revisar vigencia).
+- En móvil sigue la lista anterior (Requisitos, Restricciones, Mercancías, Condiciones, Cargos, Tiempos).
+
 ## Casillero virtual (sección nueva antes de "Soluciones logísticas")
 
-Agregada el 2026-11-03 en `src/sections/Locker.tsx` y `src/styles/locker.css`. Fondo azul, 4 pasos y etiqueta de envío con la dirección de la bodega (de `site.ts`).
+Agregada el 2026-11-03 en `src/sections/Locker.tsx` y `src/styles/locker.css`. Fondo azul, etiqueta de envío con la dirección de la bodega (de `site.ts`) y, desde el 2026-11-06, un flujo de 4 pasos a todo el ancho donde cada paso dice qué hace el cliente ("Tú") y qué hace CargoNet.
+- Confirmar con CargoNet el texto de cada paso, en especial: "Identificamos tu paquete en cuanto llega" y "Escaneamos tu paquete, revisamos los requisitos Courier, despachamos y te avisamos en cada estado".
 - Solo se muestra en tablet/desktop (≥700px); en móvil está oculta mientras la versión móvil siga congelada.
 - Confirmar con CargoNet: "Registro en 2 pasos", el formato del código de casillero (`CNU-00000`) y si la dirección se escribe "50th Street" (en el sitio actual aparece "50 Street").
 
@@ -157,8 +169,10 @@ En `src/sections/Compare.tsx` y `src/styles/compare.css`: título grande "Nuestr
 - Logos de aliados en `public/img/aliados/`: FedEx, DHL y LATAM de Wikimedia Commons; Servientrega y Coordinadora de sus sitios oficiales. Se muestran en gris y a color al pasar el mouse.
 - Confirmar con CargoNet que FedEx, DHL, LATAM, Servientrega y Coordinadora son aliados reales y que pueden mostrarse sus logos.
 
-## Testimonios (sección nueva antes de Preguntas frecuentes)
+## Reseñas / testimonios (desde el 2026-11-06, justo después de "De tu compra a la entrega")
 
-**Contenido inventado, debe reemplazarse antes de publicar.** Los 6 testimonios (nombres, ciudades y citas) son de ejemplo y están en `src/sections/Testimonials.tsx`. CargoNet debe enviar testimonios reales con autorización de cada cliente (nombre, ciudad o empresa, cita y, si se quiere, foto).
+**Contenido de ejemplo, debe reemplazarse antes de publicar.** Los 6 testimonios (nombres, ciudades, citas y calificación de 1 a 5) son de ejemplo y están en `src/sections/Testimonials.tsx`. No se encontraron reseñas públicas de CargoNet USA (su sitio no tiene testimonios ni enlace a Google/Trustpilot). CargoNet debe enviar reseñas reales con autorización de cada cliente (nombre, ciudad o empresa, cita, estrellas y, si se quiere, foto).
+- La calificación promedio (hoy 4,7 de 6 reseñas) se calcula sola con las estrellas de cada reseña; no es una cifra fija.
+- **"Dejar una reseña":** destino por definir (Google, Facebook…). Mientras `links.review` en `src/content/site.ts` sea `null`, el botón abre WhatsApp con un mensaje para enviar la reseña.
 - Hay dos tipos de tarjeta que se alternan: testimonio en texto y testimonio en video. Las de video muestran por ahora una imagen del propio sitio (bodega, puerto, carga); cuando CargoNet envíe los videos reales de clientes, se reemplazan. Los avatares son iniciales.
 - Por ahora la sección solo se muestra en tablet/desktop (≥700px); en móvil está oculta hasta que se habilite.

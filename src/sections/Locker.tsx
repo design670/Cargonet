@@ -3,14 +3,28 @@ import { Icon } from '../components/Icon';
 import { TwoToneTitle } from '../components/TwoToneTitle';
 import { contact, links } from '../content/site';
 
+/** Flujo del casillero: qué hace el cliente y qué hace CargoNet en cada paso. */
 const steps = [
-  { title: 'Crea tu casillero', text: 'Registro en 2 pasos. Recibes tu dirección en Miami con tu código personal.' },
-  { title: 'Compra con tu dirección', text: 'Pega la dirección de Miami al pagar en Amazon, eBay o la tienda que quieras.' },
   {
-    title: 'Prealerta con tu factura',
-    text: 'Registra el tracking y la factura donde se vea el producto y el valor. Así lo identificamos sin demoras.',
+    title: 'Crea tu casillero',
+    you: 'Te registras en el portal en 2 pasos.',
+    us: 'Te asignamos tu dirección en Miami con tu código personal.',
   },
-  { title: 'Validamos y te lo llevamos', text: 'Revisamos los requisitos Courier, despachamos y te avisamos en cada estado hasta la entrega.' },
+  {
+    title: 'Compra en la tienda',
+    you: 'Compras en Amazon, eBay o la tienda que quieras y pegas tu dirección de Miami al pagar.',
+    us: 'Tu dirección queda lista para recibir el paquete en nuestra bodega.',
+  },
+  {
+    title: 'Prealerta con factura y tracking',
+    you: 'Registras el tracking de la tienda y la factura donde se vea el producto y el valor.',
+    us: 'Identificamos tu paquete en cuanto llega, sin demoras.',
+  },
+  {
+    title: 'Recibimos, validamos y llevamos',
+    you: 'Sigues el estado de tu envío hasta la entrega.',
+    us: 'Escaneamos tu paquete, revisamos los requisitos Courier, despachamos y te avisamos en cada estado.',
+  },
 ];
 
 /** Anchos de barra (px) del código de barras decorativo; los impares son espacios. */
@@ -20,7 +34,8 @@ const bars = [3, 2, 1, 2, 4, 1, 1, 3, 2, 2, 4, 2, 1, 1, 3, 3, 1, 2, 2, 1, 4, 3, 
 const street = contact.warehouse[0].replace(' 50 ', ' 50th ');
 const cityLine = contact.warehouse[1].replace('Florida', 'FL');
 
-const ROUTE = 'M24 132 C 170 -8, 430 -8, 576 120';
+/* Extremos altos para que las banderas queden por encima de la etiqueta */
+const ROUTE = 'M24 88 C 170 -24, 430 -24, 576 80';
 
 /** Sección "Casillero virtual": pasos + etiqueta de envío con la dirección de Miami. */
 export function Locker() {
@@ -44,18 +59,6 @@ export function Locker() {
             Compra en cualquier tienda de EE.UU. con tu código personal. Nosotros lo recibimos y te lo llevamos a Colombia.
           </p>
 
-          <ol className="locker__steps">
-            {steps.map((s, i) => (
-              <li key={s.title} className="locker__card" data-reveal>
-                <span className="locker__num" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </li>
-            ))}
-          </ol>
-
           <a className="btn btn--primary locker__cta" href={links.register} target="_blank" rel="noopener noreferrer">
             Crear mi casillero
             <Icon name="arrowRight" size={18} className="btn__icon" />
@@ -78,7 +81,7 @@ export function Locker() {
             </g>
 
             {/* Bandera de EE.UU. (Miami) */}
-            <g className="locker__flag" transform="translate(24 132)">
+            <g className="locker__flag" transform="translate(24 88)">
               <g clipPath="url(#lk-flag)">
                 {Array.from({ length: 13 }, (_, i) => (
                   <rect key={i} x={-17} y={-17 + (i * 34) / 13} width={34} height={34 / 13 + 0.2} fill={i % 2 ? '#fff' : '#b22234'} />
@@ -90,7 +93,7 @@ export function Locker() {
             </g>
 
             {/* Bandera de Colombia */}
-            <g className="locker__flag" transform="translate(576 120)">
+            <g className="locker__flag" transform="translate(576 80)">
               <g clipPath="url(#lk-flag)">
                 <rect x={-17} y={-17} width={34} height={17} fill="#fcd116" />
                 <rect x={-17} y={0} width={34} height={8.5} fill="#003893" />
@@ -133,6 +136,28 @@ export function Locker() {
             </div>
           </figure>
         </div>
+
+        {/* Flujo de 4 pasos: qué haces tú y qué hace CargoNet */}
+        <ol className="locker__flow">
+          {steps.map((s, i) => (
+            <li key={s.title} className="locker__card" data-reveal>
+              <span className="locker__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3>{s.title}</h3>
+              <dl className="locker__who">
+                <div>
+                  <dt>Tú</dt>
+                  <dd>{s.you}</dd>
+                </div>
+                <div>
+                  <dt>CargoNet</dt>
+                  <dd>{s.us}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

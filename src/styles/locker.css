@@ -60,29 +60,77 @@
   color: rgba(255, 255, 255, 0.74);
 }
 
-/* Pasos en tarjetas: solo título y descripción */
-.locker__steps {
+/* Flujo de 4 pasos a todo el ancho: qué haces tú y qué hace CargoNet */
+.locker__flow {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: clamp(2rem, 1.5rem + 2vw, 3rem) 0 0;
+  gap: 0 32px; /* sin espacio entre filas: lo da cada tarjeta (subgrid) */
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* Cada tarjeta ocupa 4 filas compartidas (número, título, "Tú", "CargoNet"),
+   así las etiquetas quedan alineadas entre tarjetas aunque los textos midan distinto */
 .locker__card {
+  position: relative;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  align-content: start;
   padding: 24px 24px 22px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 18px;
   background: var(--locker-bg);
   transition:
+    background var(--t-fast) var(--ease),
     border-color var(--t-fast) var(--ease),
-    transform var(--t-fast) var(--ease);
+    box-shadow 320ms var(--ease),
+    transform 320ms var(--ease);
 }
 
+/* Al pasar el cursor la tarjeta se alza, se pone blanca y sus textos pasan a tonos oscuros */
 .locker__card:hover {
   border-color: var(--white);
-  transform: translateY(-3px);
+  background: var(--white);
+  box-shadow: 0 30px 56px -24px rgba(0, 0, 0, 0.7);
+  transform: translateY(-8px);
+}
+
+/* Le gana a .motion [data-reveal].is-visible (transform y transición de la animación de entrada) */
+.locker__flow > .locker__card.is-visible {
+  transition:
+    background var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    box-shadow 320ms var(--ease),
+    transform 320ms var(--ease);
+}
+
+.locker__flow > .locker__card.is-visible:hover {
+  transform: translateY(-8px);
+}
+
+.locker__card:hover .locker__num {
+  color: var(--red);
+}
+
+.locker__card:hover .locker__who dd {
+  color: var(--ink-2);
+}
+
+.locker__card:hover .locker__who dt {
+  background: #eceef3;
+  color: var(--ink);
+}
+
+.locker__card:hover .locker__who > div + div {
+  border-top-color: var(--border);
+}
+
+.locker__card:hover .locker__who > div + div dt {
+  background: var(--red);
+  color: var(--white);
 }
 
 .locker__cta {
@@ -103,8 +151,8 @@
   color: #ff4d58;
 }
 
-.locker__steps h3 {
-  font-size: 1.25rem;
+.locker__flow h3 {
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.015em;
@@ -113,14 +161,105 @@
 }
 
 .locker__card:hover h3 {
-  color: #ff6b74;
+  color: var(--ink);
 }
 
-.locker__steps p {
-  margin-top: 8px;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.72);
+/* "Tú" / "CargoNet": quién hace qué en cada paso */
+.locker__who {
+  display: contents; /* sus dos filas pasan a la cuadrícula de la tarjeta */
+}
+
+.locker__who > div:first-child {
+  margin-top: 14px;
+}
+
+.locker__who > div + div {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* 2×2 (tablet): espacio entre la primera y la segunda fila de tarjetas */
+@media (max-width: 1023px) {
+  .locker__flow > li:nth-child(-n + 2) {
+    margin-bottom: 20px;
+  }
+}
+
+.locker__who dt {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.locker__who > div + div dt {
+  background: var(--red);
+}
+
+.locker__who dd {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Flecha entre pasos (escritorio, 4 columnas) */
+@media (min-width: 1024px) {
+  .locker__flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Centrada en la altura de la tarjeta; la flecha avanza sola, escalonada de un paso al siguiente */
+  .locker__flow > li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -31px;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E")
+        50% 50% / 14px no-repeat,
+      var(--locker-bg);
+    animation: locker-arrow 1.8s var(--ease) infinite;
+  }
+
+  .locker__flow > li:nth-child(2)::after {
+    animation-delay: 0.3s;
+  }
+
+  .locker__flow > li:nth-child(3)::after {
+    animation-delay: 0.6s;
+  }
+}
+
+@keyframes locker-arrow {
+  0%,
+  100% {
+    background-position: 30% 50%, 0 0;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  50% {
+    background-position: 75% 50%, 0 0;
+    border-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .locker__flow > li::after {
+    animation: none;
+  }
 }
 
 /* ---------- Etiqueta de envío ---------- */
@@ -363,31 +502,47 @@
     font-size: clamp(1rem, 0.6rem + 0.9vh, 1.1875rem);
   }
 
-  /* Tarjetas 2×2 que se ajustan a la altura de la pantalla */
-  .locker__steps {
-    margin-top: clamp(1.25rem, 3vh, 2.25rem);
-  }
-
+  /* Flujo que se ajusta a la altura de la pantalla */
   .locker__card {
-    padding: clamp(18px, 2.6vh, 26px) 22px clamp(16px, 2.4vh, 24px);
+    padding: clamp(16px, 2.2vh, 24px) 20px clamp(16px, 2.2vh, 22px);
   }
 
-  .locker__steps h3 {
-    font-size: clamp(1.0625rem, 0.6rem + 1vh, 1.25rem);
+  .locker__flow h3 {
+    font-size: clamp(1.3125rem, 0.7rem + 1.4vh, 1.625rem);
   }
 
-  .locker__steps p {
-    font-size: clamp(0.875rem, 0.6rem + 0.5vh, 0.9375rem);
+  .locker__flow .locker__num {
+    font-size: clamp(1.125rem, 0.6rem + 1vh, 1.375rem);
+  }
+
+  .locker__who dd {
+    font-size: clamp(0.8125rem, 0.6rem + 0.4vh, 0.875rem);
   }
 
   .locker__cta {
     margin-top: clamp(1.25rem, 3vh, 2rem);
   }
 
-  /* Etiqueta limitada por la altura de la pantalla */
+  /* Etiqueta a escala (conserva proporciones): deja espacio al flujo de 4 pasos en la misma pantalla */
   .locker__visual {
-    --lk-top: clamp(110px, 15vh, 170px);
-    max-width: min(600px, 66vh);
-    padding-bottom: 24px;
+    --lk-top: 120px;
+    max-width: 600px;
+    padding-bottom: 16px;
+    zoom: 0.62;
+  }
+
+  .locker__grid {
+    row-gap: clamp(1.25rem, 3vh, 2.5rem);
+  }
+}
+
+/* Pantallas de escritorio bajas (p. ej. 1366×768): etiqueta un poco más chica */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .locker__visual {
+    zoom: 0.44;
+  }
+
+  .locker {
+    padding-block: 1rem;
   }
 }

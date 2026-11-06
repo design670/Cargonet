@@ -14,48 +14,73 @@ export type Step = {
   phase: 'Antes de Miami' | 'Desde Miami';
 };
 
-/** Pasos del servicio: los usa este carrusel y la lista vertical de móvil (HowItWorks). */
+/**
+ * Línea de tiempo con los estados reales de un envío, de la compra a la entrega.
+ * La usan este carrusel, la lista vertical de móvil (HowItWorks) y la guía de
+ * ejemplo de "Rastrear" (los títulos son los nombres de los estados).
+ */
 export const steps: Step[] = [
   {
-    title: 'Casillero en Miami',
-    text: 'Tu dirección en EE.UU. para comprar en cualquier tienda y recibir en Colombia.',
-    points: ['Dirección con tu código personal', 'Recepción y escaneo de cada paquete', 'Consolidación cuando aplica'],
+    title: 'Casillero creado',
+    text: 'Te registras y recibes tu dirección en Miami con tu código personal.',
+    points: ['Dirección con tu código personal', 'Acceso al portal para seguir tus envíos'],
     icon: 'locker',
     phase: 'Antes de Miami',
   },
   {
-    title: 'Prealerta con factura',
-    text: 'Registra tu compra antes de que llegue para identificarla sin demoras ni reprocesos.',
+    title: 'Compra realizada',
+    text: 'Compras en la tienda que quieras y pegas tu dirección de Miami al pagar.',
+    points: ['Amazon, eBay o cualquier tienda de EE.UU.', 'La tienda envía a nuestra bodega'],
+    icon: 'tag',
+    phase: 'Antes de Miami',
+  },
+  {
+    title: 'Prealerta',
+    text: 'Registras tu compra antes de que llegue para identificarla sin demoras.',
     points: ['Tracking de la tienda', 'Factura con producto y valor', 'Descripción del contenido'],
     icon: 'clipboard',
     phase: 'Antes de Miami',
   },
   {
-    title: 'Validación Courier',
-    text: 'Revisamos que tu envío cumpla los requisitos antes de continuar el proceso.',
+    title: 'Recibido en Miami',
+    text: 'Tu paquete llega a nuestra bodega y se asocia a tu casillero.',
+    points: ['Recepción y escaneo de cada paquete', 'Consolidación cuando aplica'],
+    icon: 'package',
+    phase: 'Desde Miami',
+  },
+  {
+    title: 'Validación',
+    text: 'Revisamos que tu envío cumpla los requisitos Courier antes de despacharlo.',
     points: ['Hasta 110 lb de peso real', 'Suma de los 3 lados hasta 3 m', 'Revisión de mercancía restringida'],
     icon: 'shield',
     phase: 'Desde Miami',
   },
   {
-    title: 'Seguimiento por estados',
-    text: 'Te avisamos con cada evento real del paquete, sin tiempos supuestos.',
-    points: ['Recepción y salida de Miami', 'Llegada y escaneo en Colombia', 'Reparto y entrega'],
+    title: 'Despacho internacional',
+    text: 'Tu paquete sale de Miami hacia Colombia.',
+    points: ['Despachos semanales', 'Te avisamos cuando sale de Miami'],
+    icon: 'plane',
+    phase: 'Desde Miami',
+  },
+  {
+    title: 'Arribo a Colombia',
+    text: 'Tu paquete llega a Colombia y se escanea a su llegada.',
+    points: ['Llegada y escaneo en Colombia', 'Si hay una novedad, un asesor revisa tu caso'],
+    icon: 'globe',
+    phase: 'Desde Miami',
+  },
+  {
+    title: 'En distribución',
+    text: 'Tu paquete va en camino a la dirección de entrega.',
+    points: ['Reparto a tu dirección', 'Sigues el estado desde tu cuenta'],
     icon: 'route',
     phase: 'Desde Miami',
   },
   {
-    title: 'Gestión de novedades',
-    text: 'Si hay un faltante, una discrepancia o documentos pendientes, te decimos qué hacer.',
-    points: ['Documentación pendiente', 'Faltantes, daños o errores', 'Un asesor revisa tu caso'],
-    icon: 'alert',
-    phase: 'Desde Miami',
-  },
-  {
-    title: 'Carga y exportación',
-    text: 'Para envíos de más de 110 lb, comerciales o desde Colombia, cotizamos con un asesor.',
-    points: ['Carga aérea y marítima', 'Exportación desde Colombia', 'Cotización según volumen'],
-    icon: 'globe',
+    title: 'Entregado',
+    text: 'Recibes tu paquete y termina el proceso.',
+    points: ['Te avisamos en cada estado hasta la entrega'],
+    icon: 'check',
     phase: 'Desde Miami',
   },
 ];

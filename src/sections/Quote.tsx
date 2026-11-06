@@ -49,6 +49,18 @@ const infoLinks: { icon: IconName; label: string; href: string; external?: boole
   },
 ];
 
+/** Tres documentos principales de la sección "Información clave" (tablet/desktop). */
+const prepDocs: { label: string; detail?: string; href: string; meta: string }[] = [
+  { label: 'Cómo registrarte y crear tu casillero', href: links.register, meta: 'Portal' },
+  { label: 'Cómo prealertar tu pedido', href: links.prealert, meta: 'Portal' },
+  {
+    label: 'Restricciones de envío',
+    detail: 'Mercancías no admitidas, límites y condiciones.',
+    href: links.requirementsPdf,
+    meta: 'PDF',
+  },
+];
+
 type Values = {
   operation: Operation | '';
   origin: string;
@@ -273,24 +285,22 @@ export function Quote() {
 
               <p className="prep__group">Documentos y condiciones</p>
               <ul className="prep__grid">
-                {infoLinks
-                  .filter((l) => l.note !== 'Asesor')
-                  .map((l) => (
-                    <li key={l.label}>
-                      <a className="prep-tile" href={l.href} target="_blank" rel="noopener noreferrer">
-                        <span className="prep-tile__icon" aria-hidden="true">
-                          {/* Mismo ícono de documento en las 4 tarjetas */}
-                          <Icon name="file" size={22} />
-                        </span>
-                        <span className="prep-tile__label">{l.label}</span>
-                        <span className="prep-tile__meta">
-                          {l.note ?? 'Página'}
-                          <Icon name="arrowUpRight" size={16} />
-                        </span>
-                        <span className="sr-only"> (se abre en una pestaña nueva)</span>
-                      </a>
-                    </li>
-                  ))}
+                {prepDocs.map((d) => (
+                  <li key={d.label}>
+                    <a className="prep-tile" href={d.href} target="_blank" rel="noopener noreferrer">
+                      <span className="prep-tile__icon" aria-hidden="true">
+                        <Icon name="file" size={22} />
+                      </span>
+                      <span className="prep-tile__label">{d.label}</span>
+                      {d.detail ? <span className="prep-tile__detail">{d.detail}</span> : null}
+                      <span className="prep-tile__meta">
+                        {d.meta}
+                        <Icon name="arrowUpRight" size={16} />
+                      </span>
+                      <span className="sr-only"> (se abre en una pestaña nueva)</span>
+                    </a>
+                  </li>
+                ))}
               </ul>
 
               <p className="prep__group">Consulta con un asesor</p>
