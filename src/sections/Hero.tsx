@@ -42,12 +42,14 @@ export function Hero() {
             </span>
           </p>
           <div className="hero__ctas">
-            <Button href={links.register} variant="light" icon="arrowRight">
+            {/* "Crear mi casillero" es el botón dominante; "Cotizar / rastrear" lleva al panel de herramientas */}
+            <Button href={links.register} variant="light" icon="arrowRight" className="hero__cta-main">
               <span className="hero__text-short">Crear mi casillero</span>
               <span className="hero__text-long">Crear mi casillero USA</span>
             </Button>
-            <Button href="#cotizar-envio" variant="outline-light">
-              Cotizar un envío
+            <Button href="#cotizar-envio" variant="outline-light" className="hero__cta-alt">
+              <span className="hero__text-short">Cotizar / rastrear</span>
+              <span className="hero__text-long">Cotizar un envío</span>
             </Button>
           </div>
           <p className="hero__clients">

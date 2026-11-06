@@ -3606,3 +3606,29 @@ button.service-card__cta {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* Hero: "Crear mi casillero" dominante y "Cotizar / rastrear" secundario (≥700px) */
+@media (min-width: 700px) {
+  .hero__ctas {
+    align-items: center; /* cada botón conserva su alto */
+  }
+
+  .hero__ctas .hero__cta-main {
+    min-height: 60px;
+    padding-inline: 32px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    box-shadow: 0 18px 36px -18px rgba(0, 0, 0, 0.55);
+  }
+
+  .hero__ctas .hero__cta-main:hover {
+    box-shadow: 0 22px 40px -18px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero__ctas .hero__cta-alt {
+    min-height: 52px;
+    padding-inline: 22px;
+    font-size: 0.9375rem;
+    --btn-border: rgba(255, 255, 255, 0.55);
+  }
+}
