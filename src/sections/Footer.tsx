@@ -1,5 +1,5 @@
 import { Icon } from '../components/Icon';
-import { company, contact, links, whatsappLink } from '../content/site';
+import { company, contact, links } from '../content/site';
 
 type L = { label: string; href: string; external?: boolean };
 
@@ -42,6 +42,25 @@ function FooterLink({ l }: { l: L }) {
   );
 }
 
+function SocialLinks({ className }: { className: string }) {
+  return (
+    <ul className={className} aria-label="Redes sociales">
+      <li>
+        <a href={links.instagram} target="_blank" rel="noopener noreferrer">
+          <Icon name="instagram" size={20} className="site-footer__social-icon" />
+          <span className="site-footer__social-label">Instagram</span>
+        </a>
+      </li>
+      <li>
+        <a href={links.facebook} target="_blank" rel="noopener noreferrer">
+          <Icon name="facebook" size={20} className="site-footer__social-icon" />
+          <span className="site-footer__social-label">Facebook</span>
+        </a>
+      </li>
+    </ul>
+  );
+}
+
 export function Footer() {
   const year = new Date().getFullYear();
   return (
@@ -54,6 +73,8 @@ export function Footer() {
               <img src="/img/logo-cargonet.png" alt="CargoNet USA" width="270" height="77" loading="lazy" />
             </picture>
             <p>Casillero en Estados Unidos, courier y carga internacional.</p>
+            {/* Tablet y desktop: redes agrupadas bajo el texto del logo */}
+            <SocialLinks className="site-footer__social site-footer__social--brand" />
           </div>
 
           <nav className="site-footer__nav" aria-label="Pie de página">
@@ -79,12 +100,6 @@ export function Footer() {
                 <li>
                   <a href={links.contact} target="_blank" rel="noopener noreferrer">
                     Contacto<span className="sr-only"> (se abre en una pestaña nueva)</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
-                    <Icon name="chat" size={18} />
-                    WhatsApp {contact.whatsappLabel}
                   </a>
                 </li>
                 <li>
@@ -129,20 +144,8 @@ export function Footer() {
           <p>
             © {year} {company.name}. Todos los derechos reservados.
           </p>
-          <ul className="site-footer__social" aria-label="Redes sociales">
-            <li>
-              <a href={links.instagram} target="_blank" rel="noopener noreferrer">
-                <Icon name="instagram" size={20} className="site-footer__social-icon" />
-                <span className="site-footer__social-label">Instagram</span>
-              </a>
-            </li>
-            <li>
-              <a href={links.facebook} target="_blank" rel="noopener noreferrer">
-                <Icon name="facebook" size={20} className="site-footer__social-icon" />
-                <span className="site-footer__social-label">Facebook</span>
-              </a>
-            </li>
-          </ul>
+          {/* Móvil: redes en la franja inferior (sin cambios) */}
+          <SocialLinks className="site-footer__social site-footer__social--bottom" />
         </div>
       </div>
     </footer>

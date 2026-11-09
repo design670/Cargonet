@@ -5,9 +5,12 @@
  */
 export const courier = {
   route: 'Miami → Colombia',
-  /** Tarifa por libra: US$2.20 de 1 a 8 lb, US$1.80 desde 9 lb. */
-  ratePerLb: 2.2,
-  ratePerLbFrom9: 1.8,
+  /** Tarifa por libra (informada por la agencia, nov. 2026): USD 1,90 + seguro. */
+  ratePerLb: 1.9,
+  /** Costo del seguro: pendiente. Mientras sea null se muestra "Por confirmar". */
+  insuranceUsd: null as number | null,
+  /** IVA para mercancías con valor declarado superior a dutyFreeUsd. */
+  vatRate: 0.19,
   /** Límites del servicio courier. */
   maxWeightLb: 110,
   maxValueUsd: 2000,
@@ -40,6 +43,7 @@ export type CourierEstimate = {
   rate: number;
   freight: number;
   extraPieces: Charge;
+  insurance: Charge;
   duty: Charge;
   vat: Charge;
   total: number;
@@ -51,7 +55,7 @@ export function estimateCourier(i: CourierInput): CourierEstimate {
   const volumetric =
     i.dims && courier.volumetricDivisor ? (i.dims[0] * i.dims[1] * i.dims[2]) / courier.volumetricDivisor : 0;
   const billableLb = Math.max(i.weightLb, volumetric);
-  const rate = billableLb >= 9 ? courier.ratePerLbFrom9 : courier.ratePerLb;
+  const rate = courier.ratePerLb;
   const freight = round2(billableLb * rate);
 
   const extra = Math.max(0, i.pieces - 1);
@@ -60,11 +64,17 @@ export function estimateCourier(i: CourierInput): CourierEstimate {
       ? { amount: 0, applies: false }
       : { amount: courier.extraPieceUsd === null ? null : round2(extra * courier.extraPieceUsd), applies: true };
 
+  // Seguro: siempre aplica ("tarifa + seguro"); su valor está pendiente.
+  const insurance: Charge = { amount: courier.insuranceUsd, applies: true };
+
+  // Arancel: productos de EE.UU. hasta USD 200 no pagan; el resto, por confirmar.
   const taxFree = i.origin === 'usa' && i.valueUsd <= courier.dutyFreeUsd;
   const duty: Charge = taxFree ? { amount: 0, applies: false } : { amount: null, applies: true };
-  const vat: Charge = taxFree ? { amount: 0, applies: false } : { amount: null, applies: true };
+  // IVA del 19% sobre el valor declarado cuando supera USD 200.
+  const vat: Charge =
+    i.valueUsd > courier.dutyFreeUsd ? { amount: round2(i.valueUsd * courier.vatRate), applies: true } : { amount: 0, applies: false };
 
-  const charges = [extraPieces, duty, vat];
+  const charges = [extraPieces, insurance, duty, vat];
   const total = round2(freight + charges.reduce((s, c) => s + (c.amount ?? 0), 0));
   const sides = i.dims ? i.dims[0] + i.dims[1] + i.dims[2] : 0;
 
@@ -73,6 +83,7 @@ export function estimateCourier(i: CourierInput): CourierEstimate {
     rate,
     freight,
     extraPieces,
+    insurance,
     duty,
     vat,
     total,

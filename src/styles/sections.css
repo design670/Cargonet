@@ -2644,7 +2644,21 @@ ul.services__track {
   display: none;
 }
 
+/* Redes: en móvil siguen en la franja inferior; desde 700px van bajo el texto del logo */
+ul.site-footer__social--brand {
+  display: none;
+}
+
 @media (min-width: 700px) {
+  ul.site-footer__social--brand {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  ul.site-footer__social--bottom {
+    display: none;
+  }
+
   .site-footer__social {
     gap: 10px;
   }
@@ -3631,4 +3645,38 @@ button.service-card__cta {
     font-size: 0.9375rem;
     --btn-border: rgba(255, 255, 255, 0.55);
   }
+}
+
+/* Detalle de Importación / Exportación en bloques */
+.service-card__block {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.service-card__subhead {
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.service-card__note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.service-card__note .icon {
+  flex: none;
+  margin-top: 2px;
+}
+
+.service-card__quote {
+  gap: 8px;
 }

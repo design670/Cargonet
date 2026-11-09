@@ -1,8 +1,9 @@
 import { TwoToneTitle } from '../components/TwoToneTitle';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Icon } from '../components/Icon';
+import { WhatsAppGlyph } from '../components/WhatsAppFab';
 import { SectionHeading } from '../components/SectionHeading';
-import { links, whatsappLink } from '../content/site';
+import { commercialWhatsappLink, links } from '../content/site';
 
 type Service = {
   id: string;
@@ -13,8 +14,10 @@ type Service = {
   short: string;
   /** Botón que despliega el detalle dentro de la tarjeta. */
   cta: string;
-  /** Modalidades del servicio (las mismas del cotizador). */
-  modes: { name: string; desc: string }[];
+  /** Detalle: descripción, condiciones principales y nota (contenido de la agencia, nov. 2026). */
+  description: string;
+  conditions: string[];
+  note?: string;
   quote: { label: string; message: string };
   image: string;
   alt: string;
@@ -27,12 +30,19 @@ const services: Service[] = [
     title: 'Importación',
     tagline: 'Trae tu mercancía desde otros países.',
     text: 'Te acompañamos en la gestión de envíos desde otros países, por courier o carga, con orientación sobre los requisitos y la documentación que corresponda a cada operación.',
-    short: 'Envíos desde otros países, con orientación sobre requisitos y documentación.',
+    short: 'Courier, carga aérea y carga marítima de Miami a Colombia.',
     cta: 'Ver cómo importar',
-    modes: [
-      { name: 'Courier', desc: 'Paquetes y compras hacia Colombia.' },
-      { name: 'Carga', desc: 'Mercancía que requiere gestión de carga.' },
+    description:
+      'Ofrecemos servicios de importación en modalidad Courier, carga aérea y carga marítima, para compras online, menaje, encomiendas, repuestos, materiales y otras necesidades.',
+    conditions: [
+      'Ruta: importaciones desde Miami hacia Colombia.',
+      'Tarifa: USD 1,90 por libra + seguro.',
+      'Tiempo estimado: 4 a 6 días hábiles después de recibir el paquete en nuestra bodega de Miami.',
+      'Límite de valor comercial: hasta USD 2.000.',
+      'Límite de peso real: hasta 110 lb (50 kg).',
+      'Mercancías con valor comercial o declarado superior a USD 200: IVA del 19%.',
     ],
+    note: 'Tarifas, límites, impuestos y tiempos pueden variar según la mercancía y los procesos aduaneros.',
     quote: { label: 'Cotizar importación', message: 'Hola, quiero cotizar una importación hacia Colombia.' },
     image: '/img/hero-carguero-1600.webp',
     alt: 'Avión de carga en la plataforma de un aeropuerto',
@@ -42,12 +52,20 @@ const services: Service[] = [
     title: 'Exportación',
     tagline: 'Lleva tu mercancía a mercados internacionales.',
     text: 'Gestionamos envíos hacia otros países, por courier o carga, sujetos a las condiciones, restricciones y requisitos aplicables a cada mercancía y destino.',
-    short: 'Envíos hacia otros países según las condiciones de cada mercancía y destino.',
+    short: 'Courier, carga aérea y carga marítima hacia todo el mundo.',
     cta: 'Ver cómo exportar',
-    modes: [
-      { name: 'Courier', desc: 'Paquetes y documentos desde Colombia.' },
-      { name: 'Carga', desc: 'Mercancía comercial hacia otros países.' },
+    description:
+      'Ofrecemos exportaciones mediante Courier, carga aérea y carga marítima para garantías, devoluciones, envíos de mercancía, documentos y paquetes hacia el exterior.',
+    conditions: [
+      'Cobertura: exportaciones a nivel mundial.',
+      'Tarifas calculadas por zona o destino.',
+      'Exención de impuestos para mercancías de hasta USD 800, según las condiciones del país de destino.',
+      'Tiempo estimado de entrega: de 1 a 6 días hábiles.',
+      'Los tiempos no incluyen procesos o demoras aduaneras en el país de destino.',
+      'Recogida de paquetes a domicilio hasta las 5:00 p. m.',
+      'Servicio de embalaje y entrega en la dirección final.',
     ],
+    note: 'Tiempos, impuestos y condiciones pueden variar según el destino, las características del envío y los procesos aduaneros.',
     quote: { label: 'Cotizar exportación', message: 'Hola, quiero cotizar una exportación desde Colombia.' },
     image: '/img/servicio-carga.webp',
     alt: 'Buque de contenedores cargándose en el puerto al atardecer',
@@ -156,16 +174,30 @@ export function Services() {
                       {/* Detalle completo dentro de la misma tarjeta (acordeón) */}
                       <div id={`${s.id}-detalle`} className="service-card__details" aria-hidden={!isOpen} inert={!isOpen}>
                         <div className="service-card__details-inner">
-                        <p className="service-card__full">{s.text}</p>
-                        <ul className="service-card__modes">
-                          {s.modes.map((m) => (
-                            <li key={m.name}>
-                              <strong>{m.name}</strong> {m.desc}
-                            </li>
-                          ))}
-                        </ul>
+                        {/* Bloque 1: descripción */}
+                        <p className="service-card__full">{s.description}</p>
+
+                        {/* Bloque 2: condiciones principales */}
+                        <div className="service-card__block">
+                          <p className="service-card__subhead">Condiciones principales</p>
+                          <ul className="service-card__modes">
+                            {s.conditions.map((c) => (
+                              <li key={c}>{c}</li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {s.note ? (
+                          <p className="service-card__note">
+                            <Icon name="info" size={16} />
+                            {s.note}
+                          </p>
+                        ) : null}
+
+                        {/* Bloque 3: cotización / contacto (WhatsApp comercial) */}
                         <div className="service-card__actions">
-                          <a className="btn btn--primary btn--sm" href={whatsappLink(s.quote.message)} target="_blank" rel="noopener noreferrer">
+                          <a className="btn btn--primary btn--sm service-card__quote" href={commercialWhatsappLink(s.quote.message)} target="_blank" rel="noopener noreferrer">
+                            <WhatsAppGlyph size={18} />
                             {s.quote.label}
                             <span className="sr-only"> (abre WhatsApp)</span>
                           </a>

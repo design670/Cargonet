@@ -119,13 +119,15 @@ Implementado en `src/sections/QuickActions.tsx` y `src/sections/quick-tools/`; e
 Tarifa en `src/lib/courier-rates.ts`; rastreo en `src/lib/tracking.ts`.
 
 **Cotizar (courier Miami → Colombia), datos confirmados por la agencia:**
-- Tarifa USD 2,20 por libra de 1 a 8 lb y USD 1,80 desde 9 lb (dato de la sección "Sabes qué esperar", 2026-11-03). Confirmar qué tarifa aplica entre 8 y 9 lb (hoy: 2,20 por debajo de 9 lb). Límites courier: 110 lb de peso real, USD 2.000 y suma de los 3 lados hasta 3 m. Si se supera, se ofrece cotizar como carga con un asesor (WhatsApp).
-- Producto de EE.UU. con valor hasta USD 200: arancel e IVA "no aplica".
+- Tarifa USD 1,90 por libra + seguro para todos los pesos (documento de la agencia, 2026-11-09; reemplaza 2,20 / 1,80). Límites courier: 110 lb de peso real, USD 2.000 y suma de los 3 lados hasta 3 m. Si se supera, se ofrece cotizar como carga con un asesor (WhatsApp).
+- IVA del 19% cuando el valor declarado supera USD 200 (se calcula sobre el valor declarado: **confirmar si la base incluye flete y seguro**). Producto de EE.UU. hasta USD 200: arancel e IVA "no aplica".
 - "Empezar mi envío" lleva al registro de casillero (4plbox); se oculta cuando el envío no cumple Courier.
+- **Contactos (2026-11-09):** bajo el resultado se muestran "Comercial – Jonathan +57 305 279 6008" (enlace a WhatsApp) y "Despacho – Mildreth +57 302 448 0416", ambos con enlace a WhatsApp (`contact.commercial` y `contact.dispatch` en `src/content/site.ts`). Número de Mildreth corregido el 2026-11-09.
+- **WhatsApp comercial:** "Cotiza tu envío" (botón verde con ícono en la tarjeta "No cumple Courier"), "Cotizar importación/exportación", "Hablar con un asesor" de Resolvemos tus dudas (2026-11-09) y las consultas de cargos y tiempos van a +57 305 279 6008 (`commercialWhatsappLink`). El resto de enlaces de WhatsApp (botón flotante, cabecera, pie de página, cierre, prealerta, rastreo y el enlace dentro de la respuesta de contacto) siguen al número general +57 300 488 3250: confirmar si también deben pasar al comercial.
 - **Prevalidación Courier (2026-11-06):** las medidas (largo, ancho, alto) están siempre visibles y bajo el formulario se ven los 3 límites con su estado (valor declarado, peso real, suma de los 3 lados). La tarjeta de resultado muestra "Apto preliminar para Courier" (verde, ícono ✓), "No cumple Courier" (rojo/naranja, ícono de alerta, con la condición que falla y "Cotizar con un asesor") o "Agrega las medidas para validar Courier". Lógica en `courierChecks` de `src/lib/courier-rates.ts`. El texto aclara que es una prevalidación y que la aceptación definitiva depende de la revisión documental, la mercancía y las condiciones aduaneras.
 
 **Pendiente de confirmar con CargoNet (hoy se muestran como "Por confirmar" y no se suman al total):**
-- Porcentaje de arancel e IVA cuando aplican (producto de otro país o valor mayor a USD 200).
+- Costo del seguro (hoy "Por confirmar" en el cotizador) y porcentaje de arancel cuando aplica (producto de otro país o valor mayor a USD 200).
 - Cobro por pieza adicional.
 - Divisor del peso volumétrico (mientras no exista, las medidas no cambian el flete).
 - Redondeo del peso (hoy se cobra el peso exacto escrito, p. ej. 6,5 lb).
@@ -161,6 +163,13 @@ Agregada el 2026-11-03 en `src/sections/Locker.tsx` y `src/styles/locker.css`. F
 - Confirmar con CargoNet el texto de cada paso, en especial: "Identificamos tu paquete en cuanto llega" y "Escaneamos tu paquete, revisamos los requisitos Courier, despachamos y te avisamos en cada estado".
 - Solo se muestra en tablet/desktop (≥700px); en móvil está oculta mientras la versión móvil siga congelada.
 - Confirmar con CargoNet: "Registro en 2 pasos", el formato del código de casillero (`CNU-00000`) y si la dirección se escribe "50th Street" (en el sitio actual aparece "50 Street").
+
+## Soluciones logísticas: Importación y Exportación (2026-11-09)
+
+El detalle desplegable de cada tarjeta usa el contenido entregado por la agencia (`services` en `src/sections/Services.tsx`): descripción, condiciones principales, nota y botón de cotización al WhatsApp comercial.
+- **Validación previa (pedida en el documento):** confirmar con Operaciones/Comercial que tarifa, límites, impuestos y tiempos estén vigentes antes de publicar.
+- ~~Inconsistencia con el cotizador~~ (resuelta 2026-11-09): el cotizador ya usa USD 1,90/lb + seguro e IVA 19%. Queda pendiente el costo del seguro y la base exacta del IVA.
+- Exportación: exención hasta USD 800 "según condiciones del país de destino"; tiempos de 1 a 6 días hábiles sin incluir aduana; recogida a domicilio hasta las 5:00 p. m.
 
 ## "Nuestros aliados" (sección nueva antes de testimonios)
 

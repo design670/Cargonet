@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Icon } from '../../components/Icon';
-import { SelectField, TextField } from '../../components/Field';
-import { links, whatsappLink } from '../../content/site';
+import { ListboxField, TextField } from '../../components/Field';
+import { WhatsAppGlyph } from '../../components/WhatsAppFab';
+import { commercialWhatsappLink, contact, links } from '../../content/site';
 import { courier, courierChecks, estimateCourier, type Charge, type CourierCheck, type Origin } from '../../lib/courier-rates';
 import { parseNum } from '../../lib/quote-engine';
 
@@ -44,7 +45,7 @@ export function QuoteTab() {
     ? estimateCourier({ weightLb: w, valueUsd: v, origin, pieces: p, dims: dimsOk ? (d as [number, number, number]) : undefined })
     : null;
 
-  const advisorHref = whatsappLink(
+  const advisorHref = commercialWhatsappLink(
     [
       'Hola, quiero cotizar un envío que no cumple los límites de Courier:',
       ...failed.map((c) => `- ${c.reason}`),
@@ -81,10 +82,15 @@ export function QuoteTab() {
             onChange={(e) => setValue(e.target.value)}
             error={errors.value}
           />
-          <SelectField label="Origen del producto" name="qt-origin" value={origin} onChange={(e) => setOrigin(e.target.value as Origin)}>
-            <option value="usa">Producto de EE.UU.</option>
-            <option value="other">Producto de otro país</option>
-          </SelectField>
+          <ListboxField<Origin>
+            label="Origen del producto"
+            value={origin}
+            onChange={setOrigin}
+            options={[
+              { value: 'usa', label: 'Producto de EE.UU.' },
+              { value: 'other', label: 'Producto de otro país' },
+            ]}
+          />
           <TextField
             label="Piezas"
             name="qt-pieces"
@@ -141,10 +147,11 @@ export function QuoteTab() {
                   <li key={c.id}>{c.reason}</li>
                 ))}
               </ul>
-              <a className="btn qt-btn-light" href={advisorHref} target="_blank" rel="noopener noreferrer">
-                Cotizar con un asesor
-                <Icon name="arrowUpRight" size={16} />
-                <span className="sr-only"> (abre WhatsApp)</span>
+              {/* Llamado principal: WhatsApp comercial, en verde para destacar sobre la tarjeta roja */}
+              <a className="btn qt-btn-wa" href={advisorHref} target="_blank" rel="noopener noreferrer">
+                <WhatsAppGlyph size={22} />
+                Cotiza tu envío
+                <span className="sr-only"> por WhatsApp con el área comercial (abre WhatsApp)</span>
               </a>
             </div>
           ) : !est ? (
@@ -170,8 +177,9 @@ export function QuoteTab() {
                   <dd>{usd(est.freight)}</dd>
                 </div>
                 <Row label="Piezas adicionales" charge={est.extraPieces} />
+                <Row label="Seguro" charge={est.insurance} />
                 <Row label="Arancel" charge={est.duty} />
-                <Row label="IVA" charge={est.vat} />
+                <Row label="IVA (19%)" charge={est.vat} />
               </dl>
               <div className="qt-estimate__total">
                 <span>Total estimado{est.hasPending ? ' + cargos por confirmar' : ''}</span>
@@ -194,6 +202,38 @@ export function QuoteTab() {
             <span className="sr-only"> (se abre en una pestaña nueva)</span>
           </a>
         ) : null}
+
+        {/* Contactos visibles e identificados por área */}
+        <ul className="qt-contacts" aria-label="Contactos de CargoNet USA">
+          <li>
+            <span className="qt-contacts__area">{contact.commercial.area}</span>
+            <span className="qt-contacts__name">{contact.commercial.name}</span>
+            <a
+              className="qt-contacts__num"
+              href={commercialWhatsappLink('Hola Jonathan, quiero cotizar un envío.')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatsAppGlyph size={16} />
+              {contact.commercial.label}
+              <span className="sr-only"> (abre WhatsApp)</span>
+            </a>
+          </li>
+          <li>
+            <span className="qt-contacts__area">{contact.dispatch.area}</span>
+            <span className="qt-contacts__name">{contact.dispatch.name}</span>
+            <a
+              className="qt-contacts__num"
+              href={`https://wa.me/${contact.dispatch.whatsapp}?text=${encodeURIComponent('Hola Mildreth, tengo una consulta sobre el despacho de mi envío.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatsAppGlyph size={16} />
+              {contact.dispatch.label}
+              <span className="sr-only"> (abre WhatsApp)</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );

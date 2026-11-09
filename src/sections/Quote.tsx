@@ -2,11 +2,11 @@ import { WhatsAppGlyph } from '../components/WhatsAppFab';
 import { TwoToneTitle } from '../components/TwoToneTitle';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Button } from '../components/Button';
-import { ConsentField, SelectField, TextField, TextareaField } from '../components/Field';
+import { ConsentField, ListboxField, TextField, TextareaField } from '../components/Field';
 import { FormStatus, type SummaryRow } from '../components/FormStatus';
 import { Icon, type IconName } from '../components/Icon';
 import { SectionHeading } from '../components/SectionHeading';
-import { links, whatsappLink } from '../content/site';
+import { commercialWhatsappLink, links } from '../content/site';
 import { emailOk, phoneOk, submitForm, type SubmitResult } from '../lib/forms';
 
 type Operation = 'imp-courier' | 'imp-carga' | 'exp-courier' | 'exp-carga';
@@ -36,14 +36,14 @@ const infoLinks: { icon: IconName; label: string; href: string; external?: boole
   {
     icon: 'receipt',
     label: 'Posibles cargos adicionales',
-    href: whatsappLink('Hola, quiero conocer los posibles cargos adicionales de mi envío.'),
+    href: commercialWhatsappLink('Hola, quiero conocer los posibles cargos adicionales de mi envío.'),
     external: true,
     note: 'Asesor',
   },
   {
     icon: 'clock',
     label: 'Tiempos por modalidad',
-    href: whatsappLink('Hola, quiero conocer los tiempos estimados según la modalidad de envío.'),
+    href: commercialWhatsappLink('Hola, quiero conocer los tiempos estimados según la modalidad de envío.'),
     external: true,
     note: 'Asesor',
   },
@@ -391,12 +391,16 @@ export function Quote() {
                     <>
                       <TextField name="origin" label="País de origen" autoComplete="off" value={values.origin} onChange={set('origin')} error={errors.origin} />
                       <TextField name="destination" label="País de destino" autoComplete="off" value={values.destination} onChange={set('destination')} error={errors.destination} />
-                      <SelectField name="merch" label="Tipo de mercancía" value={values.merch} onChange={set('merch')} error={errors.merch} className="span-2">
-                        <option value="">Selecciona una opción</option>
-                        {merchTypes.map((m) => (
-                          <option key={m}>{m}</option>
-                        ))}
-                      </SelectField>
+                      <ListboxField
+                        name="merch"
+                        label="Tipo de mercancía"
+                        placeholder="Selecciona una opción"
+                        value={values.merch}
+                        onChange={(v) => update("merch", v)}
+                        options={merchTypes.map((m) => ({ value: m, label: m }))}
+                        error={errors.merch}
+                        className="span-2"
+                      />
                       <TextareaField
                         name="description"
                         className="span-2"

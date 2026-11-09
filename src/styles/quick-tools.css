@@ -823,3 +823,175 @@ html .quick .qt__title {
   font-weight: 700;
   color: var(--ink);
 }
+
+/* "Cotiza tu envío": botón WhatsApp comercial, verde con ícono (alto contraste sobre la tarjeta roja) */
+.qt-estimate__over a.qt-btn-wa {
+  --btn-bg: #25d366;
+  --btn-fg: #06331a;
+  color: #06331a; /* texto oscuro: contraste AA sobre el verde */
+  gap: 10px;
+  min-height: 54px;
+  padding-inline: 24px;
+  margin-top: 0;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 14px 28px -14px rgba(0, 0, 0, 0.6);
+}
+
+.qt-estimate__over a.qt-btn-wa:hover {
+  --btn-bg: #1fbd5a;
+}
+
+.qt-estimate__over a.qt-btn-wa:focus-visible {
+  outline: 3px solid var(--white);
+  outline-offset: 3px;
+}
+
+/* Contactos por área bajo el resultado */
+.qt-contacts {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--qt-line);
+  border-radius: 14px;
+  list-style: none;
+}
+
+.qt-contacts li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+}
+
+.qt-contacts__area {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--qt-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+.qt-contacts__name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.qt-contacts__num {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+a.qt-contacts__num {
+  color: #128c4a;
+  text-decoration: none;
+}
+
+a.qt-contacts__num:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Desplegable propio (Origen del producto) ---------- */
+.listbox__button {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font: inherit;
+}
+
+.qt .listbox__button {
+  font-size: 1.0625rem;
+}
+
+.listbox::after {
+  transition: transform 0.2s ease;
+}
+
+.listbox.is-open::after {
+  transform: translateY(-25%) rotate(-135deg);
+}
+
+.listbox.is-open .listbox__button {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 4px rgba(7, 9, 94, 0.1);
+}
+
+ul.listbox__list {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--qt-line, #e1e2ea);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px -12px rgba(7, 9, 94, 0.22), 0 4px 10px rgba(7, 9, 94, 0.06);
+  animation: listbox-in 0.16s ease-out;
+}
+
+ul.listbox__list[hidden] {
+  display: none;
+}
+
+.listbox__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.listbox__option.is-active {
+  background: var(--qt-soft, #f1f2f6);
+}
+
+.listbox__option[aria-selected='true'] {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.listbox__check {
+  flex: none;
+  color: var(--red);
+  opacity: 0;
+}
+
+.listbox__option[aria-selected='true'] .listbox__check {
+  opacity: 1;
+}
+
+@keyframes listbox-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ul.listbox__list {
+    animation: none;
+  }
+}
+
+.listbox__placeholder {
+  color: #9a9cab;
+}

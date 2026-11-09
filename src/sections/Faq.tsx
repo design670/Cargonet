@@ -2,7 +2,7 @@ import { TwoToneTitle } from '../components/TwoToneTitle';
 import { Accordion, type AccordionItem } from '../components/Accordion';
 import { Button } from '../components/Button';
 import { SectionHeading } from '../components/SectionHeading';
-import { contact, links, whatsappLink } from '../content/site';
+import { commercialWhatsappLink, contact, links, whatsappLink } from '../content/site';
 import { courier } from '../lib/courier-rates';
 import { steps } from './StepsCarousel';
 
@@ -137,7 +137,7 @@ export function Faq() {
           <SectionHeading id="faq-title" title={<TwoToneTitle light="Resolvemos tus dudas" bold="antes de" accent="enviar." />} />
           <div className="faq__help" data-reveal>
             <p>¿No encuentras tu respuesta? Un asesor puede orientarte sobre tu caso.</p>
-            <Button href={whatsappLink('Hola, tengo una pregunta sobre mi envío.')} variant="secondary" icon="arrowUpRight" target="_blank" rel="noopener noreferrer">
+            <Button href={commercialWhatsappLink('Hola, tengo una pregunta sobre mi envío.')} variant="secondary" icon="arrowUpRight" target="_blank" rel="noopener noreferrer">
               Hablar con un asesor
             </Button>
           </div>
