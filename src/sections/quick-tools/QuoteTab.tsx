@@ -202,39 +202,31 @@ export function QuoteTab() {
             <span className="sr-only"> (se abre en una pestaña nueva)</span>
           </a>
         ) : null}
-
-        {/* Contactos visibles e identificados por área */}
-        <ul className="qt-contacts" aria-label="Contactos de CargoNet USA">
-          <li>
-            <span className="qt-contacts__area">{contact.commercial.area}</span>
-            <span className="qt-contacts__name">{contact.commercial.name}</span>
-            <a
-              className="qt-contacts__num"
-              href={commercialWhatsappLink('Hola Jonathan, quiero cotizar un envío.')}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WhatsAppGlyph size={16} />
-              {contact.commercial.label}
-              <span className="sr-only"> (abre WhatsApp)</span>
-            </a>
-          </li>
-          <li>
-            <span className="qt-contacts__area">{contact.dispatch.area}</span>
-            <span className="qt-contacts__name">{contact.dispatch.name}</span>
-            <a
-              className="qt-contacts__num"
-              href={`https://wa.me/${contact.dispatch.whatsapp}?text=${encodeURIComponent('Hola Mildreth, tengo una consulta sobre el despacho de mi envío.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WhatsAppGlyph size={16} />
-              {contact.dispatch.label}
-              <span className="sr-only"> (abre WhatsApp)</span>
-            </a>
-          </li>
-        </ul>
       </div>
+
+      {/* Contactos visibles e identificados por área: tarjetas que abren WhatsApp */}
+      <ul className="qt-contacts" aria-label="Contactos de CargoNet USA">
+        {[
+          { ...contact.commercial, href: commercialWhatsappLink("Hola Jonathan, quiero cotizar un envío.") },
+          {
+            ...contact.dispatch,
+            href: `https://wa.me/${contact.dispatch.whatsapp}?text=${encodeURIComponent("Hola Mildreth, tengo una consulta sobre el despacho de mi envío.")}`,
+          },
+        ].map((c) => (
+          <li key={c.area}>
+            <a className="qt-contact" href={c.href} target="_blank" rel="noopener noreferrer">
+              <span className="qt-contact__icon" aria-hidden="true">
+                <WhatsAppGlyph size={26} />
+              </span>
+              <span className="qt-contact__text">
+                <span className="qt-contact__area">{c.area}</span>
+                <span className="qt-contact__num">{c.label}</span>
+              </span>
+              <span className="sr-only"> (abre WhatsApp)</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

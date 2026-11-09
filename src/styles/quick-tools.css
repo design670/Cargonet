@@ -849,64 +849,155 @@ html .quick .qt__title {
 }
 
 /* Contactos por área bajo el resultado */
+/* Contactos: píldoras verdes estilo WhatsApp (ícono en burbuja + área y número) */
 .qt-contacts {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   margin: 0;
-  padding: 14px 16px;
-  border: 1px solid var(--qt-line);
-  border-radius: 14px;
+  padding: 0;
   list-style: none;
 }
 
-.qt-contacts li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+.qt-contact {
+  display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.875rem;
-}
-
-.qt-contacts__area {
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: var(--qt-soft);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--navy);
-}
-
-.qt-contacts__name {
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.qt-contacts__num {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-}
-
-a.qt-contacts__num {
-  color: #128c4a;
+  height: 58px;
+  padding: 0 18px 0 5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #34df73 0%, #25d366 55%, #1ec35c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 10px 22px -14px rgba(18, 140, 74, 0.8);
+  color: #06331a;
   text-decoration: none;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
-a.qt-contacts__num:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.qt-contact:hover {
+  filter: brightness(0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 16px 28px -14px rgba(18, 140, 74, 0.85);
+  transform: translateY(-2px);
+}
+
+/* Burbuja blanca con el logo, como el distintivo "Click to chat" */
+.qt-contact__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(6, 51, 26, 0.18);
+  color: #1ebe5a;
+}
+
+.qt-contact__text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  justify-items: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.qt-contact__area {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.qt-contact__num {
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Escritorio: todo el cotizador en una sola pantalla.
+   Contactos bajo los límites (columna izquierda) y espacios más compactos. */
+@media (min-width: 900px) {
+  .qt {
+    padding: 28px 32px 24px;
+  }
+
+  .qt .qt__body {
+    padding-top: 18px;
+  }
+
+  /* Al llegar desde "Cotizar / rastrear", el panel queda justo bajo el menú */
+  #cotizar-envio {
+    scroll-margin-top: -16px;
+  }
+
+  html .quick .qt__title {
+    margin-bottom: 18px;
+  }
+
+  .qt-quote {
+    grid-template-rows: auto 1fr;
+    row-gap: 16px;
+  }
+
+  .qt-quote__form {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .qt-quote__side {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .qt-contacts {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .qt .field__control {
+    min-height: 50px;
+  }
+
+  .qt-estimate {
+    padding-top: 18px;
+  }
+
+  .qt-estimate__rows {
+    gap: 10px;
+  }
+
+  .qt-estimate__total {
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .qt-estimate__fine {
+    margin-top: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qt-contact {
+    transition: none;
+  }
 }
 
 /* ---------- Desplegable propio (Origen del producto) ---------- */
 .listbox__button {
-  display: flex;
-  align-items: center;
+  display: block;
+  overflow: hidden;
   text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font: inherit;
 }
 
@@ -994,4 +1085,13 @@ ul.listbox__list[hidden] {
 
 .listbox__placeholder {
   color: #9a9cab;
+}
+
+
+/* Móvil: el desplegable mantiene su texto en una línea */
+@media (max-width: 480px) {
+  .qt .listbox__button {
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+  }
 }
