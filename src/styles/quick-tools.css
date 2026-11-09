@@ -824,11 +824,15 @@ html .quick .qt__title {
   color: var(--ink);
 }
 
-/* "Cotiza tu envío": botón WhatsApp comercial, verde con ícono (alto contraste sobre la tarjeta roja) */
+/* "Cotiza tu envío": botón WhatsApp comercial, blanco a todo el ancho; el verde solo en el ícono y el texto */
 .qt-estimate__over a.qt-btn-wa {
-  --btn-bg: #25d366;
-  --btn-fg: #06331a;
-  color: #06331a; /* texto oscuro: contraste AA sobre el verde */
+  --btn-bg: #fff;
+  --btn-fg: #0b6b34;
+  width: 100%;
+  justify-content: center;
+  background: #fff;
+  border: 0;
+  color: #0b6b34; /* verde oscuro: contraste AA sobre blanco */
   gap: 10px;
   min-height: 54px;
   padding-inline: 24px;
@@ -839,8 +843,13 @@ html .quick .qt__title {
   box-shadow: 0 14px 28px -14px rgba(0, 0, 0, 0.6);
 }
 
+.qt-estimate__over a.qt-btn-wa svg {
+  color: #25d366;
+}
+
 .qt-estimate__over a.qt-btn-wa:hover {
-  --btn-bg: #1fbd5a;
+  --btn-bg: #effcf4;
+  background: #effcf4;
 }
 
 .qt-estimate__over a.qt-btn-wa:focus-visible {
