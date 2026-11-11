@@ -4,11 +4,13 @@ import { links } from '../content/site';
 
 /**
  * Escena del hero en escritorio (≥1080px): barco, avión y camión a todo el ancho y alto.
- * La foto se muestra de inmediato; el video animado (Kling 4.0, 10 s en bucle) se carga encima
- * solo en escritorio y si el usuario no pidió reducir el movimiento.
+ * La foto se muestra de inmediato; el video animado (Kling 4.0, 10 s) se carga encima solo en
+ * escritorio y si el usuario no pidió reducir el movimiento. Como el último cuadro no coincide
+ * con el primero, la repetición se funde con la foto (FADE_S segundos).
  */
 const HERO_IMAGE = "/img/hero-transporte-2000.jpg";
 const HERO_VIDEO = "/video/hero-transporte.mp4";
+const FADE_S = 1.2;
 const VIDEO_QUERY = "(min-width: 1080px) and (prefers-reduced-motion: no-preference)";
 
 function useHeroVideo() {
@@ -21,6 +23,34 @@ function useHeroVideo() {
     return () => mq.removeEventListener("change", update);
   }, []);
   return show;
+}
+
+/**
+ * Bucle con un solo video: en el último tramo se funde hacia la foto (que es el mismo cuadro con el
+ * que arranca el video); al reiniciar, el video vuelve a aparecer suavemente sobre la foto.
+ */
+function HeroVideoLoop({ onReady }: { onReady: () => void }) {
+  const [out, setOut] = useState(false);
+
+  const onTime = (v: HTMLVideoElement) => {
+    if (!v.duration) return;
+    const nearEnd = v.duration - v.currentTime <= FADE_S;
+    if (nearEnd !== out) setOut(nearEnd);
+  };
+
+  return (
+    <video
+      className={out ? "hero__video is-out" : "hero__video"}
+      src={HERO_VIDEO}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      onPlaying={onReady}
+      onTimeUpdate={(e) => onTime(e.currentTarget)}
+    />
+  );
 }
 
 export function Hero() {
@@ -43,18 +73,7 @@ export function Hero() {
             decoding="async"
           />
         </picture>
-        {showVideo ? (
-          <video
-            className="hero__video"
-            src={HERO_VIDEO}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            onPlaying={() => setVideoReady(true)}
-          />
-        ) : null}
+        {showVideo ? <HeroVideoLoop onReady={() => setVideoReady(true)} /> : null}
       </div>
       <div className="container hero__grid">
         <div className="hero__copy">
