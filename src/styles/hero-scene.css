@@ -1,0 +1,86 @@
+/* =========================================================
+   Hero escritorio (≥1080px): escena de transporte a sangre
+   (barco, avión y camión) en todo el ancho y alto del hero.
+   Móvil y tablet conservan su versión.
+   ========================================================= */
+.hero__scene {
+  display: none;
+}
+
+@media (min-width: 1080px) {
+  .hero__scene {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: block;
+    overflow: hidden;
+    background: #0b1230;
+  }
+
+  .hero__scene img,
+  .hero__scene video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 45%;
+  }
+
+  .hero__scene picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Movimiento lento tipo "Ken Burns" mientras carga el video (o si no hay video) */
+  .hero__scene img {
+    transform-origin: 70% 40%;
+    animation: hero-scene-drift 26s ease-in-out infinite alternate;
+  }
+
+  /* Video de Kling encima de la foto; aparece suave cuando empieza a reproducirse */
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .hero__scene.has-video .hero__video {
+    opacity: 1;
+  }
+
+  .hero__scene.has-video img {
+    animation: none;
+  }
+
+  /* Velo para que el texto blanco se lea sobre el cielo claro */
+  .hero__scene::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(6, 10, 40, 0.82) 0%, rgba(6, 10, 40, 0.6) 32%, rgba(6, 10, 40, 0.12) 62%, transparent 80%),
+      linear-gradient(180deg, rgba(6, 10, 40, 0.35) 0%, transparent 22%, transparent 62%, rgba(6, 10, 40, 0.55) 100%);
+  }
+
+  /* La foto reemplaza el rojo y el mensajero */
+  .hero__bg,
+  .hero__photo {
+    display: none;
+  }
+}
+
+@keyframes hero-scene-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.5%, 1%, 0);
+  }
+}
+
+@media (min-width: 1080px) and (prefers-reduced-motion: reduce) {
+  .hero__scene img {
+    animation: none;
+  }
+}

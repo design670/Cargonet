@@ -1,27 +1,61 @@
-import { Button } from '../components/Button';
+import { useEffect, useState } from "react";
+import { Button } from "../components/Button";
 import { links } from '../content/site';
 
+/**
+ * Escena del hero en escritorio (≥1080px): barco, avión y camión a todo el ancho y alto.
+ * La foto se muestra de inmediato; el video animado (Kling 4.0, 10 s en bucle) se carga encima
+ * solo en escritorio y si el usuario no pidió reducir el movimiento.
+ */
+const HERO_IMAGE = "/img/hero-transporte-2000.jpg";
+const HERO_VIDEO = "/video/hero-transporte.mp4";
+const VIDEO_QUERY = "(min-width: 1080px) and (prefers-reduced-motion: no-preference)";
+
+function useHeroVideo() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(VIDEO_QUERY);
+    const update = () => setShow(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return show;
+}
+
 export function Hero() {
+  const showVideo = useHeroVideo();
+  const [videoReady, setVideoReady] = useState(false);
+
   return (
     <section id="inicio" className="hero" aria-labelledby="hero-title">
       <div className="hero__bg" aria-hidden="true" />
-      {/* Foto de marca a sangre (solo desktop); en pantallas pequeñas se carga un GIF vacío */}
-      <picture className="hero__photo">
-        <source
-          media="(min-width: 1080px)"
-          type="image/webp"
-          srcSet="/img/hero-cargonet-1100.webp 1100w, /img/hero-cargonet-1672.webp 1672w"
-          sizes="62vw"
-        />
-        <img
-          src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
-          alt="Mensajero de CargoNet USA sosteniendo una caja con el logo de la marca"
-          width="1672"
-          height="941"
-          fetchPriority="high"
-          decoding="async"
-        />
-      </picture>
+      <div className={videoReady ? "hero__scene has-video" : "hero__scene"} aria-hidden="true">
+        {/* Foto: solo se descarga en escritorio; en pantallas pequeñas queda un GIF vacío */}
+        <picture>
+          <source media="(min-width: 1080px)" srcSet={HERO_IMAGE} />
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+            alt=""
+            width="2000"
+            height="1121"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
+        {showVideo ? (
+          <video
+            className="hero__video"
+            src={HERO_VIDEO}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            onPlaying={() => setVideoReady(true)}
+          />
+        ) : null}
+      </div>
       <div className="container hero__grid">
         <div className="hero__copy">
           <h1 id="hero-title" className="h1 hero__title">

@@ -18,6 +18,7 @@ import './styles/quick-tools.css';
 import './styles/locker.css';
 import './styles/compare.css';
 import './styles/testimonials.css';
+import './styles/hero-scene.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(
