@@ -1,7 +1,7 @@
 import { TwoToneTitle } from '../components/TwoToneTitle';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
-import { links, whatsappLink } from '../content/site';
+import { commercialWhatsappLink, links } from '../content/site';
 
 export function Closing() {
   return (
@@ -36,7 +36,7 @@ export function Closing() {
             <Button href="#cotizar-envio" variant="outline-light">
               Cotizar un envío
             </Button>
-            <a className="closing__link" href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+            <a className="closing__link" href={commercialWhatsappLink()} target="_blank" rel="noopener noreferrer">
               <Icon name="chat" size={18} />
               Hablar con un asesor
             </a>

@@ -1,14 +1,14 @@
-import { contact, whatsappLink } from '../content/site';
+import { commercialWhatsappLink, contact } from '../content/site';
 
-/** Botón flotante de WhatsApp (tablet/desktop). */
+/** Botón flotante de WhatsApp (tablet/desktop): canal comercial, integrado con la IA. */
 export function WhatsAppFab() {
   return (
     <a
       className="wa-fab"
-      href={whatsappLink('Hola, quiero información sobre los servicios de CargoNet USA.')}
+      href={commercialWhatsappLink('Hola, quiero información sobre los servicios de CargoNet USA.')}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Hablar con un asesor por WhatsApp, ${contact.whatsappLabel} (se abre en una pestaña nueva)`}
+      aria-label={`Hablar con un asesor por WhatsApp, ${contact.commercial.label} (se abre en una pestaña nueva)`}
     >
       <span className="wa-fab__ring" aria-hidden="true" />
       <span className="wa-fab__ring wa-fab__ring--2" aria-hidden="true" />
